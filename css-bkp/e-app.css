@@ -1,0 +1,23 @@
+#required{
+    color:red;
+}
+.container
+{
+    border: 2px solid black;
+}
+#left{
+    text-align: left;
+}
+#brief{
+    color:red;
+  
+}
+#label{
+    border: 1px solid black;
+}
+#lab{
+    color: red;
+}
+#for{
+    font-size: large;
+}

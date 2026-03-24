@@ -1,0 +1,30 @@
+<section class="footer">
+
+        <div class="footer-links">
+            <h4><a href="PDF/T_And_C.pdf" target="_blank" class="term">Terms & Conditions</a></h4>
+            <h4><a href="PDF/F_And_Q.pdf" target="_blank" class="faq">FAQ</a></h4>
+            <h4><a href="PDF/P_And_p.pdf" target="_blank" class="pp">Privacy Policy</a></h4>
+            <h4><a href="feedback.php" target="" class="feed">Feedback</a></h4>
+        </div>
+        <!-- <h4><a href="#.php">Visitors : 1674785</a></h4> -->
+
+
+        <div class="follow">
+            <h6>Follow Us</h6>
+        </div>
+
+        <div class="icons" id="ir">
+            <a href="https://www.facebook.com/dgpgujaratofficial/" target="_blank">
+                <h3 class="face"><i class="fab fa-facebook-f"></i> Facebook</h3>
+            </a>
+            <a href="https://www.instagram.com/gujaratpolice_/" target="_blank">
+                <h3 class="face2"><i class="fab fa-instagram"></i> Instagram </h3>
+            </a>
+            <a href="https://twitter.com/GujaratPolice" target="_blank">
+                <h3 class="face3"><i class="fab fa-twitter"></i> Twitter </h3>
+            </a>
+
+
+        </div>
+
+    </section>

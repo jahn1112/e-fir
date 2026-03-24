@@ -1,0 +1,34 @@
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Uploaded documents / user data (keep folders but ignore contents)
+FIR_project1/FIR_upload_doc/*
+!FIR_project1/FIR_upload_doc/.gitkeep
+FIR_project1/e_app_doc/*
+!FIR_project1/e_app_doc/.gitkeep
+FIR_project1/msng_prsn_doc/*
+!FIR_project1/msng_prsn_doc/.gitkeep
+FIR_project1/registration_doc/*
+!FIR_project1/registration_doc/.gitkeep
+FIR_project1/sc_reg_doc/*
+!FIR_project1/sc_reg_doc/.gitkeep
+
+# Other docs/archives
+*.zip
+*.tar.gz
+*.rar

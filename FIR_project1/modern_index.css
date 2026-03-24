@@ -1,0 +1,280 @@
+/* modern_index.css - Premium Overrides for index.php */
+
+:root {
+    --primary-color: #05054b; 
+    --primary-light: #1a1a7a;
+    --primary-hover: #0a0a50;
+    --secondary-color: #24f8c7; 
+    --bg-color: #f8fafc; 
+    --card-bg: #ffffff;
+    --text-main: #0f172a; 
+    --text-muted: #475569;
+    --border-soft: #e2e8f0;
+}
+
+body {
+    background-color: var(--bg-color) !important;
+    font-family: 'Poppins', sans-serif !important;
+}
+
+/* 1. Modern Hero Section */
+.modern-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(180deg, rgba(239, 246, 255, 0.5) 0%, rgba(248, 250, 252, 1) 100%);
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.modern-hero .police {
+    width: 140px;
+    height: auto;
+    margin-bottom: 1.5rem;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
+    transition: transform 0.3s ease;
+}
+
+.modern-hero .police:hover {
+    transform: scale(1.05);
+}
+
+.modern-hero .citizen {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin: 0;
+    letter-spacing: -1px;
+    line-height: 1.2;
+}
+
+.modern-hero .home {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+/* 2. Modern Services Grid */
+.modern-services {
+    max-width: 1200px;
+    margin: 0 auto 4rem auto;
+    padding: 0 2rem;
+}
+
+.modern-services-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.modern-services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.modern-service-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-soft);
+    border-radius: 16px;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.modern-service-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    border-color: rgba(36, 248, 199, 0.3);
+}
+
+.modern-service-card img {
+    height: 80px;
+    width: auto;
+    margin-bottom: 1.5rem;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
+}
+
+.modern-service-card p {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* 3. News & Announcement Button */
+.modern-news-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-color);
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow: 0 10px 15px -3px rgba(5, 5, 75, 0.3);
+    transition: all 0.3s ease;
+    margin: 2rem auto 4rem auto;
+}
+
+.modern-news-btn:hover {
+    background: var(--primary-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 20px -3px rgba(5, 5, 75, 0.4);
+    color: white;
+}
+
+/* 4. Modern Virtual Tour */
+.modern-tour {
+    max-width: 1200px;
+    margin: 0 auto 5rem auto;
+    padding: 0 2rem;
+}
+
+.modern-tour-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.modern-tour-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.modern-tour-card {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.modern-tour-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modern-tour-card:hover img {
+    transform: scale(1.08);
+}
+
+.modern-tour-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(5, 5, 75, 0.8) 0%, rgba(5, 5, 75, 0) 50%);
+    transition: opacity 0.3s ease;
+}
+
+.modern-tour-card h3 {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    margin: 0;
+    color: white;
+    font-size: 1.4rem;
+    font-weight: 700;
+    z-index: 10;
+    letter-spacing: 1px;
+}
+
+/* 5. Modern Partner Logos */
+.modern-partners-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.modern-partners {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto 5rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+}
+
+.modern-partners a {
+    display: block;
+}
+
+.modern-partners img {
+    height: 65px;
+    width: auto;
+    filter: grayscale(100%) opacity(0.7);
+    transition: all 0.3s ease;
+}
+
+.modern-partners a:hover img {
+    filter: grayscale(0%) opacity(1);
+    transform: scale(1.05);
+}
+
+/* Fix Boot status top alignment */
+.boot-container {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem 2rem;
+    background: white;
+}
+
+.boot-container button {
+    background: var(--primary-color);
+    border: none;
+    border-radius: 8px;
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.boot-container button:hover {
+    background: var(--primary-hover);
+}
+
+.boot-container button a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#wcmsg {
+    color: var(--text-main);
+    font-weight: 600;
+    margin-right: 1.5rem;
+    display: flex;
+    align-items: center;
+}
