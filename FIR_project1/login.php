@@ -17,8 +17,8 @@ if (isset($_POST['login'])) {
   
    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
        // store username & password
-       $usernm = $_POST['username'];
-       $password = $_POST['password'];
+       $usernm = mysqli_real_escape_string($con, trim($_POST['username']));
+       $password = mysqli_real_escape_string($con, $_POST['password']);
 
 
        // fetch from db and verifying..
@@ -39,7 +39,7 @@ if (isset($_POST['login'])) {
                $_SESSION['userfname'] = $row['user_fname'];
                $_SESSION['userlname'] = $row['user_lname'];
                $_SESSION['login'] = true;
-               header("location:index.php");
+               header("location:index.php"); exit();
 
             //    echo "LOGGED in";
                // echo "<script>alert('Please ensure..! Category Not Matched !');</script>";
@@ -123,8 +123,8 @@ if ($errmsg == true) {
 
     echo "<script>
     Swal.fire(
-        'Invalide Credentials..!',
-        'Username & Password Does not Matched',
+        'Login Failed!',
+        'Username & Password do not match, or user is not registered.',
         'error')
     </script>";
 }

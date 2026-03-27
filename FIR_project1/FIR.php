@@ -250,8 +250,8 @@ include_once "DBconfig.php";
                             <tbody>
 
                                 <?php
-                                for ($i = 0; $i <= 1; $i++) {
-                                    echo '<tr>
+for ($i = 0; $i <= 1; $i++) {
+    echo '<tr>
                                         <th scope="row">' . $i + 1 . '</th>
                                         <td>Mark</td>
                                         <td>e-Application</td>
@@ -261,29 +261,29 @@ include_once "DBconfig.php";
                                         <td>12/12/2022</td>
                                         <td>In Progress</td>
                                       </tr>';
-                                }
+}
 
-                                
-                    
-                                // $qry = "SELECT * FROM `e_application_table` e join user_master u WHERE e.user_id = u.user_id;";
-                                // $res = mysqli_query($con,$qry);
-                                
-                                // while($row = mysqli_fetch_assoc($res))
-                                // {
-                                //     echo '<tr>
-                                //         <th scope="row">' . $row['e_application_id']. '</th>
-                                //          <td>' . $row['user_fname'].' '.$row['user_lname'].'</td>
-                                //          <td>'. $row['application_type'].'</td>
-                                //          <td>'. $row['gender'].'</td>
-                                //          <td><a href=".\e-app\e-app_info.php?rno='. $row['e_application_id']. '">000'. $row['e_application_id']. '</a></td>
-                                //          <td>'. $row['sbmt_date']. '</td>
-                                //          <td>'. $row['user_dob']. '</td>
-                                //          <td>'. $row['action_taken']. '</td>
-                                //        </tr>';
-                                // }
-                            
 
-                                // ?>
+
+// $qry = "SELECT * FROM `e_application_table` e join user_master u WHERE e.user_id = u.user_id;";
+// $res = mysqli_query($con,$qry);
+
+// while($row = mysqli_fetch_assoc($res))
+// {
+//     echo '<tr>
+//         <th scope="row">' . $row['e_application_id']. '</th>
+//          <td>' . $row['user_fname'].' '.$row['user_lname'].'</td>
+//          <td>'. $row['application_type'].'</td>
+//          <td>'. $row['gender'].'</td>
+//          <td><a href=".\e-app\e-app_info.php?rno='. $row['e_application_id']. '">000'. $row['e_application_id']. '</a></td>
+//          <td>'. $row['sbmt_date']. '</td>
+//          <td>'. $row['user_dob']. '</td>
+//          <td>'. $row['action_taken']. '</td>
+//        </tr>';
+// }
+
+
+// ?>
                             </tbody>
                         </table>
             </div>

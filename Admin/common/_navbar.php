@@ -12,10 +12,14 @@ include "modals/logout_model.php";
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block <?php  if($_SESSION["curr_page"] == "home"){echo 'active ';}?>">
+        <li class="nav-item d-none d-sm-inline-block <?php if ($_SESSION["curr_page"] == "home") {
+    echo 'active ';
+}?>">
             <a href="index.php" class="nav-link">Home</a>
         </li>
-        <li class="nav-item d-none d-sm-inline-block <?php  if($_SESSION["curr_page"] == "Contact"){echo 'active ';}?> ">
+        <li class="nav-item d-none d-sm-inline-block <?php if ($_SESSION["curr_page"] == "Contact") {
+    echo 'active ';
+}?> ">
             <a href="contact.php" class="nav-link">Contact</a>
         </li>
     </ul>
@@ -45,6 +49,14 @@ include "modals/logout_model.php";
             </div>
         </li>
         
+        <!-- Logout Link -->
+        <li class="nav-item">
+            <a class="nav-link" href="#" data-toggle="modal" data-target="#regModal" role="button" title="Logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span class="d-none d-md-inline ml-1">Logout</span>
+            </a>
+        </li>
+
         <!-- full screen button -->
         <li class="nav-item">
             <a class="nav-link" data-widget="fullscreen" href="#" role="button">
@@ -72,7 +84,7 @@ include "modals/logout_model.php";
                 <img src="img/user.png" class="img-circle elevation-3" alt="User">
             </div>
             <div class="info">
-                <a href="#" class="d-block font-weight-black ml-2 text-bold" ><?php echo $_SESSION['cat'];?></a>
+                <a href="#" class="d-block font-weight-black ml-2 text-bold" ><?php echo $_SESSION['cat']; ?></a>
             </div>
         </div>
 
@@ -88,10 +100,9 @@ include "modals/logout_model.php";
                     </a>
                 </li>
                 
-                <?php  
-                if($_SESSION['cat'] == "Police Station Officer" || $_SESSION['cat'] == "Investigation Officer" )
-                {
-                    echo '
+                <?php
+if ($_SESSION['cat'] == "Police Station Officer" || $_SESSION['cat'] == "Investigation Officer") {
+    echo '
                 <li class="nav-item">
                     <a href="#" class="nav-link" >
                         <i class="fa fa-file-text fa-lg nav-icon" aria-hidden="true"></i>
@@ -99,43 +110,39 @@ include "modals/logout_model.php";
                     </a>
                     <ul class="nav nav-treeview">
              ';
-              if( $_SESSION['cat'] == "Investigation Officer")
-              {
-               echo '  <li class="nav-item ml-2">
+    if ($_SESSION['cat'] == "Investigation Officer") {
+        echo '  <li class="nav-item ml-2">
                <a href="./manage_FIR_list.php?typ=P" class="nav-link ">
                  <i class="far fa-circle nav-icon"></i>
                  <p>Pending FIR</p>
                </a>
              </li>';
-              }
-              else
-              {
-                echo '  <li class="nav-item ml-2">
+    }
+    else {
+        echo '  <li class="nav-item ml-2">
                 <a href="./manage_FIR.php?typ=P" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Pending FIR</p>
                 </a>
               </li>';
-              }
-              if( $_SESSION['cat'] == "Investigation Officer")
-              {
-               echo ' <li class="nav-item  ml-2">
+    }
+    if ($_SESSION['cat'] == "Investigation Officer") {
+        echo ' <li class="nav-item  ml-2">
                 <a href="./manage_FIR.php?typ=A" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Assign FIR</p>
                 </a>
               </li>';
-              }
-              else
-              {
-                echo ' <li class="nav-item  ml-2">
+    }
+    else {
+        echo ' <li class="nav-item  ml-2">
                 <a href="./manage_FIR_list.php?typ=A" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Assign FIR</p>
                 </a>
               </li>';
-              }
-              echo '
+    }
+    echo '
               <li class="nav-item  ml-2">
                 <a href="./manage_FIR_list.php?typ=R" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
@@ -149,11 +156,10 @@ include "modals/logout_model.php";
                 </a>
               </li>
             </ul>
-                </li>'; 
-                    
-                    if ($_SESSION['cat'] == "Police Station Officer" )
-                    {
-                        echo ' 
+                </li>';
+
+    if ($_SESSION['cat'] == "Police Station Officer") {
+        echo ' 
                         <li class="nav-item">
                             <a href="e-app.php" class="nav-link" >
                                 <i class="fa fa-file-text-o fa-lg nav-icon" aria-hidden="true"></i>
@@ -174,9 +180,9 @@ include "modals/logout_model.php";
                                 <p>Senior Citizen</p>
                             </a>
                         </li>';
-                    } //nested if end
-                }//navbar if end
-                ?>
+    } //nested if end
+} //navbar if end
+?>
                 
                 <li class="nav-item">
                     <a href="#" class="nav-link" data-toggle="modal" data-target="#regModal">

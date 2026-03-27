@@ -13,26 +13,23 @@ if ($_SESSION["login"] == false) {
 
 
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST')
-    {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-        $Feedback_id = 0;
-        $email = $_POST['Email'];
-        $subject = $_POST['Subject'];
-        $feed_back = $_POST['Feedback'];
-       
+    $Feedback_id = 0;
+    $email = $_POST['Email'];
+    $subject = $_POST['Subject'];
+    $feed_back = $_POST['Feedback'];
 
-        $sql = "INSERT INTO `feedback_table` (`feedback_id`, `email`, `subject`, `feedback`,  `submmit_date`) VALUES ('".$Feedback_id."', '".$email."', '".$subject."', '".$feed_back."', current_timestamp());";
-        $result = mysqli_query($con, $sql);
-        if ($result)
-        {
-            echo "<script>alert('Feedback Accepted...')</script>";
-        }
-        else 
-        {
-            echo 'The record was not inserted successfully because of this error' . mysqli_error($con);
-        }
+
+    $sql = "INSERT INTO `feedback_table` (`feedback_id`, `email`, `subject`, `feedback`,  `submmit_date`) VALUES ('" . $Feedback_id . "', '" . $email . "', '" . $subject . "', '" . $feed_back . "', current_timestamp());";
+    $result = mysqli_query($con, $sql);
+    if ($result) {
+        echo "<script>alert('Feedback Accepted...')</script>";
     }
+    else {
+        echo 'The record was not inserted successfully because of this error' . mysqli_error($con);
+    }
+}
 ?>
 
 <!DOCTYPE html>

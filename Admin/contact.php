@@ -26,27 +26,18 @@ if(isset($_POST["submit"]))
 
     <!-- website logo -->
     <link rel="icon" href="img\weblogo1.ico" type="image/icon">
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Google Font: Outfit & Poppins -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap">
     <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/37520468b2.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Tempusdominus Bootstrap 4 -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-    <!-- iCheck -->
-    <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-
-    <!-- Theme style -->
+    <!-- Tempusdominus Bootstrap 4.6.2 final-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <!-- Modern Admin Style -->
+    <link rel="stylesheet" href="css/modern_admin.css">
+    <!-- Theme style (Original fallback) -->
     <link rel="stylesheet" href="dist/css/adminlte.min.css">
-    <!-- overlayScrollbars -->
-    <!-- <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css"> -->
-    <!-- Daterange picker -->
-    <!-- <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css"> -->
-    <!-- summernote -->
-    <!-- <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css"> -->
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -54,9 +45,8 @@ if(isset($_POST["submit"]))
 
         <!-- Preloader -->
         <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__shake" src="img/gujaratpolice.png" alt="GUJARAT_POLICE_logo" height="110"
-                width="90"></br>
-            <h1>GUJARAT POLICE</h1>
+            <img class="animation__shake" src="img/gujaratpolice.png" alt="GUJARAT_POLICE_logo" height="110" width="90">
+            <h1 class="mt-3 font-weight-bold" style="color: var(--primary);">GUJARAT POLICE</h1>
         </div>
 
         <!-- Import all Navbar -->
@@ -88,29 +78,31 @@ if(isset($_POST["submit"]))
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card text-center">
-                                <div class="card-header">
-                                    Contact for Inquirey
+                                <div class="card-header border-0">
+                                    <h3 class="card-title text-bold"><i class="fas fa-envelope mr-2"></i> Contact for Inquiry</h3>
                                 </div>
                                 <div class="card-body text-left">
                                     <form action="#" method="POST">
-                                        <div class="form-group">
-                                            <label for="inputName">Name</label>
-                                            <input type="text" name="inputName" class="form-control" required />
+                                        <div class="form-group mb-3">
+                                            <label for="inputName">Full Name</label>
+                                            <input type="text" name="inputName" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: #fff;" required />
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="inputEmail">Official Email Address</label>
+                                            <input type="email" name="inputEmail" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: #fff;" required />
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label for="inputSubject">Subject of Inquiry</label>
+                                            <input type="text" name="inputSubject" class="form-control" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: #fff;" required />
+                                        </div>
+                                        <div class="form-group mb-4">
+                                            <label for="inputMessage">Detailed Message</label>
+                                            <textarea name="inputMessage" class="form-control" rows="4" style="background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: #fff;"></textarea>
                                         </div>
                                         <div class="form-group">
-                                            <label for="inputEmail">E-Mail</label>
-                                            <input type="email" name="inputEmail" class="form-control" required />
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputSubject">Subject</label>
-                                            <input type="text" name="inputSubject" class="form-control" required />
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="inputMessage">Message</label>
-                                            <textarea name="inputMessage" class="form-control" rows="4"></textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="submit" class="btn btn-primary" name="submit" value="Submit">
+                                            <button type="submit" class="btn btn-primary px-4 py-2" name="submit" style="background: linear-gradient(135deg, var(--accent), #0ea5e9); border: none; font-weight: 600;">
+                                                <i class="fas fa-paper-plane mr-2"></i> Send Inquiry
+                                            </button>
                                         </div>
                                     </form>
                                 </div>
@@ -138,25 +130,10 @@ if(isset($_POST["submit"]))
 
     <!-- jQuery -->
     <script src="plugins/jquery/jquery.min.js"></script>
-    <!-- jQuery UI 1.11.4 -->
-    <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
-    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-    $.widget.bridge('uibutton', $.ui.button)
-    </script>
     <!-- Bootstrap 4 -->
-    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Sparkline -->
-    <script src="plugins/sparklines/sparkline.js"></script>
-
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <!-- <script src="dist/js/demo.js"></script> -->
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="dist/js/pages/dashboard.js"></script>
 </body>
 
 </html>

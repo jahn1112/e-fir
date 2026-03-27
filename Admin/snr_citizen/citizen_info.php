@@ -6,7 +6,8 @@ $done = false;
 
 if ($_SESSION["lg"] == false) {
     header("location:..\login.php");
-} else {
+}
+else {
     $rno = $_GET["rno"];
 
     if (!isset($rno) || $rno == null) {
@@ -46,7 +47,7 @@ if ($_SESSION["lg"] == false) {
             $LastPoliceVisitDate = $row['lst_plc_visit_date'];
             $Relative_ServentDetails = $row['relative_details'];
             $FileDesk = $row['doc_type'];
-            // $FileName = $row['File_Name'];
+        // $FileName = $row['File_Name'];
         }
     }
 
@@ -64,7 +65,7 @@ if ($_SESSION["lg"] == false) {
             $remark = $_POST['action_remark'];
 
             // echo "callled";
-            $qry = "UPDATE `senior_citizen_reg_table` SET `action_taken` = '" . $action_tkn . "', `Remarks_act` = '" . $remark . "', `action_takenBY` = '" . $_SESSION["user"] ." (PSO)' WHERE `sc_reg_id` = " . $rno . ";";
+            $qry = "UPDATE `senior_citizen_reg_table` SET `action_taken` = '" . $action_tkn . "', `Remarks_act` = '" . $remark . "', `action_takenBY` = '" . $_SESSION["user"] . " (PSO)' WHERE `sc_reg_id` = " . $rno . ";";
             $res = mysqli_query($con, $qry);
 
             if ($res > 0) {
@@ -477,7 +478,7 @@ if ($_SESSION["lg"] == false) {
                                     </div>
                                     <div class="col-md-4">
                                         <label for="actionBY" class="form-label">Action taken BY :</label>
-                                        <input type="text" class="form-control" id="actionBY" aria-describedby="ActionBY" value="<?php echo $_SESSION["user"] ." (PSO)"; ?>" style="background: #E4DEDE;"  disabled>
+                                        <input type="text" class="form-control" id="actionBY" aria-describedby="ActionBY" value="<?php echo $_SESSION["user"] . " (PSO)"; ?>" style="background: #E4DEDE;"  disabled>
                                     </div>
                                 </div>
                                 <div class="row mt-3 ">
@@ -543,8 +544,8 @@ if ($_SESSION["lg"] == false) {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <?php
-    if ($done ==  true) {
-        echo "
+if ($done == true) {
+    echo "
 <script>
 Swal.fire(
     'Action Taked Successfully!',
@@ -554,8 +555,8 @@ Swal.fire(
     window.location = '../snr_citizen.php';
 });
 </script>";
-    }
-    ?>
+}
+?>
 
 
 </body>

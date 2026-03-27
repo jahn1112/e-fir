@@ -1,74 +1,98 @@
 <?php
 include "DBconfig.php";
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $firstname = $_POST['First_Name'] ?? '';
-    $middlename = $_POST['middle_name'] ?? '';
-    $lastname = $_POST['last_name'] ?? '';
-    $username = $_POST['username'] ?? '';
-    $mobilenumber = $_POST['mobile_number'] ?? '';
-    $address = $_POST['Address'] ?? '';
-    $occupation = $_POST['occupation'] ?? '';
+    $firstname = trim($_POST['First_Name'] ?? '');
+    $middlename = trim($_POST['middle_name'] ?? '');
+    $lastname = trim($_POST['last_name'] ?? '');
+    $username = trim($_POST['username'] ?? '');
+    $mobilenumber = trim($_POST['mobile_number'] ?? '');
+    $address = trim($_POST['Address'] ?? '');
+    $occupation = trim($_POST['occupation'] ?? '');
     $gender = $_POST['Gender'] ?? '';
     $religion = $_POST['Religion'] ?? '';
     $dateofbirth = $_POST['Date_Of_Birth'] ?? '';
     $nationality = $_POST['nationality'] ?? '';
     $pincode = $_POST['pincode'] ?? '';
     $documenttype = $_POST['Document_Type'] ?? '';
-    $documentno = $_POST['document_no'] ?? '';
+    $documentno = trim($_POST['document_no'] ?? '');
     $password = $_POST['password'] ?? '';
     $confirmpassword = $_POST['confirm_password'] ?? '';
-    $emailaddress = $_POST['E-mail_address'] ?? '';
+    $emailaddress = trim($_POST['E-mail_address'] ?? '');
     $selectquestion = $_POST['Select_Question'] ?? '';
-    $answere = $_POST['answere'] ?? '';
+    $answere = trim($_POST['answere'] ?? '');
 
-    // file upload
-    if (isset($_FILES['reg_doc'])) {
+    // Initialize optional fields with defaults to avoid NOT NULL constraint failures
+    $religion_id = !empty($religion) ? (int)$religion : 9; // Default to 'Other' if empty
+    $nationality_id = !empty($nationality) ? (int)$nationality : 1; // Default to 'Indian'
+    $pincode_val = !empty($pincode) ? (int)$pincode : 0; 
+    $document_id = !empty($documenttype) ? (int)$documenttype : 1; // Default to 'Aadhar Card'
+    $que_id = !empty($selectquestion) ? (int)$selectquestion : 1; // Default to first question
+    $dob_val = !empty($dateofbirth) ? "'".mysqli_real_escape_string($con, $dateofbirth)."'" : "'1900-01-01'"; 
+    $occupation = !empty($occupation) ? $occupation : "N/A";
+    $address = !empty($address) ? $address : "N/A";
+    $answere = !empty($answere) ? $answere : "N/A";
+
+    $uploadOk = true;
+    $file_path = "";
+
+    // file upload check
+    if (isset($_FILES['reg_doc']) && $_FILES['reg_doc']['error'] == 0) {
         $file_name = $_FILES["reg_doc"]["name"];
-        $file_size = $_FILES["reg_doc"]["size"];
         $file_tmp = $_FILES["reg_doc"]["tmp_name"];
         $file_type = $_FILES["reg_doc"]["type"];
 
-        // print_r($_FILES);
         if ($file_type == 'application/pdf' || $file_type == 'image/jpeg' || $file_type == 'image/png') {
-            $res =  move_uploaded_file($file_tmp, "registration_doc/" . $file_name);
-            if ($res) {
-                if ($res) {
-                    $sql = 'INSERT INTO `user_master` (`address`, `que_id`, `nationality_id`, `user_fname`, `user_mname`, `user_lname`, `contact_no`, `user_dob`, `username`, `password`, `user_email`, `q_ans`, `gender`, `religion_id`, `occupation`, `pincode`, `document_id`, `doc_no`, `reg_date`) VALUES ( 
-                        "'.mysqli_real_escape_string($con, $address).'", 
-                        '.(int)$selectquestion.', 
-                        '.(int)$nationality.', 
-                        "'.mysqli_real_escape_string($con, $firstname).'", 
-                        "'.mysqli_real_escape_string($con, $middlename).'", 
-                        "'.mysqli_real_escape_string($con, $lastname).'", 
-                        "'.mysqli_real_escape_string($con, $mobilenumber).'", 
-                        "'.mysqli_real_escape_string($con, $dateofbirth).'", 
-                        "'.mysqli_real_escape_string($con, $username).'", 
-                        "'.mysqli_real_escape_string($con, $password).'", 
-                        "'.mysqli_real_escape_string($con, $emailaddress).'", 
-                        "'.mysqli_real_escape_string($con, $answere).'", 
-                        "'.mysqli_real_escape_string($con, $gender).'", 
-                        '.(int)$religion.', 
-                        "'.mysqli_real_escape_string($con, $occupation).'", 
-                        '.(int)$pincode.', 
-                        '.(int)$documenttype.', 
-                        "'.mysqli_real_escape_string($con, $documentno).'", 
-                        current_timestamp()
-                    );';
-                    try {
-                        $result = mysqli_query($con, $sql);
-                        if ($result) {
-                            echo "<script>alert('Registered Successfully...')</script>";
-                            echo "<script> window.location = './index.php';</script>";
-                        } else {
-                            echo "<script>alert('Registration Failed: " . mysqli_escape_string($con, mysqli_error($con)) . "')</script>";
-                        }
-                    } catch (Exception $e) {
-                        echo "<script>alert('Error: Information might already exist.')</script>";
-                    }
-                }
-            } else {
-                echo "<script>alert('The uploaded file is in incorrect format...')</script>";
+            // Ensure directory exists
+            if (!is_dir("registration_doc")) {
+                mkdir("registration_doc");
             }
+            if (move_uploaded_file($file_tmp, "registration_doc/" . $file_name)) {
+                $file_path = $file_name;
+            } else {
+                // If it fails but was required, set uploadOk to false. 
+                // Since user said it might be optional, we just note it.
+            }
+        } else if (!empty($file_name)) {
+            echo "<script>alert('The uploaded file is in incorrect format. Please upload PDF, JPG, or PNG.')</script>";
+            $uploadOk = false;
+        }
+    }
+
+    if ($uploadOk) {
+        $sql = "INSERT INTO `user_master` (`address`, `que_id`, `nationality_id`, `user_fname`, `user_mname`, `user_lname`, `contact_no`, `user_dob`, `username`, `password`, `user_email`, `q_ans`, `gender`, `religion_id`, `occupation`, `pincode`, `document_id`, `doc_no`, `reg_date`) VALUES ( 
+            '".mysqli_real_escape_string($con, $address)."', 
+            $que_id, 
+            $nationality_id, 
+            '".mysqli_real_escape_string($con, $firstname)."', 
+            '".mysqli_real_escape_string($con, $middlename)."', 
+            '".mysqli_real_escape_string($con, $lastname)."', 
+            '".mysqli_real_escape_string($con, $mobilenumber)."', 
+            $dob_val, 
+            '".mysqli_real_escape_string($con, $username)."', 
+            '".mysqli_real_escape_string($con, $password)."', 
+            '".mysqli_real_escape_string($con, $emailaddress)."', 
+            '".mysqli_real_escape_string($con, $answere)."', 
+            '".mysqli_real_escape_string($con, $gender)."', 
+            $religion_id, 
+            '".mysqli_real_escape_string($con, $occupation)."', 
+            $pincode_val, 
+            $document_id, 
+            '".mysqli_real_escape_string($con, $documentno)."', 
+            current_timestamp()
+        );";
+
+        try {
+            $result = mysqli_query($con, $sql);
+            if ($result) {
+                echo "<script>alert('Registered Successfully...')</script>";
+                echo "<script> window.location = './index.php';</script>";
+            } else {
+                $error_msg = mysqli_error($con);
+                echo "<script>alert('Registration Failed: " . addslashes($error_msg) . "')</script>";
+            }
+        } catch (Exception $e) {
+            $error_msg = addslashes($e->getMessage());
+            echo "<script>alert('Registration Error: " . $error_msg . "')</script>";
         }
     }
 }
@@ -90,6 +114,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 <body>
     <section class="header">
+        <div class="gov-banner">
+            <img src="img/gujaratpolice.png" alt="Government of Gujarat" />
+            <div class="gov-title">
+                <h1>Government of Gujarat - Police Department</h1>
+                <p>Citizen Registration Portal</p>
+            </div>
+        </div>
         <nav>
             <div class="nav-links" id="navLinks">
                 <ul>
@@ -119,8 +150,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                                 <input type="text" class="r6" name="First_Name" required>
                             </div>
                             <div class="r3">
-                                <label class="r4">Middle Name <span class="r5">*</span></label>
-                                <input type="text" class="r6" name="middle_name" required>
+                                <label class="r4">Middle Name</label>
+                                <input type="text" class="r6" name="middle_name">
                             </div>
                             <div class="r3">
                                 <label class="r4">Last Name <span class="r5">*</span></label>
@@ -138,15 +169,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                                 <input type="tel" class="r6" name="mobile_number" maxlength="10" minlength="10" pattern="[0-9]{10}" required>
                             </div>
                             <div class="r3">
-                                <label class="r4">Address <span class="r5">*</span></label>
-                                <input type="text" class="r6" name="Address" maxlength="60" required>
+                                <label class="r4">Address</label>
+                                <input type="text" class="r6" name="Address" maxlength="60">
                             </div>
                         </div>
 
                         <div class="r1">
                             <div class="r3">
-                                <label class="r4">Occupation <span class="r5">*</span></label>
-                                <input type="text" class="r6" name="occupation" required>
+                                <label class="r4">Occupation</label>
+                                <input type="text" class="r6" name="occupation">
                             </div>
                             <div class="r3">
                                 <label class="r4">Gender <span class="r5">*</span></label>
@@ -158,8 +189,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                                 </select>
                             </div>
                             <div class="r3">
-                                <label class="r4">Religion <span class="r5">*</span></label>
-                                <select class="r6" name="Religion" required>
+                                <label class="r4">Religion</label>
+                                <select class="r6" name="Religion">
                                     <option value="" selected disabled>Select Religion</option>
                                     <option value="1">Buddhist</option>
                                     <option value="2">Christian</option>
@@ -178,27 +209,27 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
                         <div class="r1">
                             <div class="r3">
-                                <label class="r4">Date Of Birth <span class="r5">*</span></label>
-                                <input type="date" class="r6" name="Date_Of_Birth" required>
+                                <label class="r4">Date Of Birth</label>
+                                <input type="date" class="r6" name="Date_Of_Birth">
                             </div>
                             <div class="r3">
-                                <label class="r4">Nationality <span class="r5">*</span></label>
-                                <select class="r6" name="nationality" required>
+                                <label class="r4">Nationality</label>
+                                <select class="r6" name="nationality">
                                     <option value="" selected disabled>Select</option>
                                     <option value="1">Indian</option>
                                 </select>
                             </div>
                             <div class="r3">
-                                <label class="r4">Pincode <span class="r5">*</span></label>
-                                <input type="number" class="r6" name="pincode" required>
+                                <label class="r4">Pincode</label>
+                                <input type="number" class="r6" name="pincode">
                             </div>
                         </div>
 
                         <h6>Documents & Security</h6>
                         <div class="r1">
                             <div class="r3">
-                                <label class="r4">Upload Document <span class="r5">*</span></label>
-                                <input type="file" class="r6" name="reg_doc" required>
+                                <label class="r4">Upload Document</label>
+                                <input type="file" class="r6" name="reg_doc">
                             </div>
                             <div class="r3">
                                 <label class="r4">Document Type <span class="r5">*</span></label>
@@ -225,32 +256,32 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                                 <input type="password" class="r6" name="confirm_password" required>
                             </div>
                             <div class="r3">
-                                <label class="r4">Email Address</label>
-                                <input type="email" class="r6" name="E-mail_address" placeholder="name@example.com">
+                                <label class="r4">Email Address <span class="r5">*</span></label>
+                                <input type="email" class="r6" name="E-mail_address" placeholder="name@example.com" required>
                             </div>
                         </div>
 
                         <div class="r1">
                             <div class="r3">
-                                <label class="r4">Security Question <span class="r5">*</span></label>
-                                <select class="r6" name="Select_Question" required>
+                                <label class="r4">Security Question</label>
+                                <select class="r6" name="Select_Question">
                                     <option value="" selected disabled>Select Question</option>
-                                    <option value="1">What is your favourite cricketer?</option>
-                                    <option value="2">What is your primary school name?</option>
-                                    <option value="3">What was your childhood nickname?</option>
-                                    <option value="4">What was the name of the first school you attended?</option>
-                                    <option value="5">Who is your favourite super hero?</option>
-                                    <option value="6">What is your Favourite Food?</option>
+                                    <option value="1">What is your nickname?</option>
+                                    <option value="2">What is your favourite food?</option>
+                                    <option value="3">What is your favourite place?</option>
+                                    <option value="4">Who is your favourite cricketer?</option>
+                                    <option value="5">Which is your birth place?</option>
+                                    <option value="6">Who is your ideal person?</option>
                                 </select>
                             </div>
                             <div class="r3">
-                                <label class="r4">Answer <span class="r5">*</span></label>
-                                <input type="text" class="r6" name="answere" required>
+                                <label class="r4">Answer</label>
+                                <input type="text" class="r6" name="answere">
                             </div>
                         </div>
 
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="flexCheckChecked" required>
+                            <input class="form-check-input" type="checkbox" id="flexCheckChecked">
                             <label class="form-check-label" for="flexCheckChecked">
                                 I have read and agree to the <a href="#">Terms & Conditions</a>
                             </label>

@@ -187,41 +187,40 @@ include "manage_FIR/search.php";
                             <tbody>
 
                                 <?php
-                                // for ($i = 0; $i <= 100; $i++) {
-                                //     echo '<tr>
-                                //         <th scope="row">' . $i + 1 . '</th>
-                                //         <td>Mark</td>
-                                //         <td>Missing report</td>
-                                //         <td>male</td>
-                                //         <td>12/12/1999</td>
-                                //         <td><a href=".\rpt_missing_person\msng_rpt.php?rno=878997">878337</a></td>
-                                //         <td>12/12/2022</td>
-                                //         <td>In Progress</td>
-                                //       </tr>';
-                                // }
+// for ($i = 0; $i <= 100; $i++) {
+//     echo '<tr>
+//         <th scope="row">' . $i + 1 . '</th>
+//         <td>Mark</td>
+//         <td>Missing report</td>
+//         <td>male</td>
+//         <td>12/12/1999</td>
+//         <td><a href=".\rpt_missing_person\msng_rpt.php?rno=878997">878337</a></td>
+//         <td>12/12/2022</td>
+//         <td>In Progress</td>
+//       </tr>';
+// }
 
-                                $qry = "SELECT * FROM report_missing_person_table as rpt left OUTER join user_master AS u on rpt.user_id = u.user_id where rpt.action_taken in ('Pending','Under Scrutiny',null);";
-                                $res = mysqli_query($con,$qry);
-                                $sr = 0;
-                                while($row = mysqli_fetch_assoc($res))
-                                {
-                                    $sr += 1;
-                                    echo '<tr>
-                                        <th scope="row">' . $sr. '</th>
-                                        <td><a href=".\rpt_missing_person\msng_rpt.php?rno='. $row['Report_Missing_Person_id']. '">GJMRPT20230'. $row['Report_Missing_Person_id']. '</a></td>
+$qry = "SELECT * FROM report_missing_person_table as rpt left OUTER join user_master AS u on rpt.user_id = u.user_id where rpt.action_taken in ('Pending','Under Scrutiny',null);";
+$res = mysqli_query($con, $qry);
+$sr = 0;
+while ($row = mysqli_fetch_assoc($res)) {
+    $sr += 1;
+    echo '<tr>
+                                        <th scope="row">' . $sr . '</th>
+                                        <td><a href=".\rpt_missing_person\msng_rpt.php?rno=' . $row['Report_Missing_Person_id'] . '">GJMRPT20230' . $row['Report_Missing_Person_id'] . '</a></td>
 
-                                         <td>' . $row['user_fname'].' '.$row['user_lname'].'</td>
-                                         <td>'. $row['missing_date'].'</td>
-                                         <td>'. $row['gender'].'</td>
-                                         <td>'. $row['user_dob']. '</td>
-                                         <td>'. $row['area']. '</td>
-                                         <td>'. $row['sbmt_date']. '</td>
-                                         <td>'. $row['action_taken']. '</td>
-                                         <td>'. $row['action_takenBY']. '</td>
+                                         <td>' . $row['user_fname'] . ' ' . $row['user_lname'] . '</td>
+                                         <td>' . $row['missing_date'] . '</td>
+                                         <td>' . $row['gender'] . '</td>
+                                         <td>' . $row['user_dob'] . '</td>
+                                         <td>' . $row['area'] . '</td>
+                                         <td>' . $row['sbmt_date'] . '</td>
+                                         <td>' . $row['action_taken'] . '</td>
+                                         <td>' . $row['action_takenBY'] . '</td>
                                        </tr>';
-                                }
+}
 
-                                ?>
+?>
                             </tbody>
                         </table>
 

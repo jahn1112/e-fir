@@ -33,202 +33,93 @@ while ($urow = mysqli_fetch_assoc($uinfo)) {
 
 if (isset($_POST['submit'])) {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        $ReferenceNumber;
-        $refnum = 'select (max(e_fir_id)+1) as refnum from e_fir_master;';
-        $result = mysqli_query($con,$refnum);
-        if($result)
-        {
-            while($refrow = mysqli_fetch_assoc($result))
-            {
-                $ReferenceNumber = $refrow['refnum'];
+        $userid = $_SESSION["userid"];
+        $occupation = mysqli_real_escape_string($con, $_POST['occupation'] ?? '');
+        $Datefrom = mysqli_real_escape_string($con, $_POST['Date_from'] ?? '');
+        $Dateto = mysqli_real_escape_string($con, $_POST['Date_to'] ?? '');
+        $Timefrom = mysqli_real_escape_string($con, $_POST['Time_from'] ?? '');
+        $Timeto = mysqli_real_escape_string($con, $_POST['Time_to'] ?? '');
+        $Distancestation = mysqli_real_escape_string($con, $_POST['Distance_station'] ?? '');
+        $Occurance_Address = mysqli_real_escape_string($con, $_POST['Occurance_Address'] ?? '');
+        $Occurance_pincode = mysqli_real_escape_string($con, $_POST['Occurance_pincode'] ?? '');
+        $Policestation = mysqli_real_escape_string($con, $_POST['Police_station'] ?? '');
+        $BriefDesc = mysqli_real_escape_string($con, $_POST['Brief_Desc'] ?? '');
+        $delayed_reason = mysqli_real_escape_string($con, $_POST['delayed_reason'] ?? '');
+        $Typetheft = mysqli_real_escape_string($con, $_POST['radiobtn'] ?? '');
 
+        // Use Dateto/Timeto for From fields if they are missing
+        $Datefrom_final = !empty($Datefrom) ? $Datefrom : $Dateto;
+        $Timefrom_final = !empty($Timefrom) ? $Timefrom : $Timeto;
+
+        // Handle Delay Upload
+        if (isset($_FILES['delayupload']) && $_FILES['delayupload']['error'] == 0) {
+            $delay_file_name = $_FILES["delayupload"]["name"];
+            $delay_file_tmp = $_FILES["delayupload"]["tmp_name"];
+            if (!is_dir("FIR_upload_doc/delayed_reason")) {
+                mkdir("FIR_upload_doc/delayed_reason", 0777, true);
             }
+            move_uploaded_file($delay_file_tmp, "FIR_upload_doc/delayed_reason/" . $delay_file_name);
         }
 
-        $userid =  $_SESSION["userid"];
-        // $Firstname = $_POST['First_name'];
-        // $FatherName = $_POST['Father_name'];
-        // $surname = $_POST['surname'];
-        // $dob = $_POST['Dob'];
-        // $nationality = $_POST['Nationality'];
-        $occupation = $_POST['occupation'];
-        // $address = $_POST['Address'];
-        // $Mobilenumber = $_POST['Mobile_number'];
-        // $Whatsappnumber = $_POST['Whatsapp_number'];
+        // 2. Insert into e_fir_master (Initial record)
+        $sql = "INSERT INTO `e_fir_master` (`e_fir_id`, `user_id`, `occurrance_area`, `police_station_occurance_place`, `types_of_fir_id`, `file_name`, `occurance_pincode`, `distance_from_ps`, `occurence_of_offence_date_from`, `occurence_of_offence_date_to`, `occurenece_of_offence_time_from`, `occurenece_of_offence_time_to`, `occupation`, `first_info_contents`,`delayed_reason`, `sbmt_date`) VALUES (NULL, '" . $userid . "', '" . $Occurance_Address . "', '" . $Policestation . "', '" . (empty($Typetheft) ? 3 : $Typetheft) . "', '', '" . $Occurance_pincode . "', '" . $Distancestation . "', '" . $Datefrom_final . "', '" . $Dateto . "', '" . $Timefrom_final . "', '" . $Timeto . "', '" . $occupation . "', '" . $BriefDesc . "','" . $delayed_reason . "', current_timestamp());";
+        $result = mysqli_query($con, $sql);
+        
+        if ($result) {
+            $firID = mysqli_insert_id($con);
 
+            // 3. Optional Stolen Section
+            if ($Typetheft == 1) { // Vehicle
+                if (isset($_FILES['vupload']) && $_FILES['vupload']['error'] == 0) {
+                    $file_name = $_FILES["vupload"]["name"];
+                    $file_tmp = $_FILES["vupload"]["tmp_name"];
+                    if (!is_dir("FIR_upload_doc/vehicle_doc")) { mkdir("FIR_upload_doc/vehicle_doc", 0777, true); }
+                    move_uploaded_file($file_tmp, "FIR_upload_doc/vehicle_doc/" . $file_name);
+                    
+                    // Update main record with filename
+                    mysqli_query($con, "UPDATE e_fir_master SET file_name = '$file_name' WHERE e_fir_id = $firID");
 
-        $Datefrom = $_POST['Date_from'];
-        $Dateto = $_POST['Date_to'];
-        $Timefrom = $_POST['Time_from'];
-        $Timeto = $_POST['Time_to'];
-        $Distancestation = $_POST['Distance_station'];
-        $Occurance_Address = $_POST['Occurance_Address'];
-        $Occurance_pincode =  $_POST['Occurance_pincode'];
-        $Policestation = $_POST['Police_station'];
-        // $CityDistrict = $_POST['City/district'];
-        $BriefDesc = $_POST['Brief_Desc'];
-        $delayed_reason = $_POST['delayed_reason'];
-        $Typetheft = $_POST['radiobtn'];
+                    $Vehicletype = mysqli_real_escape_string($con, $_POST['Vehicle_Type'] ?? '');
+                    $Manufacturename = mysqli_real_escape_string($con, $_POST['Name_manufacture'] ?? '');
+                    $Modelname = mysqli_real_escape_string($con, $_POST['Model_name'] ?? '');
+                    $Enginenumber = mysqli_real_escape_string($con, $_POST['Engine_number'] ?? '');
+                    $Chassisnumber = mysqli_real_escape_string($con, $_POST['Chassis_number'] ?? '');
+                    $ApproxPriceVehicle = mysqli_real_escape_string($con, $_POST['Approx_price'] ?? '');
+                    $Registernumber = mysqli_real_escape_string($con, $_POST['Register_number'] ?? '');
+                    $Vehiclecolor = mysqli_real_escape_string($con, $_POST['Vehicle_color'] ?? '');
+                    $ManufacturingYearVehicle = mysqli_real_escape_string($con, $_POST['Manuf_year'] ?? '');
+                    $Descriptionvehicle = mysqli_real_escape_string($con, $_POST['Desc_vehicle'] ?? '');
 
-        //Vehicle values
-        $Vehicletype = $_POST['Vehicle_Type'];
-        $Manufacturename = $_POST['Name_manufacture'];
-        $Modelname = $_POST['Model_name'];
-        $Enginenumber = $_POST['Engine_number'];
-        $Chassisnumber = $_POST['Chassis_number'];
-        $ApproxPriceVehicle = $_POST['Approx_price'];
-        $Registernumber = $_POST['Register_number'];
-        $Vehiclecolor = $_POST['Vehicle_color'];
-        $ManufacturingYearVehicle = $_POST['Manuf_year'];
-        $Descriptionvehicle = $_POST['Desc_vehicle'];
-        // $UploadDocument = $_POST['vupload'];
+                    $vqry = "INSERT INTO `vehicle_table` (`vehicle_id`, `e_fir_id`, `vehicle_type`, `name_of_manufacture`, `model`, `engine_number`, `chassis_number`, `vehicle_reg_number`, `color`, `manufacturing_year`, `approx_price`, `description_of_vehicle`) VALUES (NULL, '" . $firID . "', '" . $Vehicletype . "', '" . $Manufacturename . "', '" . $Modelname . "', '" . $Enginenumber . "', '" . $Chassisnumber . "', '" . $Registernumber . "', '" . $Vehiclecolor . "', '" . $ManufacturingYearVehicle . "', '" . $ApproxPriceVehicle . "', '" . $Descriptionvehicle . "');";
+                    mysqli_query($con, $vqry);
+                }
+            } elseif ($Typetheft == 2) { // Mobile
+                if (isset($_FILES['mobupload']) && $_FILES['mobupload']['error'] == 0) {
+                    $file_name = $_FILES["mobupload"]["name"];
+                    $file_tmp = $_FILES["mobupload"]["tmp_name"];
+                    if (!is_dir("FIR_upload_doc/mobile_doc")) { mkdir("FIR_upload_doc/mobile_doc", 0777, true); }
+                    move_uploaded_file($file_tmp, "FIR_upload_doc/mobile_doc/" . $file_name);
 
-        // mobile values
-        $Mobilemodel = $_POST['Mobile_model'];
-        $Mobilecolor = $_POST['Mobile_color'];
-        $mobile_number = $_POST['mobile_number'];
-        $ManufacturingYearMobile = $_POST['Manufacturing_year'];
-        $IMEInumber = $_POST['Imei_number'];
-        $Simcard = $_POST['Sim'];
-        $ApproxPriceMobile = $_POST['Price'];
-        $Descriptionmobile = $_POST['Desc_mobile'];
-        // $Uploaddocument = $_POST['mobupload'];
+                    // Update main record with filename
+                    mysqli_query($con, "UPDATE e_fir_master SET file_name = '$file_name' WHERE e_fir_id = $firID");
 
-        //retrive latest FIR-ID
-        $qry1 = "SELECT e_fir_id as firid FROM e_fir_master ORDER BY e_fir_id DESC LIMIT 1;";
-        $res = mysqli_query($con, $qry1);
-        $row = mysqli_fetch_assoc($res);
-        // print_r($row);
-        if ($row == null) {
-            $firID = 0;
+                    $Mobilemodel = mysqli_real_escape_string($con, $_POST['Mobile_model'] ?? '');
+                    $Mobilecolor = mysqli_real_escape_string($con, $_POST['Mobile_color'] ?? '');
+                    $mobile_number = mysqli_real_escape_string($con, $_POST['mobile_number'] ?? '');
+                    $ManufacturingYearMobile = mysqli_real_escape_string($con, $_POST['Manufacturing_year'] ?? '');
+                    $IMEInumber = mysqli_real_escape_string($con, $_POST['Imei_number'] ?? '');
+                    $Simcard = mysqli_real_escape_string($con, $_POST['Sim'] ?? '');
+                    $ApproxPriceMobile = mysqli_real_escape_string($con, $_POST['Price'] ?? '');
+                    $Descriptionmobile = mysqli_real_escape_string($con, $_POST['Desc_mobile'] ?? '');
+
+                    $mqry = "INSERT INTO `stolen_mobile_table` (`stolen_mobile_id`, `e_fir_id`, `mobile_number`,  `model`, `imei_number`, `approx_price`, `manufacturing_year`, `service_provider`, `color`, `description_of_mobile`) VALUES (NULL, '" . $firID . "', '" . $mobile_number . "','" . $Mobilemodel . "','" . $IMEInumber . "', '" . $ApproxPriceMobile . "', '" . $ManufacturingYearMobile . "', '" . $Simcard . "', '" . $Mobilecolor . "', '" . $Descriptionmobile . "');";
+                    mysqli_query($con, $mqry);
+                }
+            }
+
+            echo "<script>alert('Successfully Submitted! Your FIR Reference Number: GJFIR202300" . $firID . "')</script>";
         } else {
-            $firID = $row['firid'];
-        }
-
-        // vehicle
-        if (isset($Typetheft) && $Typetheft == 1) {
-
-            if (isset($_FILES['vupload'])) {
-                $file_name = $_FILES["vupload"]["name"];
-                $file_size = $_FILES["vupload"]["size"];
-                $file_tmp = $_FILES["vupload"]["tmp_name"];
-                $file_type = $_FILES["vupload"]["type"];
-
-                if(isset($_FILES['delayupload']))
-                {
-                    $file_name2 = $_FILES["delayupload"]["name"];
-                    $file_size2 = $_FILES["delayupload"]["size"];
-                    $file_tmp2 = $_FILES["delayupload"]["tmp_name"];
-                    $file_type2 = $_FILES["delayupload"]["type"];   
-
-                    $res =  move_uploaded_file($file_tmp2, "FIR_upload_doc/delayed_reason/" . $file_name2);
-
-                }
-
-                // print_r($_FILES);
-                if ($file_type == 'application/pdf' || $file_type == 'image/jpeg' || $file_type == 'image/png') {
-                    $res =  move_uploaded_file($file_tmp, "FIR_upload_doc/vehicle_doc/" . $file_name);
-                    if ($res) {
-                        //  echo "Uploaded successs";
-                        // vehicle form validation
-                        if ($_POST['Vehicle_Type'] != null && $_POST['Name_manufacture'] != null && $_POST['Model_name'] != null && $_POST['Engine_number'] != null && $_POST['Chassis_number'] != null && $_POST['Approx_price'] != null && $_POST['Register_number']  != null && $_POST['Vehicle_color'] != null && $_POST['Manuf_year'] != null && $_POST['Desc_vehicle'] != null) {
-                            $firID += 1;
-
-
-                            $sql = "INSERT INTO `e_fir_master` (`e_fir_id`, `user_id`, `occurrance_area`, `police_station_occurance_place`, `types_of_fir_id`, `file_name`, `occurance_pincode`, `distance_from_ps`, `occurence_of_offence_date_from`, `occurence_of_offence_date_to`, `occurenece_of_offence_time_from`, `occurenece_of_offence_time_to`, `occupation`, `first_info_contents`,`delayed_reason`, `sbmt_date`) VALUES (NULL, '" . $userid . "', '" . $Occurance_Address . "', '" . $Policestation . "', '" . $Typetheft . "', '".$file_name."', '" . $Occurance_pincode . "', '" . $Distancestation . "', '" . $Datefrom . "', '" . $Dateto . "', '" . $Timefrom . "', '" . $Timeto . "', '" . $occupation . "', '" . $BriefDesc . "','" . $delayed_reason . "', current_timestamp());";
-                            $result = mysqli_query($con, $sql);
-
-                            $vqry = "INSERT INTO `vehicle_table` (`vehicle_id`, `e_fir_id`, `vehicle_type`, `name_of_manufacture`, `model`, `engine_number`, `chassis_number`, `vehicle_reg_number`, `color`, `manufacturing_year`, `approx_price`, `description_of_vehicle`) VALUES (NULL, '" . $firID . "', '" . $Vehicletype . "', '" . $Manufacturename . "', '" . $Modelname . "', '" . $Enginenumber . "', '" . $Chassisnumber . "', '" . $Registernumber . "', '" . $Vehiclecolor . "', '" . $ManufacturingYearVehicle . "', '" . $ApproxPriceVehicle . "', '" . $Descriptionvehicle . "');";
-                            $exec = mysqli_query($con, $vqry);
-
-                            if ($exec > 0 && $result > 0) {
-                                $alertmsg = true;
-                                // echo "submited";
-                                echo "<script>alert('Done.. Vehicle Form submited ')</script>";
-                                echo "<script>alert('APPLICATION REFERENCE NUMBER : GJFIR202300". $ReferenceNumber."   ')</script>";
-
-                                // mysqli_close($con);
-                            } else {
-                                echo "<script>alert('vehicle Form submission failed..!!')</script>";
-                            }
-                        } else
-                            // echo "Please Fill All Vehicle Field";
-                            echo "<script>alert('Please Fill All Vehicle Field..!!')</script>";
-                    }
-                } else {
-                    // $docalert = true;
-                    echo "<script>alert('The uploaded file is in incorrect format...')</script>";
-                }
-            }
-        } elseif ((isset($Typetheft) && $Typetheft == 2)) //mobile
-        {
-            if (isset($_FILES['mobupload'])) {
-                $file_name = $_FILES["mobupload"]["name"];
-                $file_size = $_FILES["mobupload"]["size"];
-                $file_tmp = $_FILES["mobupload"]["tmp_name"];
-                $file_type = $_FILES["mobupload"]["type"];
-
-
-                if(isset($_FILES['delayupload']))
-                {
-                    $file_name1 = $_FILES["delayupload"]["name"];
-                    $file_size1 = $_FILES["delayupload"]["size"];
-                    $file_tmp1 = $_FILES["delayupload"]["tmp_name"];
-                    $file_type1 = $_FILES["delayupload"]["type"];   
-
-                    $res1 =  move_uploaded_file($file_tmp1, "FIR_upload_doc/delayed_reason/" . $file_name1);
-
-                }
-                // print_r($_FILES);
-                if ($file_type == 'application/pdf' || $file_type == 'image/jpeg' || $file_type == 'image/png') {
-                    $res =  move_uploaded_file($file_tmp, "FIR_upload_doc/mobile_doc/" . $file_name);
-                    if ($res) {
-                        //  echo "Uploaded successs";
-                        // mobile form validation
-                        if ($_POST['Mobile_model'] != null && $_POST['Mobile_color'] != null && $_POST['mobile_number'] != null &&  $_POST['Manufacturing_year'] != null && $_POST['Imei_number'] != null && $_POST['Sim'] != null && $_POST['Price'] != null && $_POST['Desc_mobile'] != null) {
-                            $firID += 1;
-
-
-                            // fir query
-                            $sql = "INSERT INTO `e_fir_master` (`e_fir_id`, `user_id`, `occurrance_area`, `police_station_occurance_place`, `types_of_fir_id`, `file_name`, `occurance_pincode`, `distance_from_ps`, `occurence_of_offence_date_from`, `occurence_of_offence_date_to`, `occurenece_of_offence_time_from`, `occurenece_of_offence_time_to`, `occupation`, `first_info_contents`,`delayed_reason`, `sbmt_date`) VALUES (NULL, '" . $userid . "', '" . $Occurance_Address . "', '" . $Policestation . "', '" . $Typetheft . "', '".$file_name."', '" . $Occurance_pincode . "', '" . $Distancestation . "', '" . $Datefrom . "', '" . $Dateto . "', '" . $Timefrom . "', '" . $Timeto . "', '" . $occupation . "', '" . $BriefDesc . "','" . $delayed_reason . "', current_timestamp());";
-                            $result = mysqli_query($con, $sql);
-
-                            // ...mobile query
-                            $mqry = "INSERT INTO `stolen_mobile_table` (`stolen_mobile_id`, `e_fir_id`, `mobile_number`,  `model`, `imei_number`, `approx_price`, `manufacturing_year`, `service_provider`, `color`, `description_of_mobile`) VALUES (NULL, '" . $firID . "', '" . $mobile_number . "','" . $Mobilemodel . "','" . $IMEInumber . "', '" . $ApproxPriceMobile . "', '" . $ManufacturingYearMobile . "', '" . $Simcard . "', '" . $Mobilecolor . "', '" . $Descriptionmobile . "');";
-                            $execm = mysqli_query($con, $mqry);
-
-                            if ($execm > 0 && $result > 0) {
-                                // $alertmsg = true;
-                                echo "<script>alert('DONE..Mobile Form Submited')</script>";
-                            } else {
-                                echo "<script>alert('Mobile Form submission failed..!!')</script>";
-                            }
-                        } else
-                            // echo "Please Fill All Mobile Field";
-                            echo "<script>alert('Please Fill All Mobile Field..!!')</script>";
-                    }
-                } else {
-                    // $docalert = true;
-                    echo "<script>alert('The uploaded file is in incorrect format...')</script>";
-                }
-            }
-
-            // print_r($_POST);
-
-        }
-
-
-
-
-        // $Uploadfile = $_POST['Upload_file'];
-
-
-        // if ($result) {
-        //     //  echo'insertd suucess e-fir form';
-        //     $alertmsg = true;
-        // } 
-        else {
-            echo "<script>alert('Form submission failed..!!')</script>";
+            echo "<script>alert('Form submission failed: " . mysqli_error($con) . "')</script>";
         }
     }
 }
@@ -296,7 +187,7 @@ if (isset($_POST['submit'])) {
                                     <label for="exampleInputEmail1" class="r4">First Name</label>
                                     <span class="r5">*</span>
                                     <input type="text" style="background: #E4DEDE;" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php
-                                                                                                                                                            echo $ufname; ?>" disabled>
+echo $ufname; ?>" disabled>
 
                                 </div>
                             </div>
@@ -305,7 +196,7 @@ if (isset($_POST['submit'])) {
                                     <label for="exampleInputEmail1" class="r4">Father's/Husband's Name</label>
                                     <span class="r5"></span>
                                     <input type="text" style="background: #E4DEDE;" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php
-                                                                                                                                                            echo $umname; ?>" disabled>
+echo $umname; ?>" disabled>
                                 </div>
 
                             </div>
@@ -314,7 +205,7 @@ if (isset($_POST['submit'])) {
                                     <label for="exampleInputEmail1" class="r4">Surname</label>
                                     <span class="r5">*</span>
                                     <input type="text" style="background: #E4DEDE;" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php
-                                    echo $ulname; ?>" disabled>
+echo $ulname; ?>" disabled>
                                 </div>
                             </div>
                         </div>
@@ -332,7 +223,7 @@ if (isset($_POST['submit'])) {
                                     <label for="exampleInputEmail1" class="r4">Religion</label>
                                     <span class="r5">*</span>
                                     <input type="text" style="background: #E4DEDE;" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php
-                                                                                                                                                            echo $ureligion; ?>" disabled>
+echo $ureligion; ?>" disabled>
                                 </div>
 
                             </div>
@@ -352,7 +243,7 @@ if (isset($_POST['submit'])) {
                                     <label for="exampleInputEmail1" class="r4">Address</label>
                                     <span class="r5">*</span>
                                     <textarea class="r6" id="textAreaExample1" rows="4"     disabled><?php
-                                                                                                                                                                                    echo $uaddress; ?></textarea>
+echo $uaddress; ?></textarea>
                                 </div>
                             </div>
                             <div class="r2">
@@ -360,7 +251,7 @@ if (isset($_POST['submit'])) {
                                     <label for="exampleInputEmail1" class="r4">Mobile Number</label>
                                     <span class="r5">*</span>
                                     <input type="number" style="background: #E4DEDE;" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php
-                                                                                                                                                                echo $ucontact; ?>" disabled>
+echo $ucontact; ?>" disabled>
 
                                 </div>
                             </div>
@@ -369,7 +260,7 @@ if (isset($_POST['submit'])) {
                                     <label for="exampleInputEmail1" class="r4">Pincode</label>
                                     <span class="r5"></span>
                                     <input type="number" style="background: #E4DEDE;" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php
-                                                                                                                                                                echo $upincode; ?>" disabled>
+echo $upincode; ?>" disabled>
 
                                 </div>
                             </div>
@@ -378,24 +269,21 @@ if (isset($_POST['submit'])) {
                         </div>
 
 
-                        <h3 class="appdet"><u>Date Of Occurence</u></h3><br>
-                        <div class="r1">
+                        <div class="r1" style="display:none;">
                             <div class="r2">
                                 <div class="r3">
                                     <label for="Date From" class="r4">Date From</label>
                                     <span class="r5">*</span>
-                                    <input type="date" class="r6" id="Date From" aria-describedby="emailHelp" required name="Date_from"  max='2023-01-25'>
+                                    <input type="date" class="r6" id="Date From" aria-describedby="emailHelp" name="Date_from"  max='2023-01-25'>
                                 </div>
                             </div>
                             <div class="r2">
                                 <div class="r3">
                                     <label for="Time From" class="r4">Time From</label>
                                     <span class="r5">*</span>
-                                    <input type="time" class="r6" id="Time From" aria-describedby="emailHelp" required name="Time_from" >
+                                    <input type="time" class="r6" id="Time From" aria-describedby="emailHelp" name="Time_from" >
                                 </div>
                             </div>
-
-
                         </div>
                         <div class="r1">
                             <div class="r2">
@@ -560,11 +448,11 @@ if (isset($_POST['submit'])) {
                                             <span class="r5"></span><br>
                                             <div class="bu11">
                                                 <div class="bu22">
-                                                    <input class="bu33" type="radio" value="2" name="radiobtn" id="myCheck" onclick="myFunction1()" required>
+                                                    <input class="bu33" type="radio" value="2" name="radiobtn" id="myCheck" onclick="myFunction1()">
                                                     <label class="" for="myCheck" name="Mobile">Mobile</label>
                                                 </div>
                                                 <div class="bu44">
-                                                    <input class="bu33" type="radio" value="1" name="radiobtn" id="myCheckk" onclick="myFunction1()" required>
+                                                    <input class="bu33" type="radio" value="1" name="radiobtn" id="myCheckk" onclick="myFunction1()">
                                                     <label class="" for="myCheckk" name="Vehicle">Vehicle</label>
                                                 </div>
                                             </div>

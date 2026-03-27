@@ -186,47 +186,46 @@ include "manage_FIR/search.php";
                             <tbody>
 
                                 <?php
-                                 
-                              
+
+
+
+$qry = "SELECT sc.*,um.user_fname,um.user_lname,um.contact_no,ct.c_name FROM `senior_citizen_reg_table` sc LEFT OUTER JOIN user_master um on sc.user_id=um.user_id LEFT OUTER JOIN city_table ct on ct.city_id=sc.city_id where sc.action_taken in ('Pending','Under Scrutiny',null);";
+$res = mysqli_query($con, $qry);
+$sr = 0;
+while ($row = mysqli_fetch_assoc($res)) {
+    $sr += 1;
+    echo '<tr>
+                                         <th scope="row">' . $sr . '</th>
+                                         <td><a href=".\snr_citizen\citizen_info.php?rno=' . $row['sc_reg_id'] . '">SCREG20230' . $row['sc_reg_id'] . '</a></td>
  
-                                 $qry = "SELECT sc.*,um.user_fname,um.user_lname,um.contact_no,ct.c_name FROM `senior_citizen_reg_table` sc LEFT OUTER JOIN user_master um on sc.user_id=um.user_id LEFT OUTER JOIN city_table ct on ct.city_id=sc.city_id where sc.action_taken in ('Pending','Under Scrutiny',null);";
-                                 $res = mysqli_query($con,$qry);
-                                 $sr = 0;
-                                 while($row = mysqli_fetch_assoc($res))
-                                 {
-                                     $sr += 1;
-                                     echo '<tr>
-                                         <th scope="row">' . $sr. '</th>
-                                         <td><a href=".\snr_citizen\citizen_info.php?rno='. $row['sc_reg_id']. '">SCREG20230'. $row['sc_reg_id']. '</a></td>
- 
-                                          <td>' . $row['sc_fname'].' '.$row['sc_lname'].'</td>
+                                          <td>' . $row['sc_fname'] . ' ' . $row['sc_lname'] . '</td>
                                           <td>Citizen Registration</td>
-                                          <td>'. $row['dob']. '</td>
-                                          <td>'. $row['c_name']. '</td>
-                                          <td>'. $row['reg_date_time']. '</td>
-                                          <td>'. $row['action_taken']. '</td>
-                                          <td>'. $row['action_takenBY']. '</td>
+                                          <td>' . $row['dob'] . '</td>
+                                          <td>' . $row['c_name'] . '</td>
+                                          <td>' . $row['reg_date_time'] . '</td>
+                                          <td>' . $row['action_taken'] . '</td>
+                                          <td>' . $row['action_takenBY'] . '</td>
                                         </tr>';
-                                 }
- 
-                                 
+}
 
 
 
-                                // for ($i = 0; $i <= 100; $i++) {
-                                //     echo '<tr>
-                                //         <th scope="row">' . $i + 1 . '</th>
-                                //         <td>Mark</td>
-                                //         <td>snr citizen registration</td>
-                                //         <td>rajkot</td>
-                                //         <td><a href=".\snr_citizen\citizen_info.php?rno=878997">878337</a></td>
-                                //         <td>12/12/2022</td>
-                                //         <td>12/12/1871</td>
-                                //         <td>In Progress</td>
-                                //       </tr>';
-                                // }
 
-                                ?>
+
+// for ($i = 0; $i <= 100; $i++) {
+//     echo '<tr>
+//         <th scope="row">' . $i + 1 . '</th>
+//         <td>Mark</td>
+//         <td>snr citizen registration</td>
+//         <td>rajkot</td>
+//         <td><a href=".\snr_citizen\citizen_info.php?rno=878997">878337</a></td>
+//         <td>12/12/2022</td>
+//         <td>12/12/1871</td>
+//         <td>In Progress</td>
+//       </tr>';
+// }
+
+?>
                             </tbody>
                         </table>
 

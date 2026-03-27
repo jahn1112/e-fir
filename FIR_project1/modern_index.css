@@ -1,77 +1,235 @@
-/* modern_index.css - Premium Overrides for index.php */
+/* modern_index.css - Enhanced Premium Professional Theme */
 
 :root {
-    --primary-color: #05054b; 
-    --primary-light: #1a1a7a;
-    --primary-hover: #0a0a50;
-    --secondary-color: #24f8c7; 
-    --bg-color: #f8fafc; 
+    --primary-depth: #0f172a;
+    --accent-blue: #0ea5e9;
+    --accent-glow: rgba(14, 165, 233, 0.5);
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
     --card-bg: #ffffff;
-    --text-main: #0f172a; 
-    --text-muted: #475569;
-    --border-soft: #e2e8f0;
+    --text-white: #f8fafc;
+    --text-muted: #94a3b8;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    background-color: var(--bg-color) !important;
+    background-color: #020617 !important;
     font-family: 'Poppins', sans-serif !important;
+    color: var(--text-white) !important;
+    overflow-x: hidden;
 }
 
-/* 1. Modern Hero Section */
+/* 1. Global Background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at top right, #1e293b, #020617);
+    z-index: -1;
+}
+
+/* 2. Enhanced Navigation */
+nav {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    padding: 1rem 5%;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.logo img {
+    height: 45px;
+    filter: drop-shadow(0 0 10px var(--accent-glow));
+    transition: var(--transition);
+}
+
+.logo img:hover {
+    transform: scale(1.05);
+}
+
+.nav-links ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    gap: 1rem;
+}
+
+.nav-links li a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+    border-radius: 8px;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.nav-links li a:hover, .nav-links li.active a {
+    color: var(--text-white);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-links li a i {
+    font-size: 1rem;
+    color: var(--accent-blue);
+}
+
+/* 3. Right side Login Button */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.user-greeting {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.login-link {
+    background: var(--accent-blue);
+    color: white !important;
+    text-decoration: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.login-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(14, 165, 233, 0.4);
+    background: #0284c7;
+}
+
+.login-link.logout {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444 !important;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    box-shadow: none;
+}
+
+.login-link.logout:hover {
+    background: #ef4444;
+    color: white !important;
+}
+
+/* 4. Immersive Hero Section */
 .modern-hero {
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 4rem 2rem;
-    background: linear-gradient(180deg, rgba(239, 246, 255, 0.5) 0%, rgba(248, 250, 252, 1) 100%);
+    padding: 8rem 2rem 4rem 2rem;
     text-align: center;
-    margin-bottom: 2rem;
 }
 
 .modern-hero .police {
-    width: 140px;
-    height: auto;
-    margin-bottom: 1.5rem;
-    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.1));
-    transition: transform 0.3s ease;
-}
-
-.modern-hero .police:hover {
-    transform: scale(1.05);
+    width: 160px;
+    margin-bottom: 2.5rem;
+    filter: drop-shadow(0 0 20px var(--accent-glow));
+    animation: fadeInDown 1s ease-out;
 }
 
 .modern-hero .citizen {
-    font-size: 2.8rem;
+    font-size: clamp(2.5rem, 8vw, 4.5rem);
     font-weight: 800;
-    color: var(--primary-color);
-    margin: 0;
-    letter-spacing: -1px;
-    line-height: 1.2;
+    background: linear-gradient(to bottom, #fff 40%, #cbd5e1 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+    animation: fadeInUp 1s ease-out 0.2s both;
 }
 
 .modern-hero .home {
     font-size: 1.1rem;
-    font-weight: 500;
-    color: var(--text-muted);
-    margin-top: 0.5rem;
+    color: var(--accent-blue);
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 4px;
+    font-weight: 500;
+    animation: fadeInUp 1s ease-out 0.4s both;
 }
 
-/* 2. Modern Services Grid */
+/* 5. Statistics Section */
+.modern-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    width: 90%;
+    margin: -6rem auto 6rem auto;
+    position: relative;
+    z-index: 10;
+}
+
+.stat-card {
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    padding: 2.5rem 1.5rem;
+    border-radius: 24px;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.stat-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--accent-blue);
+}
+
+.stat-card h2 {
+    font-size: 2.8rem;
+    color: var(--accent-blue);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.stat-card p {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+}
+
+/* 6. Modern Services Grid */
 .modern-services {
     max-width: 1200px;
-    margin: 0 auto 4rem auto;
+    margin: 6rem auto;
     padding: 0 2rem;
 }
 
 .modern-services-header {
     text-align: center;
-    margin-bottom: 3rem;
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--primary-color);
+    margin-bottom: 4rem;
+    font-size: 2.8rem;
+    font-weight: 800;
 }
 
 .modern-services-grid {
@@ -81,14 +239,12 @@ body {
 }
 
 .modern-service-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border-soft);
-    border-radius: 16px;
-    padding: 2.5rem 1.5rem;
-    text-align: center;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    padding: 4rem 2rem;
     text-decoration: none;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    transition: var(--transition);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -96,64 +252,36 @@ body {
 }
 
 .modern-service-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    border-color: rgba(36, 248, 199, 0.3);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--accent-blue);
+    transform: translateY(-10px);
 }
 
 .modern-service-card img {
-    height: 80px;
-    width: auto;
-    margin-bottom: 1.5rem;
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
+    height: 70px;
+    margin-bottom: 2rem;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
 }
 
 .modern-service-card p {
-    color: var(--primary-color);
+    color: var(--text-white);
     font-size: 1.1rem;
-    font-weight: 600;
-    margin: 0;
+    font-weight: 700;
+    text-align: center;
 }
 
-/* 3. News & Announcement Button */
-.modern-news-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--primary-color);
-    color: white;
-    font-size: 1rem;
-    font-weight: 600;
-    padding: 1rem 2.5rem;
-    border-radius: 50px;
-    text-decoration: none;
-    box-shadow: 0 10px 15px -3px rgba(5, 5, 75, 0.3);
-    transition: all 0.3s ease;
-    margin: 2rem auto 4rem auto;
-}
-
-.modern-news-btn:hover {
-    background: var(--primary-hover);
-    transform: translateY(-3px);
-    box-shadow: 0 15px 20px -3px rgba(5, 5, 75, 0.4);
-    color: white;
-}
-
-/* 4. Modern Virtual Tour */
+/* 7. Virtual Tour Experience */
 .modern-tour {
     max-width: 1200px;
-    margin: 0 auto 5rem auto;
+    margin: 6rem auto;
     padding: 0 2rem;
 }
 
 .modern-tour-header {
     text-align: center;
-    margin-bottom: 3rem;
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--primary-color);
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    margin-bottom: 4rem;
+    font-size: 2.8rem;
+    font-weight: 800;
 }
 
 .modern-tour-grid {
@@ -163,118 +291,87 @@ body {
 }
 
 .modern-tour-card {
-    position: relative;
-    border-radius: 20px;
+    border-radius: 30px;
     overflow: hidden;
-    aspect-ratio: 4/3;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
+    position: relative;
+    aspect-ratio: 16/10;
 }
 
 .modern-tour-card img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.6s ease;
 }
 
 .modern-tour-card:hover img {
-    transform: scale(1.08);
+    transform: scale(1.1);
 }
 
 .modern-tour-card::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(5, 5, 75, 0.8) 0%, rgba(5, 5, 75, 0) 50%);
-    transition: opacity 0.3s ease;
+    background: linear-gradient(to top, rgba(15, 23, 42, 0.8) 0%, transparent 60%);
 }
 
 .modern-tour-card h3 {
     position: absolute;
     bottom: 1.5rem;
-    left: 1.5rem;
-    margin: 0;
+    left: 2rem;
     color: white;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
     font-weight: 700;
     z-index: 10;
-    letter-spacing: 1px;
 }
 
-/* 5. Modern Partner Logos */
+/* 8. Partner Portals */
 .modern-partners-header {
     text-align: center;
+    margin-top: 6rem;
     margin-bottom: 2rem;
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: 1.2rem;
     color: var(--text-muted);
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .modern-partners {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
     justify-content: center;
-    gap: 3rem;
+    gap: 4rem;
     max-width: 1200px;
-    margin: 0 auto 5rem auto;
-    padding: 2rem;
-    background: white;
-    border-radius: 24px;
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-}
-
-.modern-partners a {
-    display: block;
+    margin: 0 auto 8rem auto;
+    padding: 3rem;
+    background: rgba(15, 23, 42, 0.4);
+    border-radius: 40px;
+    border: 1px solid var(--glass-border);
 }
 
 .modern-partners img {
-    height: 65px;
-    width: auto;
-    filter: grayscale(100%) opacity(0.7);
-    transition: all 0.3s ease;
+    height: 50px;
+    filter: grayscale(1) opacity(0.6) invert(1);
+    transition: var(--transition);
 }
 
 .modern-partners a:hover img {
-    filter: grayscale(0%) opacity(1);
-    transform: scale(1.05);
+    filter: grayscale(0) opacity(1) invert(0);
+    transform: scale(1.1);
 }
 
-/* Fix Boot status top alignment */
-.boot-container {
-    display: flex;
-    justify-content: flex-end;
-    padding: 1rem 2rem;
-    background: white;
+/* Animations */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.boot-container button {
-    background: var(--primary-color);
-    border: none;
-    border-radius: 8px;
-    padding: 0.6rem 1.2rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-.boot-container button:hover {
-    background: var(--primary-hover);
-}
-
-.boot-container button a {
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-#wcmsg {
-    color: var(--text-main);
-    font-weight: 600;
-    margin-right: 1.5rem;
-    display: flex;
-    align-items: center;
+@media (max-width: 1024px) {
+    nav { padding: 1rem 2rem; grid-template-columns: auto 1fr; }
+    .nav-links { display: none; }
 }

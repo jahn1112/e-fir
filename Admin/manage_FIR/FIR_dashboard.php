@@ -137,641 +137,329 @@ if ($result) {
 
 
     <!-- website logo -->
-    <link rel="icon" href="..\img\weblogo1.ico" type="image/icon">
-
-
-    <!-- css -->
-    <link rel="stylesheet" href="..\css\E-FIR.css">
-
-    <style type="text/css">
-        #compulsory {
-            color: red;
-            font-weight: bold;
+    <link rel="icon" href="../img\weblogo1.ico" type="image/icon">
+    <!-- Google Font: Outfit & Poppins -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
+    <!-- Tempusdominus Bootstrap 4.6.2 final-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <!-- Modern Admin Style -->
+    <link rel="stylesheet" href="../css/modern_admin.css">
+    <!-- Theme style (Original fallback) -->
+    <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+    <style>
+        .detail-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(10px);
+        }
+        .section-title {
+            color: var(--accent);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+            margin-bottom: 20px;
+            padding-bottom: 5px;
+        }
+        .info-label {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        .info-value {
+            color: #fff;
+            font-weight: 500;
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+        }
+        .form-control:disabled {
+            background: rgba(0,0,0,0.2) !important;
+            border: 1px solid var(--glass-border);
+            color: #fff !important;
+            opacity: 0.8;
         }
     </style>
-
-    <!-- bootstrap -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-
-    <!-- font-awasome icon -->
-    <link rel="stylesheet" href="..\plugins/fontawesome-free/css/all.min.css">
-
-    <!-- datatable css -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
-
-    <!-- css file import -->
-    <link rel="stylesheet" href="..\css\nav1.css">
 
 
 
 
 </head>
 
-<body style="background-color:rgb(217, 216, 216);">
-    <!-- Image and text -->
-    <div class="container-fluid">
-
-        <!-- navbar -->
-        <div class="row">
-            <div class="col-md-12">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light mt-2 d-print-none">
-                    <a class="navbar-brand" href="#">
-                        <img src="..\img\fir.png" width="30" height="30" class="d-inline-block align-top" alt="FIR_Service_LOGO">
-                        <b>FIR - Services</b>
-                    </a>
-
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="..\index.php">Home</a>
-                            </li>
-
-                            <!-- <li class="nav-item">
-                                <a class="nav-link disabled">Disabled</a>
-                            </li> -->
-                        </ul>
-                        <i class="fa fa-clock" aria-hidden="true">&nbsp;</i>
-                        <span class="mr-2" id="clock"></span>
-                        |
-                        <i class="fa fa-calendar ml-3" aria-hidden="true"> &nbsp;</i>
-                        <span class=" mr-2" id="Date"></span>
-
-                    </div>
-                </nav>
-            </div>
-        </div>
-
-        <!-- breadcrumb ex. home > contact  -->
-
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mt-2">
-                <li class="breadcrumb-item"><a href="..\index.php">Home</a></li>
-                <li class="breadcrumb-item"><a href="..\manage_FIR.php?typ=P">Manage FIR's</a></li>
-                <li class="breadcrumb-item active" aria-current="page">FIR- Dashboard</li>
-            </ol>
-        </nav>
-
-        <!-- list of records -->
-
-        <div class="row mt-1">
-            <div class="col-md-12 ">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-md-6 ">
-                            <b style="font-size: xx-large;">List of complaints </b>
-                            </div>
-                            <div class="col-md-6  text-right" style=" margin-top: 10px;">
-                        <h5>FIR Number : <span class="r5"><u><?php echo "GJFIR202300".$rno ;?></u></span></h5>
-
-                            </div>
-                        </div>
-                        
-                    </div>
-                    <div class="card-body">
-                        <!-- --------------------------------------------------------------------------e -fir form  -->
-                        <form action="#" method="POST" >
-                            <h3 class="appdet"><u>Complainant/Information</u> </h3><br>
-
-                            <div class="r1">
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">First Name</label>
-                                        <span class="r5">*</span>
-                                        <input type="text" style="background: #E4DEDE;" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php
-                                                                                                                                                                echo $Firstname; ?>" disabled>
-
-                                    </div>
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Father's/Husband's Name</label>
-                                        <span class="r5"></span>
-                                        <input type="text" style="background: #E4DEDE;" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php
-                                                                                                                                                                echo $FatherName; ?>" disabled>
-                                    </div>
-
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Surname</label>
-                                        <span class="r5">*</span>
-                                        <input type="text" style="background: #E4DEDE;" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php
-                                                                                                                                                                echo $surname; ?>" disabled>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="r1">
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Date Of Birth</label>
-                                        <span class="r5">*</span>
-                                        <input type="date" style="background: #E4DEDE;" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php
-                                                                                                                                                                echo $dob; ?>" disabled>
-                                    </div>
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Religion</label>
-                                        <span class="r5">*</span>
-                                        <input type="text" style="background: #E4DEDE;" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php
-                                                                                                                                                                echo $religion; ?>" disabled>
-                                    </div>
-
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Occupation</label>
-                                        <span class="r5">*</span>
-                                        <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php
-                                                                                                                                    echo $occupation; ?>" disabled>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="r1">
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Address</label>
-                                        <span class="r5">*</span>
-                                        <textarea class="r6" id="textAreaExample1" rows="4" style="height: 45px; width: 400px;     background: #E4DEDE;" disabled><?php
-                                                                                                                                                                    echo $address; ?></textarea>
-                                    </div>
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Mobile Number</label>
-                                        <span class="r5">*</span>
-                                        <input type="number" style="background: #E4DEDE;" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php
-                                                                                                                                                                    echo $Mobilenumber; ?>" disabled>
-
-                                    </div>
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Pincode</label>
-                                        <span class="r5"></span>
-                                        <input type="number" style="background: #E4DEDE;" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php echo $upincode; ?>" disabled>
-
-                                    </div>
-                                </div>
-
-
-                            </div>
-
-
-                            <h3 class="appdet"><u>Date Of Occurence</u></h3><br>
-                            <div class="r1">
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="Date From" class="r4">Date From</label>
-                                        <span class="r5">*</span>
-                                        <input type="date" class="r6" id="Date From" style="background: #E4DEDE;" aria-describedby="emailHelp" value="<?php echo $Datefrom; ?>" disabled>
-
-                                    </div>
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="Time From" class="r4">Time From</label>
-                                        <span class="r5">*</span>
-                                        <input type="time" class="r6" id="Time From" style="background: #E4DEDE;" aria-describedby="emailHelp" value="<?php echo $Timefrom; ?>" disabled>
-                                    </div>
-                                </div>
-
-
-                            </div>
-                            <div class="r1">
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Date To</label>
-                                        <span class="r5">*</span>
-                                        <input type="date" class="r6" id="exampleInputEmail1" style="background: #E4DEDE;" aria-describedby="emailHelp" value="<?php echo $Dateto; ?>" disabled>
-                                    </div>
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Time To</label>
-                                        <span class="r5">*</span>
-                                        <input type="time" class="r6" id="exampleInputEmail1" style="background: #E4DEDE;" aria-describedby="emailHelp" value="<?php echo $Timeto; ?>" disabled>
-                                    </div>
-                                </div>
-
-                            </div><br>
-                            <h3 class="appdet"><u>Place Of Occurence</u> </h3><br>
-                            <div class="r1">
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4"> Distance From PoliceStation
-                                            (approx)</label>
-                                        <span class="r5">*</span>
-                                        <input type="number" class="r6" id="exampleInputEmail1" style="background: #E4DEDE;" aria-describedby="emailHelp" value="<?php echo $Distancestation; ?>" disabled>
-                                    </div>
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Occurance Address</label>
-                                        <span class="r5">*</span>
-                                        <textarea class="r6" id="textAreaExample1" style="background: #E4DEDE; 
-                                        height:60px; width: 430px;"><?php echo $Occurance_Address ?></textarea>
-                                    </div>
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="Occurance Pincode" class="r4">Occurance Pincode</label>
-                                        <span class="r5">*</span>
-                                        <input type="number" class="r6" id="Occurance Pincode" style="background: #E4DEDE; " aria-describedby="Occurance Pincode" value="<?php echo $Occurance_pincode; ?>" disabled>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="r1">
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Police Station(Occurance
-                                            Place)</label>
-                                        <span class="r5">*</span>
-                                        <select class="r6" aria-label="Default select example" style="background: #E4DEDE;">
-                                            <option selected><?php echo $Policestation ?></option>
-
-
-                                        </select>
-                                    </div>
-                                </div>
-
-
-
-                                <div class="r2">
-                                    <div class="r3">
-
-
-                                        <label for="exampleInputEmail1" class="r4">City/District</label>
-                                        <span class="r5">*</span>
-                                        <select class="r6" aria-label="Default select example" style="background: #E4DEDE;">
-                                            <option selected>Ahmedabad City</option>
-                                            <!-- <option value="3">Ahmedabad Rural</option> -->
-                                        </select>
-                                    </div>
-                                </div>
-
-
-                            </div><br>
-
-
-                            <div class="r1">
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Brief Description(Maximum 2000
-                                            characters)</label>
-                                        <span class="r5">*</span>
-                                        <textarea class="r6" id="textAreaExample1" rows="4" style="height: 100px;width: 900px;background: #E4DEDE;" disabled><?php echo $BriefDesc; ?></textarea>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <h3 class="appdet">If Delayed, then Tell the Reason
-                            </h3>
-
-                            <div class="r1">
-                                <div class="r2">
-                                    <div class="r3">
-                                        <textarea class="r6" id="textAreaExample1" rows="4" style="height: 150px;width: 900px;background: #E4DEDE;" disabled><?php echo $delayed_reason; ?></textarea>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div>
-
-                                <!-- <hr style="width: 88.5em;"> -->
-                                <div class="stol">
-
-                                </div>
-                                <hr style="width: 88.5em;">
-
-                                <?php
-                                if ($FIR_type == 'Mobile' || $FIR_type == 'mobile') { ?>
-
-                                    <!-- mobile Form -->
-                                    <div id="text">
-                                        <div class="app2">
-                                            <h3 class="appdet"><u>Mobile Detalis</u></h3><br>
-
-                                            <div class="r1">
-                                                <div class="r2">
-                                                    <div class="r3">
-                                                        <label for="exampleInputEmail1" class="r4">Mobile Model</label>
-                                                        <span class="r5">*</span>
-                                                        <input type="text" class="r6" id="exampleInputEmail1" style="background: #E4DEDE;" aria-describedby="emailHelp" value="<?php echo $Mobilemodel; ?>" disabled>
-                                                    </div>
-                                                </div>
-                                                <div class="r2">
-                                                    <div class="r3">
-                                                        <label for="exampleInputEmail1" class="r4">Mobile Color</label>
-                                                        <span class="r5">*</span>
-                                                        <input type="text" class="r6" id="exampleInputEmail1" style="background: #E4DEDE;" aria-describedby="emailHelp" value="<?php echo $Mobilecolor; ?>" disabled>
-                                                    </div>
-
-                                                </div>
-                                                <div class="r2">
-                                                    <div class="r3">
-                                                        <label for="exampleInputEmail1" class="r4">Manufacturing
-                                                            Year</label>
-                                                        <span class="r5">*</span>
-                                                        <input type="month" class="r6" style="background: #E4DEDE;" value="<?php echo $ManufacturingYearMobile; ?>" disabled>
-                                                    </div>
-                                                </div>
-                                                <!-- End  tag -->
-                                            </div>
-
-                                            <div class="r1">
-                                                <div class="r2">
-                                                    <div class="r3">
-                                                        <label for="exampleInputEmail1" class="r4">IMEI Number</label>
-                                                        <span class="r5">*</span>
-                                                        <input type="text" class="r6" id="exampleInputEmail1" style="background: #E4DEDE;" value="<?php echo $IMEInumber; ?>" disabled>
-                                                    </div>
-                                                </div>
-                                                <div class="r2">
-                                                    <div class="r3">
-                                                        <label for="exampleInputEmail1" class="r4">Sim Card Name</label>
-                                                        <span class="r5">*</span>
-                                                        <input type="text" class="r6" id="exampleInputEmail1" style="background: #E4DEDE;" value="<?php echo $Simcard; ?>" disabled>
-                                                    </div>
-                                                </div>
-                                                <div class="r2">
-                                                    <div class="r3">
-                                                        <label for="exampleInputEmail1" class="r4">Approx Price</label>
-                                                        <span class="r5">*</span>
-                                                        <input type="text" class="r6" id="exampleInputEmail1" style="background: #E4DEDE;" value="<?php echo $ApproxPriceMobile; ?>" disabled>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-
-
-
-                                            <div class="r1">
-                                                <div class="r2">
-                                                    <div class="r3">
-                                                        <label for="exampleInputEmail1" class="r4">Description of
-                                                            mobile</label>
-                                                        <span class="r5">*</span>
-                                                        <input type="text" class="r6" id="exampleInputEmail1" style="background: #E4DEDE;" aria-describedby="emailHelp" name="Desc_mobile" value="<?php echo $Descriptionmobile; ?>" disabled>
-                                                    </div>
-                                                </div>
-                                                <div class="r2">
-                                                    <div class="r3">
-                                                        <label for="exampleInputEmail1" class="r4">Mobile Number</label>
-                                                        <span class="r5">*</span>
-                                                        <input type="text" class="r6" id="exampleInputEmail1" style="background: #E4DEDE;" value="<?php echo $mobile_number; ?>" disabled>
-                                                    </div>
-                                                </div>
-                                                <!-- <div class="r2">
-                                            <div class="r3">
-                                                <label for="exampleInputEmail1" class="r4">Upload Document</label>
-                                                <span class="r5">*</span>
-                                                <input type="file" class="r6" id="exampleInputEmail1" style="background: #E4DEDE;" aria-describedby="emailHelp" name="mobupload">
-                                                <label id="upldalert" class="r5"><b>Upload only JPG/PDF/PNG formate</b></label>
-
-                                            </div>
-                                        </div> -->
-
-
-                                            </div>
-
-
-
-
-                                        </div>
-
-
-                                    </div>
-
-
-                                <?php } else if ($FIR_type == 'Vehicle' || $FIR_type == 'vehicle') { ?>
-                                    <!-- Vehicle Detalis -->
-                                    <div id="txt">
-                                        <div class="app2">
-
-
-                                            <h3 class="appdet"><u>Vehicle Detalis</u></h3><br>
-
-                                            <div class="r1">
-                                                <div class="r2">
-                                                    <div class="r3">
-                                                        <label for="exampleInputPassword1" class="r4" name="Vehicle_Type">Vehicle Type</label>
-                                                        <span class="r5">*</span>
-                                                        <select class="r6" aria-label="Default select example" style="background: #E4DEDE;" >
-                                                            <option selected><?php echo $Vehicletype;?></option>
-                                                            
-
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                                <div class="r2">
-                                                    <div class="r3">
-                                                        <label for="exampleInputEmail1" class="r4">Name Of
-                                                            Manufacture</label>
-                                                        <span class="r5">*</span>
-                                                        <input type="text" class="r6" id="exampleInputEmail1" style="background: #E4DEDE;" value="<?php echo $Manufacturename; ?>" disabled>
-                                                    </div>
-
-                                                </div>
-                                                <div class="r2">
-                                                    <div class="r3">
-                                                        <label for="exampleInputEmail1" class="r4">Model Name</label>
-                                                        <span class="r5">*</span>
-                                                        <input type="text" class="r6" id="exampleInputEmail1" style="background: #E4DEDE;" value="<?php echo $Modelname; ?>" disabled>
-                                                    </div>
-                                                </div>
-                                                <!-- End  tag -->
-                                            </div>
-
-                                            <div class="r1">
-                                                <div class="r2">
-                                                    <div class="r3">
-                                                        <label for="exampleInputEmail1" class="r4">Engine Number</label>
-                                                        <span class="r5">*</span>
-                                                        <input type="text" class="r6" id="exampleInputEmail1" style="background: #E4DEDE;" value="<?php echo $Enginenumber; ?>" disabled>
-                                                    </div>
-                                                </div>
-                                                <div class="r2">
-                                                    <div class="r3">
-                                                        <label for="exampleInputEmail1" class="r4">Chassis Numner</label>
-                                                        <span class="r5">*</span>
-                                                        <input type="text" class="r6" id="exampleInputEmail1" style="background: #E4DEDE;" value="<?php echo $Chassisnumber; ?>" disabled>
-                                                    </div>
-                                                </div>
-                                                <div class="r2">
-                                                    <div class="r3">
-                                                        <label for="exampleInputEmail1" class="r4">Approx Price</label>
-                                                        <span class="r5">*</span>
-                                                        <input type="number" class="r6" id="exampleInputEmail1" style="background: #E4DEDE;" value="<?php echo $ApproxPriceVehicle; ?>" disabled>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="r1">
-                                                <div class="r2">
-                                                    <div class="r3">
-                                                        <label for="exampleInputEmail1" class="r4">Vehicle Register
-                                                            Number</label>
-                                                        <span class="r5">*</span>
-                                                        <input type="text" class="r6" id="exampleInputEmail1" style="background: #E4DEDE;" value="<?php echo $Registernumber; ?>" disabled>
-                                                    </div>
-                                                </div>
-                                                <div class="r2">
-                                                    <div class="r3">
-                                                        <label for="exampleInputEmail1" class="r4">Vehicle Color</label>
-                                                        <span class="r5">*</span>
-                                                        <input type="text" class="r6" id="exampleInputEmail1" style="background: #E4DEDE;" value="<?php echo $Vehiclecolor; ?>" disabled>
-                                                    </div>
-                                                </div>
-                                                <div class="r2">
-                                                    <div class="r3">
-                                                        <label for="exampleInputEmail1" class="r4">Manufacturing
-                                                            Year</label>
-                                                        <span class="r5">*</span>
-                                                        <input type="month" class="r6" id="exampleInputEmail1" style="background: #E4DEDE;" value="<?php echo $ManufacturingYearVehicle; ?>" disabled>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="r1">
-                                                <div class="r2">
-                                                    <div class="r3">
-                                                        <label for="exampleInputEmail1" class="r4">Description of
-                                                            Vehicle</label>
-                                                        <span class="r5">*</span>
-                                                        <input type="text" class="r6" id="exampleInputEmail1" style="background: #E4DEDE;" value="<?php echo $Descriptionvehicle; ?>" disabled>
-                                                    </div>
-                                                </div>
-                                                <!-- <div class="r2">
-                                            <div class="r3">
-                                                <label for="exampleInputEmail1" class="r4">Upload Document</label>
-                                                <span class="r5">*</span>
-
-                                                <input type="file" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" name="vupload">
-                                            </div>
-                                        </div> -->
-
-
-                                            </div>
-
-                                        </div>
-
-
-
-                                    </div>
-                                <?php } ?>
-
-
-
-
-
-
-
-
-
-                            </div>
-                            <!-- officer's action  -->
-                            <hr>
-                            <h2><b>Take a action on application :</b></h2>
-                            <div class="container-fluid ">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <label for="exampleInputEmail1" class="form-label">Action Type</label>
-                                        <select class="form-control" name="takeaction" required>
-                                            <option selected value="">-Select-</option>
-                                            <?php 
-                                            if($_SESSION['cat'] == "Investigation Officer" )
-                                            {
-                                                echo '<option value="Approved">Approved</option>';
-                                            }
-                                           
-                                            ?>
-                                            
-                                            <option value="Under Scrutiny">Under Scrutiny</option>
-                                            <?php 
-                                            if($_SESSION['cat'] == 'Police Station Officer')
-                                            echo '<option value="Assign to IO">Assign to Investigation Officer</option>';
-
-                                            ?>
-                                            <option value="Rejected">Reject</option>
-
-                                        </select>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="actionBY" class="form-label">Action taken BY :</label>
-                                        <input type="text" class="form-control" id="actionBY" style="background: #E4DEDE;" aria-describedby="ActionBY" value="<?php echo ($_SESSION["user"] . $cat); ?>" disabled>
-                                    </div>
-                                </div>
-                                <div class="row mt-3 ">
-                                    <div class="col-md-8">
-                                        <label for="action Remark" class="form-label">Action Remarks :</label>
-                                        <div class="mb-2">
-                                            <textarea class="form-control" style="width: 100%; height: 60px;" maxlength="50" name="action_remark" placeholder="Remark Action taken by you  " required></textarea>
-                                        </div>
-                                    </div>
-                                    <!-- End row tag -->
-                                </div>
-                            </div>
-
-                            <center>
-                                <div class="m-1">
-                                <!-- <button type="submit" class="btn btn-success"  onclick="window.print();">Print</button> -->
-                                    <button type="submit" class="btn btn-primary" value="action" name="actionn">Take
-                                        Action</button>
-                                    <!-- <button type="reset" class="btn btn-secondary "></button> -->
-                                    <button type="button" class="btn btn-danger" onclick="location.href = '../manage_FIR.php?typ=P';">Cancel</button>
-                                </div>
-                            </center>
-                        </form>
-
-
-
-
-
-                        <!-- end form ---------------------------------------------- -->
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        <!-- Import all Navbar -->
+        <?php 
+        // Adjust paths for nested directory
+        $base_url = "../";
+        include "../common/_navbar.php"; 
+        ?>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h1 class="m-0">FIR Investigation Dashboard</h1>
+                        <span class="badge badge-info p-2" style="font-size: 1.1rem; background: var(--secondary) !important; border: 1px solid var(--accent);">
+                            <i class="fas fa-file-invoice mr-2"></i> GJFIR202300<?php echo $rno; ?>
+                        </span>
                     </div>
                 </div>
             </div>
 
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
 
-        </div>
+        <!-- list of records -->
+
+                <div class="card bg-transparent border-0 shadow-none">
+                    <div class="card-body p-0">
+                        <form action="#" method="POST">
+                            <!-- Complainant Details Section -->
+                            <div class="detail-card">
+                                <h4 class="section-title">Complainant Information</h4>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="info-label">First Name</div>
+                                        <input type="text" class="form-control" value="<?php echo $Firstname; ?>" disabled>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="info-label">Father's/Husband's Name</div>
+                                        <input type="text" class="form-control" value="<?php echo $FatherName; ?>" disabled>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="info-label">Surname</div>
+                                        <input type="text" class="form-control" value="<?php echo $surname; ?>" disabled>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-4">
+                                        <div class="info-label">Date Of Birth</div>
+                                        <input type="date" class="form-control" value="<?php echo $dob; ?>" disabled>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="info-label">Religion</div>
+                                        <input type="text" class="form-control" value="<?php echo $religion; ?>" disabled>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="info-label">Occupation</div>
+                                        <input type="text" class="form-control" value="<?php echo $occupation; ?>" disabled>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <div class="info-label">Current Address</div>
+                                        <textarea class="form-control" rows="3" disabled><?php echo $address; ?></textarea>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="info-label">Contact Number</div>
+                                        <input type="text" class="form-control" value="<?php echo $Mobilenumber; ?>" disabled>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="info-label">Pincode</div>
+                                        <input type="text" class="form-control" value="<?php echo $upincode; ?>" disabled>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Occurrence Details Section -->
+                            <div class="detail-card">
+                                <h4 class="section-title">Details of Occurrence</h4>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="info-label">Date From</div>
+                                        <input type="date" class="form-control" value="<?php echo $Datefrom; ?>" disabled>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="info-label">Time From</div>
+                                        <input type="time" class="form-control" value="<?php echo $Timefrom; ?>" disabled>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="info-label">Date To</div>
+                                        <input type="date" class="form-control" value="<?php echo $Dateto; ?>" disabled>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="info-label">Time To</div>
+                                        <input type="time" class="form-control" value="<?php echo $Timeto; ?>" disabled>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-3">
+                                        <div class="info-label">Distance from Police Station</div>
+                                        <input type="text" class="form-control" value="<?php echo $Distancestation; ?> KM" disabled>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="info-label">Occurrence Address</div>
+                                        <textarea class="form-control" rows="2" disabled><?php echo $Occurance_Address; ?></textarea>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="info-label">Police Station</div>
+                                        <input type="text" class="form-control" value="<?php echo $Policestation; ?>" disabled>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <div class="info-label">Brief Description of Incident</div>
+                                        <div class="p-3 mb-2" style="background: rgba(0,0,0,0.2); border: 1px solid var(--glass-border); border-radius: 8px; color: #fff; min-height: 100px;">
+                                            <?php echo nl2br($BriefDesc); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php if(!empty($delayed_reason)): ?>
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <div class="info-label text-warning">Reason for Delay</div>
+                                        <div class="p-3" style="background: rgba(180, 83, 9, 0.1); border: 1px solid rgba(180, 83, 9, 0.3); border-radius: 8px; color: #fbbf24;">
+                                            <?php echo nl2br($delayed_reason); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php endif; ?>
+                            </div>
+
+                            <!-- Specific Evidence (Mobile/Vehicle) -->
+                            <?php if ($FIR_type == 'Mobile' || $FIR_type == 'mobile'): ?>
+                            <div class="detail-card">
+                                <h4 class="section-title">Stolen Mobile Information</h4>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="info-label">Model Name</div>
+                                        <input type="text" class="form-control" value="<?php echo $Mobilemodel; ?>" disabled>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="info-label">Color</div>
+                                        <input type="text" class="form-control" value="<?php echo $Mobilecolor; ?>" disabled>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="info-label">IMEI Number</div>
+                                        <input type="text" class="form-control" value="<?php echo $IMEInumber; ?>" disabled>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-4">
+                                        <div class="info-label">Mobile Number</div>
+                                        <input type="text" class="form-control" value="<?php echo $mobile_number; ?>" disabled>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="info-label">Service Provider</div>
+                                        <input type="text" class="form-control" value="<?php echo $Simcard; ?>" disabled>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="info-label">Approx Price</div>
+                                        <input type="text" class="form-control" value="₹<?php echo $ApproxPriceMobile; ?>" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php elseif ($FIR_type == 'Vehicle' || $FIR_type == 'vehicle'): ?>
+                            <div class="detail-card">
+                                <h4 class="section-title">Stolen Vehicle Information</h4>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="info-label">Vehicle Type</div>
+                                        <input type="text" class="form-control" value="<?php echo $Vehicletype; ?>" disabled>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="info-label">Manufacturer Name</div>
+                                        <input type="text" class="form-control" value="<?php echo $Manufacturename; ?>" disabled>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="info-label">Model Name</div>
+                                        <input type="text" class="form-control" value="<?php echo $Modelname; ?>" disabled>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="info-label">Register Number</div>
+                                        <input type="text" class="form-control" value="<?php echo $Registernumber; ?>" disabled style="text-transform: uppercase; font-weight: 700;">
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-4">
+                                        <div class="info-label">Engine Number</div>
+                                        <input type="text" class="form-control" value="<?php echo $Enginenumber; ?>" disabled>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="info-label">Chassis Number</div>
+                                        <input type="text" class="form-control" value="<?php echo $Chassisnumber; ?>" disabled>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="info-label">Approx Price</div>
+                                        <input type="text" class="form-control" value="₹<?php echo $ApproxPriceVehicle; ?>" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php endif; ?>
+
+                            <!-- Officer Action Section -->
+                            <div class="detail-card" style="border: 2px solid var(--accent); background: rgba(14, 165, 233, 0.05);">
+                                <h4 class="section-title">Take Investigative Action</h4>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <label class="info-label">Investigation Status</label>
+                                        <select class="form-control" name="takeaction" required style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--glass-border);">
+                                            <option selected value="">- Select Action -</option>
+                                            <?php if($_SESSION['cat'] == "Investigation Officer"): ?>
+                                                <option value="Approved">Case Competed / Approved</option>
+                                            <?php endif; ?>
+                                            <option value="Under Scrutiny">Maintain Under Scrutiny</option>
+                                            <?php if($_SESSION['cat'] == 'Police Station Officer'): ?>
+                                                <option value="Assign to IO">Forward to Investigation Officer</option>
+                                            <?php endif; ?>
+                                            <option value="Rejected">Reject Case</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="info-label">Acting Officer</label>
+                                        <input type="text" class="form-control" value="<?php echo ($_SESSION["user"] . $cat); ?>" disabled>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <label class="info-label">Investigative Remarks</label>
+                                        <textarea class="form-control" name="action_remark" rows="3" maxlength="255" placeholder="Document the findings or reasons for this action..." required style="background: rgba(255,255,255,0.05); color: #fff; border: 1px solid var(--glass-border);"></textarea>
+                                    </div>
+                                </div>
+                                <div class="mt-4 text-center">
+                                    <button type="submit" class="btn btn-primary px-5 py-2 mr-3" name="actionn" style="background: linear-gradient(135deg, var(--accent), #0ea5e9); border: none; font-weight: 600;">
+                                        <i class="fas fa-check-circle mr-2"></i> Submit Investigative Action
+                                    </button>
+                                    <button type="button" class="btn btn-outline-danger px-5 py-2" onclick="location.href = '../manage_FIR.php?typ=P';">
+                                        <i class="fas fa-times-circle mr-2"></i> Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
 
 
+
+
+
+            </div>
+        </section>
+        <!-- /.content -->
     </div>
-    </div>
+    <!-- /.content-wrapper -->
 
+    <!-- Import Footer -->
+    <?php include "../common/_footer.php"; ?>
+</div>
+<!-- ./wrapper -->
 
-    <!-- toggole js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
-    </script>
-
-    <script src="..\common/time.js"></script>
-    <script src="..\common/date.js"></script>
-
-
-    <!-- datatable js/jquery file -->
-    <script src="..\common\myJS\jquery.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="..\common\myJS\jquery.datatables.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#myTable').DataTable();
-        });
-    </script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- jQuery -->
+    <script src="../plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+    <!-- AdminLTE App -->
+    <script src="../dist/js/adminlte.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <?php
 if($done ==  true){
 echo "

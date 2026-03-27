@@ -89,10 +89,11 @@ if (isset($_POST['sbmtt'])) {
     <!-- website logo -->
     <link rel="icon" href="img\weblogo1.ico" type="image/icon">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="modern_index.css">
     <link rel="stylesheet" href="form_theme.css">
     <link rel="stylesheet" href="e-application.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap">
 </head>
 
 
@@ -102,23 +103,32 @@ if (isset($_POST['sbmtt'])) {
     <section class="header">
         <nav>
             <a href="index.php" class="logo">
-
+                <img src="img/weblogo1.ico" alt="Logo" style="height: 40px;">
             </a>
 
-            <div class="nav-links" class="navLinks">
-
+            <div class="nav-links" id="navLinks">
                 <ul>
-                    <li class="select active"><a href="index.php"><i class="fa fa-home"></i>Home</a></li>
-                    <li><a href="Form.php"><i class="fa fa-file"></i>Online Form</a></li>
-                    <li><a href="Gallery.php"><i class="fa fa-image"></i>Photo Gallery</a></li>
-                    <li><a href="Department.php"><i class="fa fa-star"></i>Know Home Department</a></li>
-                    
-                    <li><a href="Absconder.php"><i class="fa fa-list"></i>Absconder List</a></li>
-                    <li><a href="Contact.php"><i class="fa fa-mobile"></i>Contact Details</a></li>
-                    <li><a href="Notice.php"><i class="fa fa-book"></i>Lookout Notice</a></li>
+                    <li><a href="index.php"><i class="fa fa-home"></i> Home</a></li>
+                    <li><a href="Form.php"><i class="fa fa-file-alt"></i> Online Form</a></li>
+                    <li><a href="Gallery.php"><i class="fa fa-images"></i> Gallery</a></li>
+                    <li><a href="Department.php"><i class="fa fa-building"></i> Department</a></li>
+                    <li><a href="Absconder.php"><i class="fa fa-user-secret"></i> Absconders</a></li>
+                    <li><a href="Contact.php"><i class="fa fa-phone"></i> Contact</a></li>
                 </ul>
             </div>
 
+            <div class="auth-section">
+                <?php
+                if (!isset($_SESSION['login']) || $_SESSION['login'] == false) {
+                    echo '<a href="login.php" class="auth-btn login"><i class="fa fa-key"></i> Login/Register</a>';
+                } else {
+                    echo '<div class="user-profile">
+                            <span id="wcmsg">Welcome, ' . $_SESSION['userfname'] . '</span>
+                            <a href="logout.php" class="auth-btn logout"><i class="fa fa-sign-out-alt"></i> Log Out</a>
+                          </div>';
+                }
+                ?>
+            </div>
         </nav>
 
 
@@ -471,36 +481,36 @@ if (isset($_POST['sbmtt'])) {
 
 
 
-<section class="footer">
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <h4 style="margin-bottom: 1.5rem; color: var(--accent);">Quick Links</h4>
+                <h4><a href="PDF/T_And_C.pdf" target="_blank" class="term"><i class="fas fa-chevron-right" style="font-size: 0.8rem; margin-right: 8px;"></i> Terms & Conditions</a></h4>
+                <h4><a href="PDF/F_And_Q.pdf" target="_blank" class="faq"><i class="fas fa-chevron-right" style="font-size: 0.8rem; margin-right: 8px;"></i> FAQ</a></h4>
+                <h4><a href="PDF/P_And_p.pdf" target="_blank" class="pp"><i class="fas fa-chevron-right" style="font-size: 0.8rem; margin-right: 8px;"></i> Privacy Policy</a></h4>
+                <h4><a href="feedback.php" target="" class="feed"><i class="fas fa-chevron-right" style="font-size: 0.8rem; margin-right: 8px;"></i> Feedback</a></h4>
+            </div>
 
-        <div class="footer-links">
-            <h4><a href="PDF/T_And_C.pdf" target="_blank" class="term">Terms & Conditions</a></h4>
-            <h4><a href="PDF/F_And_Q.pdf" target="_blank" class="faq">FAQ</a></h4>
-            <h4><a href="PDF/P_And_p.pdf" target="_blank" class="pp">Privacy Policy</a></h4>
-            <h4><a href="feedback.php" target="" class="feed">Feedback</a></h4>
+            <div class="footer-info">
+                <h4 style="margin-bottom: 1.5rem; color: var(--accent);">Emergency Contacts</h4>
+                <p style="margin-bottom: 0.5rem;"><i class="fas fa-phone-alt" style="margin-right: 10px;"></i> Police Helpline: 100 / 112</p>
+                <p style="margin-bottom: 0.5rem;"><i class="fas fa-woman" style="margin-right: 10px;"></i> Women Helpline: 1091</p>
+                <p><i class="fas fa-child" style="margin-right: 10px;"></i> Child Helpline: 1098</p>
+            </div>
+
+            <div class="footer-social">
+                <h4 style="margin-bottom: 1.5rem; color: var(--accent);">Follow Gujarat Police</h4>
+                <div class="icons">
+                    <a href="https://www.facebook.com/dgpgujaratofficial/" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/gujaratpolice_/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://twitter.com/GujaratPolice" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
         </div>
-        <!-- <h4><a href="#.php">Visitors : 1674785</a></h4> -->
-
-
-        <div class="follow">
-            <h6>Follow Us</h6>
+        <div style="text-align: center; font-size: 0.9rem; opacity: 0.7; padding-top: 2rem;">
+            &copy; <?php echo date("Y"); ?> Gujarat Police Department. All Rights Reserved.
         </div>
-
-        <div class="icons" id="ir">
-            <a href="https://www.facebook.com/dgpgujaratofficial/" target="_blank">
-                <h3 class="face"><i class="fab fa-facebook-f"></i> Facebook</h3>
-            </a>
-            <a href="https://www.instagram.com/gujaratpolice_/" target="_blank">
-                <h3 class="face2"><i class="fab fa-instagram"></i> Instagram </h3>
-            </a>
-            <a href="https://twitter.com/GujaratPolice" target="_blank">
-                <h3 class="face3"><i class="fab fa-twitter"></i> Twitter </h3>
-            </a>
-
-
-        </div>
-
-    </section>
+    </footer>
 
         <script src="script.js"></script>
 

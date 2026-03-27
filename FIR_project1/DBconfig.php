@@ -12,4 +12,5 @@ try {
     }
 } catch (\Throwable $th) {
     echo "INTERNAL SERVER ERROR " . mysqli_connect_errno();
+    exit();
 }

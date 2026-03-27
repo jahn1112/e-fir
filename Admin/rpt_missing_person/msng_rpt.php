@@ -102,563 +102,303 @@ if ($_SESSION["lg"] == false) {
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Missing Report - Dashboard</title>
+    <title>Missing Person Investigation | Police Admin</title>
 
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Dependencies -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="../css/modern_admin.css">
 
-    <!-- website logo -->
-    <link rel="icon" href="../img/weblogo1.ico" type="image/icon type" />
+    <style>
+        .detail-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
 
+        .section-title {
+            color: var(--accent-cyan);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
 
-    <!-- css -->
-    <link rel="stylesheet" href="..\css\msng_prsn.css">
+        .section-title i {
+            margin-right: 15px;
+            font-size: 1.4rem;
+        }
 
-    <style type="text/css">
-        #compulsory {
-            color: red;
-            font-weight: bold;
+        .info-group {
+            margin-bottom: 20px;
+        }
+
+        .info-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .info-value {
+            color: white;
+            font-weight: 500;
+            font-size: 1.05rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            display: block;
+        }
+
+        .hero-banner {
+            background: linear-gradient(rgba(10, 25, 47, 0.8), rgba(10, 25, 47, 0.8)), 
+                        url('../img/police_bg.jpg') no-repeat center center;
+            background-size: cover;
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hero-banner h1 {
+            font-weight: 800;
+            margin: 0;
+            font-size: 2.2rem;
+            background: linear-gradient(to right, #fff, var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-banner p {
+            color: rgba(255, 255, 255, 0.7);
+            margin: 10px 0 0 0;
+            font-size: 1.1rem;
+        }
+
+        .action-card {
+            background: linear-gradient(135deg, rgba(8, 145, 178, 0.1) 0%, rgba(2, 132, 199, 0.1) 100%);
+            border: 1px solid var(--border-light);
         }
     </style>
-
-    <!-- bootstrap -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-
-    <!-- font-awasome icon -->
-    <link rel="stylesheet" href="..\plugins/fontawesome-free/css/all.min.css">
-
-    <!-- datatable css -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
-
-    <!-- css file import -->
-    <link rel="stylesheet" href="..\css\nav1.css">
-
-
-
-
 </head>
 
-<body style="background-color:rgb(217, 216, 216);">
-    <!-- Image and text -->
-    <div class="container-fluid">
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <?php include '../common/_navbar.php'; ?>
 
-        <!-- navbar -->
-        <div class="row">
-            <div class="col-md-12">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light mt-2 d-print-none">
-                    <a class="navbar-brand" href="#">
-                        <img src="..\img\rpt_prsn.png" width="30" height="30" class="d-inline-block align-top" alt="FIR_Service_LOGO">
-                        <b>Missing Report - Services</b>
-                    </a>
-
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="..\index.php">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="..\Contact.php">Contact</a>
-                            </li>
-
-                            <!-- <li class="nav-item">
-                                <a class="nav-link disabled">Disabled</a>
-                            </li> -->
-                        </ul>
-                        <i class="fa fa-clock" aria-hidden="true">&nbsp;</i>
-                        <span class="mr-2" id="clock"></span>
-                        |
-                        <i class="fa fa-calendar ml-3" aria-hidden="true"> &nbsp;</i>
-                        <span class=" mr-2" id="Date"></span>
-
+        <div class="content-wrapper">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0">Missing Person Investigation</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="../index.php">Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="../rpt_missing_person.php">Missing Reports</a></li>
+                                <li class="breadcrumb-item active">Investigation</li>
+                            </ol>
+                        </div>
                     </div>
-                </nav>
-            </div>
-        </div>
-
-        <!-- breadcrumb ex. home > contact  -->
-
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mt-2">
-                <li class="breadcrumb-item"><a href="..\index.php">Home</a></li>
-                <li class="breadcrumb-item"><a href="..\rpt_missing_person.php">Missing reports</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Services - Missing Report</li>
-            </ol>
-        </nav>
-
-        <!-- list of records -->
-
-        <div class="row mt-0">
-            <div class="col-md-12 ">
-                <div class="card">
-                    <div class="card-header">
-                        <b style="font-size: xx-large;">Missing Report Details</b>
-                    </div>
-                    <div class="card-body">
-                        <!-- --------------------------------------------------------------------------e - Application Form  -->
-                        <!-- <h2 class="text-center "><b>Report Missing Person</b> </h2> -->
-
-                        <form action="#" method="POST">
-                            <h3 class="appdet"><u>Applicant Details</u> </h3>
-
-                            <div class="r1">
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">First Name</label>
-                                        <span class="r5"></span>
-                                        <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" style="background: #dbe1ebe6;" value="<?php echo $uFirstname;?>" disabled>
-                                    </div>
-
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Father Name</label>
-                                        <span class="r5"></span>
-                                        <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" style="background: #dbe1ebe6;" value="<?php echo $uFatherName;?>" disabled>
-                                    </div>
-
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">surname</label>
-                                        <span class="r5"></span>
-                                        <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" style="background: #dbe1ebe6;" value="<?php echo $usurname;?>" disabled>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="r1">
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Permanent Address</label>
-                                        <span class="r5"></span>
-                                        <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" style="background: #dbe1ebe6;" value="<?php echo $PermanentAddress;?>" disabled>
-                                    </div>
-
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Email address</label>
-                                        <span class="r5"></span>
-                                        <input type="email" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" style="background: #dbe1ebe6;" value="<?php echo $Emailaddress;?>" disabled>
-                                    </div>
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Mobile Number</label>
-                                        <span class="r5"></span>
-                                        <input type="number" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" style="background: #dbe1ebe6;" value="<?php echo $MobileNumber;?>" disabled>
-                                    </div>
-                                </div>
-
-
-                            </div>
-                            <div class="r1">
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Landline No</label>
-                                        <span class="r5"></span>
-                                        <input type="number" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" style="background: #dbe1ebe6;" value="<?php echo $LandlineNo;?>" disabled>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                            <div class="r1">
-
-                            </div>
-
-                            <h3 class="appdet"><u>Missing Person Details</u></h3>
-                            <div class="r1">
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Missing Person First name</label>
-                                        <span class="r5">*</span>
-                                        <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" style="background: #dbe1ebe6;" value="<?php echo $MissingPersonFirstname;?>" disabled>
-                                    </div>
-
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Missing Person Father Name</label>
-                                        <span class="r5"></span>
-                                        <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" style="background: #dbe1ebe6;" value="<?php echo $MissingPersonFathername;?>" disabled>
-                                    </div>
-
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Missing Person surname</label>
-                                        <span class="r5">*</span>
-                                        <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" style="background: #dbe1ebe6;" value="<?php echo $MissingPersonSurname;?>" disabled>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="r1">
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Date Of Birth</label>
-                                        <span class="r5"></span>
-                                        <input type="date" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" style="background: #dbe1ebe6;" value="<?php echo $DateOfBirth;?>" disabled>
-                                    </div>
-                                </div>
-
-
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Gender</label>
-                                        <span class="r5">*</span>
-                                        <select class="r6" aria-label="Default select example" style="background: #dbe1ebe6;" > 
-                                            <option selected> <?php echo $Gender;?></option>
-                                            
-
-
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Missing Person Description</label>
-                                        <span class="r5">*</span>
-                                        <!-- <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" required name="Area"> -->
-                                        <textarea name="Missing_Person_Description" class="r6" id="exampleInputEmail1" cols="30" rows="1.5" style="height: 38px;background: #dbe1ebe6;" disabled><?php echo $MissingPersonDescription;?>"</textarea>
-
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                            <div class="r1">
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Missing Date</label>
-                                        <span class="r5">*</span>
-                                        <input type="date" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" style="background: #dbe1ebe6;" value="<?php echo $Missingdate;?>" disabled>
-                                    </div>
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Missing Time</label>
-                                        <span class="r5">*</span>
-                                        <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" style="background: #dbe1ebe6;" value="<?php echo $MissingTime;?>" disabled>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="r1">
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Religion</label>
-                                        <span class="r5">*</span>
-                                        <select class="r6" aria-label="Default select example" style="background: #dbe1ebe6;">
-                                            <option selected><?php echo $Religion;?></option>
-
-
-
-                                        </select>
-                                    </div>
-
-
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Caste</label>
-                                        <span class="r5"></span>
-                                        <select class="r6" aria-label="Default select example"  style="background: #dbe1ebe6;">
-                                            <option selected><?php echo $Caste;?></option>
-                                        </select>
-                                    </div>
-
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Category</label>
-                                        <span class="r5"></span>
-                                        <select class="r6" aria-label="Default select example"  style="background: #dbe1ebe6;">
-                                            <option selected><?php echo $Caste;?></option>
-
-
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="r1">
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Occupation</label>
-                                        <span class="r5"></span>
-                                        <select class="r6" aria-label="Default select example" style="background: #dbe1ebe6;">
-                                            <option selected><?php echo $Occupation;?></option>
-                                          
-
-
-
-
-                                        </select>
-
-
-                                    </div>
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Height</label>
-                                        <span class="r5">*</span>
-                                        <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" style="background: #dbe1ebe6;" value="<?php echo $Height;?>" disabled>
-                                    </div>
-
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Weight</label>
-                                        <span class="r5">*</span>
-                                        <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" style="background: #dbe1ebe6;" value="<?php echo $Weight;?>" disabled>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            
-
-
-
-
-                            
-
-                            <h2 class="appdet"><u>Place Of Missing</u></h2>
-                            <div class="r1">
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Place Of Missing Country</label>
-                                        <span class="r5">*</span>
-                                        <select class="r6" aria-label="Default select example" style="background: #dbe1ebe6;">
-
-                                            <option selected >India</option>
-
-
-
-                                        </select>
-
-                                    </div>
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Place Of Missing State</label>
-                                        <span class="r5">*</span>
-                                        <select class="r6" aria-label="Default select example" style="background: #dbe1ebe6;" >
-                                            <option selected>Gujarat</option>
-
-
-
-                                        </select>
-
-
-                                    </div>
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Place Of Missing Pin Code</label>
-                                        <span class="r5"></span>
-                                        <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" style="background: #dbe1ebe6;" value="<?php echo $PlaceOfMissingPinCode;?>" disabled>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                            <div class="r1">
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Place Of Missing City</label>
-                                        <span class="r5">*</span>
-                                        <select class="r6" aria-label="Default select example" style="background: #dbe1ebe6;">
-                                            <option selected>Ahmedabad City</option>
-                                            
-                                        </select>
-
-                                    </div>
-
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Place Of Missing Area</label>
-                                        <span class="r5">*</span>
-                                        <!-- <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" required name="Area"> -->
-                                        <textarea name="Place_Of_Missing_Area" class="r6" id="exampleInputEmail1" cols="30" rows="1.5" style="height: 38px;background: #dbe1ebe6;" disabled><?php echo $PlaceOfMissingArea;?></textarea>
-
-
-                                    </div>
-                                </div>
-
-
-                            </div>
-                            <h2 class="appdet"><u>Reporting Police Station Details</u></h2>
-                            <div class="r1">
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Reporting PS City</label>
-                                        <span class="r5">*</span>
-                                        <select class="r6" aria-label="Default select example" style="background: #dbe1ebe6;">
-                                            <option selected>Ahmedabad City</option>
-
-
-
-
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Police Station</label>
-                                        <span class="r5"></span>
-                                        <select class="r6" aria-label="Default select example" style="background: #dbe1ebe6;">
-                                            <option selected><?php echo $PoliceStation?></option>
-                                           
-                                        </select>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <h4 class="appdet">Brief Description <span class="r5">*</span> (Maximum 2000 Characters)</43>
-                                <div class="r1">
-                                    <div class="r2">
-                                        <div class="r3">
-                                            <textarea name="Brief_Description" class="r6" style="width: 920px;background: #dbe1ebe6;font-size: 17px;"><?php echo $BriefDescription?></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="">
-                                    <div class="r1">
-                                        <div class="r2">
-                                            <div class="r3">
-                                                <label for="exampleInputPassword1" class="r4">
-                                                    <h6>Document Type</h6>
-                                                </label>
-                                                <span class="r5"></span>
-                                                <select class="r6" aria-label="Default select example" style="background: #dbe1ebe6;">
-                                                    <option selected><?php echo $DocumentType?></option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <!-- open document code -->
-                                        <!-- <div class="r2">
-                                            <div class="r3">
-                                                <label for="exampleInputPassword1" class="r4">
-                                                    <h6>Open Document </h6>
-                                                </label>
-                                                <span class="r5"></span>
-                                                    <a class="r6" href="http://localhost/e-FIR/FIR_project/FIR_upload_doc/mobile_doc/GSRTC_.pdf" target="_blank"> AADHAR.pdf</a>
-                                            </div>
-                                        </div> -->
-
-
-
-                                    </div>
-                                    
-
-                                </div>
-                                
-                                <hr>
-                                <h2>Take a action on application :</h2>
-                                            <div class="container-fluid ">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <label for="exampleInputEmail1" class="form-label">Action Type</label>
-                                                        <select class="form-control"  name="takeaction" required>
-                                                            <option selected value="">-Select-</option>
-                                                            <option value="Approved">Approved</option>
-                                                            <option value="Under Scrutiny">Under Scrutiny</option>
-                                                            <option value="Rejected">Reject</option>
-
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <label for="actionBY" class="form-label">Action taken BY :</label>
-                                                        <input type="text" class="form-control" id="actionBY" aria-describedby="ActionBY" value="<?php echo $_SESSION["user"] ." (PSO)"; ?>" style="background: #E4DEDE;"  disabled>
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-3 ">
-                                                    <div class="col-md-8">
-                                                        <label for="action Remark" class="form-label">Action Remarks:</label>
-                                                        <div class="mb-2">
-                                                            <textarea class="form-control"  style="width: 100%; height: 60px;" maxlength="50" name="action_remark" placeholder="Remark Action taken by you  " required></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End row tag -->
-                                                </div>
-                                            </div>
-
-
-                                <div>
-                                    <center class="">
-                                    <div class="m-1">
-                                                    <button type="submit" class="btn btn-primary" value="action" name="actionn">Take Action</button>
-                                                    <!-- <button type="reset" class="btn btn-secondary "></button> -->
-                                                    <button type="reset" class="btn btn-danger">Cancel</button>
-                                                </div>
-                                    </center>
-
-                                </div>
-
-                        </form>
-
-
-
-
-
-                    </div>
-
-                    <!-- end form ---------------------------------------------- -->
                 </div>
             </div>
+
+            <section class="content">
+                <div class="container-fluid">
+                    
+                    <div class="hero-banner">
+                        <div>
+                            <h1>Case #<?php echo $rno; ?>: <?php echo $MissingPersonFirstname . " " . $MissingPersonSurname; ?></h1>
+                            <p>Missing since <?php echo date('M d, Y', strtotime($Missingdate)); ?> | Filed by <?php echo $uFirstname . " " . $usurname; ?></p>
+                        </div>
+                        <div class="text-right">
+                            <button onclick="window.print()" class="btn btn-outline-info mr-2">
+                                <i class="fas fa-print mr-2"></i>Print Dossier
+                            </button>
+                            <a href="../rpt_missing_person.php" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left mr-2"></i>Back to List
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Missing Person Identity -->
+                        <div class="col-lg-12">
+                            <div class="detail-card">
+                                <h3 class="section-title"><i class="fas fa-id-card"></i> Person Identity & Physicality</h3>
+                                <div class="row">
+                                    <div class="col-md-3 info-group">
+                                        <label class="info-label">Full Name</label>
+                                        <div class="info-value"><?php echo $MissingPersonFirstname . " " . $MissingPersonFathername . " " . $MissingPersonSurname; ?></div>
+                                    </div>
+                                    <div class="col-md-3 info-group">
+                                        <label class="info-label">Gender</label>
+                                        <div class="info-value"><?php echo $Gender; ?></div>
+                                    </div>
+                                    <div class="col-md-3 info-group">
+                                        <label class="info-label">Date of Birth</label>
+                                        <div class="info-value"><?php echo date('d M Y', strtotime($DateOfBirth)); ?></div>
+                                    </div>
+                                    <div class="col-md-3 info-group">
+                                        <label class="info-label">Religion / Caste</label>
+                                        <div class="info-value"><?php echo $Religion . " (" . $Caste . ")"; ?></div>
+                                    </div>
+                                    
+                                    <div class="col-md-2 info-group">
+                                        <label class="info-label">Height</label>
+                                        <div class="info-value"><?php echo $Height; ?> cm</div>
+                                    </div>
+                                    <div class="col-md-2 info-group">
+                                        <label class="info-label">Weight</label>
+                                        <div class="info-value"><?php echo $Weight; ?> kg</div>
+                                    </div>
+                                    <div class="col-md-3 info-group">
+                                        <label class="info-label">Occupation</label>
+                                        <div class="info-value"><?php echo $Occupation; ?></div>
+                                    </div>
+                                    <div class="col-md-5 info-group">
+                                        <label class="info-label">Physical Description</label>
+                                        <div class="info-value"><?php echo $MissingPersonDescription; ?></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Incident & Applicant -->
+                        <div class="col-lg-8">
+                            <div class="detail-card">
+                                <h3 class="section-title"><i class="fas fa-clock"></i> Disappearance Details</h3>
+                                <div class="row">
+                                    <div class="col-md-6 info-group">
+                                        <label class="info-label">Last Seen Date & Time</label>
+                                        <div class="info-value">
+                                            <i class="far fa-calendar-alt mr-2"></i><?php echo date('d M Y', strtotime($Missingdate)); ?> 
+                                            <i class="far fa-clock ml-3 mr-2"></i><?php echo $MissingTime; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 info-group">
+                                        <label class="info-label">Police Station Jurisdiction</label>
+                                        <div class="info-value"><?php echo $PoliceStation; ?></div>
+                                    </div>
+                                    <div class="col-12 info-group">
+                                        <label class="info-label">Last Known Location / Area</label>
+                                        <div class="info-value"><?php echo $PlaceOfMissingArea . ", Ahmedabad, Gujarat"; ?></div>
+                                    </div>
+                                    <div class="col-12 info-group">
+                                        <label class="info-label">Incident Briefing</label>
+                                        <div class="info-value" style="min-height: 120px; line-height: 1.6;">
+                                            <?php echo nl2br($BriefDescription); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="detail-card">
+                                <h3 class="section-title"><i class="fas fa-user-shield"></i> Complainant Information</h3>
+                                <div class="row">
+                                    <div class="col-md-4 info-group">
+                                        <label class="info-label">Name</label>
+                                        <div class="info-value"><?php echo $uFirstname . " " . $usurname; ?></div>
+                                    </div>
+                                    <div class="col-md-4 info-group">
+                                        <label class="info-label">Contact</label>
+                                        <div class="info-value">+91 <?php echo $MobileNumber; ?></div>
+                                    </div>
+                                    <div class="col-md-4 info-group">
+                                        <label class="info-label">Relation / Document</label>
+                                        <div class="info-value"><?php echo $DocumentType; ?></div>
+                                    </div>
+                                    <div class="col-12 info-group">
+                                        <label class="info-label">Address</label>
+                                        <div class="info-value"><?php echo $PermanentAddress; ?></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Active Investigation -->
+                        <div class="col-lg-4">
+                            <div class="detail-card action-card">
+                                <h3 class="section-title"><i class="fas fa-search"></i> Investigative Update</h3>
+                                <form action="" method="POST">
+                                    <div class="form-group">
+                                        <label class="info-label">Investigation Status</label>
+                                        <select class="form-control modern-input" name="takeaction" required>
+                                            <option value="" disabled selected>Update Status...</option>
+                                            <option value="Approved">Verified (Active Search)</option>
+                                            <option value="Under Scrutiny">Pending Verification</option>
+                                            <option value="Rejected">Rejected/Invalid</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="form-group mt-4">
+                                        <label class="info-label">Officer's Remarks</label>
+                                        <textarea class="form-control modern-input" name="action_remark" 
+                                                  placeholder="Detail the search progress or verification steps..." 
+                                                  rows="5" required></textarea>
+                                    </div>
+
+                                    <div class="form-group mb-0 mt-4">
+                                        <label class="info-label">Updating Officer</label>
+                                        <div class="info-value" style="background: rgba(0,0,0,0.2);">
+                                            <?php echo $_SESSION["user"] . " (PSO)"; ?>
+                                        </div>
+                                    </div>
+
+                                    <button type="submit" name="actionn" class="btn btn-cyan btn-block mt-4 py-3">
+                                        <i class="fas fa-sync-alt mr-2"></i>UPDATE CASE FILE
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
 
-
+        <?php include '../common/_footer.php'; ?>
     </div>
 
+    <!-- Scripts -->
+    <script src="../common/myJS/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../dist/js/adminlte.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    </div>
-    </div>
-
-
-    <!-- toggole js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
-    </script>
-
-    <script src="..\common/time.js"></script>
-    <script src="..\common/date.js"></script>
-
-
-    <!-- datatable js/jquery file -->
-    <script src="..\common\myJS\jquery.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="..\common\myJS\jquery.datatables.js"></script>
+    <?php if($done): ?>
     <script>
-        $(document).ready(function() {
-            $('#myTable').DataTable();
+        Swal.fire({
+            icon: 'success',
+            title: 'Investigation Updated',
+            text: 'Case file has been successfully synchronized.',
+            background: '#0f172a',
+            color: '#fff',
+            confirmButtonColor: '#0891b2'
+        }).then(function() {
+            window.location = '../rpt_missing_person.php';
         });
     </script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<?php
-if($done ==  true){
-echo "
-<script>
-Swal.fire(
-    'Action Taked Successfully!',
-    '',
-    'success'
-  ).then(function() {
-    window.location = '../rpt_missing_person.php';
-});
-</script>";
-}
-?>
-
+    <?php endif; ?>
 </body>
 
 </html>

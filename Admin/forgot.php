@@ -1,8 +1,8 @@
 <?php
 include "common/dbconfig.php"; // database config file
-$done = false ;
+$done = false;
 
-if(isset($_POST['sbmt']))
+if (isset($_POST['sbmt'])) 
 {
     $username = $_POST['fusername'];
     $contact = $_POST['contact'];
@@ -10,20 +10,19 @@ if(isset($_POST['sbmt']))
     $cpass = $_POST['cpassword'];
 
 
-    if($newpass == $cpass)
-    {
+    if ($newpass == $cpass) {
         $qry = "update police_master set `password`='$newpass' WHERE username='$username' and p_contact=$contact";
         $result = mysqli_query($con, $qry);
         // $rowcount = mysqli_num_rows($result); //return no of rows
         if ($result > 0) {
-        
+
             $done = true;
-        } else {
+        }
+        else {
             echo "<script>alert('Password Not Recovered...!');</script>";
         }
     }
-    else
-    {
+    else {
         echo "<script>alert('Ensure..! Confirm Password must be Same...');</script>";
     }
 }
@@ -129,8 +128,7 @@ if(isset($_POST['sbmt']))
     <script src="dist/js/adminlte.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <?php
-if($done ==  true){
-echo "
+if ($done == true) {    echo "
 <script>
 Swal.fire(
     'Password Updated Successfully!',

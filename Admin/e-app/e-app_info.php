@@ -79,396 +79,302 @@ if ($_SESSION["lg"] == false) {
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Application - Dashboard</title>
+    <title>E-Application Details | Police Admin</title>
 
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS Dependencies -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="../css/modern_admin.css">
 
-    <!-- website logo -->
-    <link rel="icon" href="../img/weblogo1.ico" type="image/icon type" />
+    <style>
+        .detail-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
 
+        .section-title {
+            color: var(--accent-cyan);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
 
-    <!-- css -->
+        .section-title i {
+            margin-right: 15px;
+            font-size: 1.4rem;
+        }
 
-    <link rel="stylesheet" href="..\css\e-app.css">
+        .info-group {
+            margin-bottom: 20px;
+        }
 
-    <style type="text/css">
-        #compulsory {
-            color: red;
-            font-weight: bold;
+        .info-label {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .info-value {
+            color: white;
+            font-weight: 500;
+            font-size: 1.05rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 10px 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            display: block;
+        }
+
+        textarea.info-value {
+            min-height: 100px;
+        }
+
+        .action-card {
+            background: linear-gradient(135deg, rgba(8, 145, 178, 0.1) 0%, rgba(2, 132, 199, 0.1) 100%);
+            border: 1px solid var(--border-light);
+        }
+
+        .form-control:disabled {
+            background-color: transparent;
+            color: white;
+            opacity: 1;
+        }
+
+        .badge-status {
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+
+        .hero-banner {
+            background: linear-gradient(rgba(10, 25, 47, 0.8), rgba(10, 25, 47, 0.8)), 
+                        url('../img/police_bg.jpg') no-repeat center center;
+            background-size: cover;
+            border-radius: 24px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .hero-banner h1 {
+            font-weight: 800;
+            margin: 0;
+            font-size: 2.2rem;
+            background: linear-gradient(to right, #fff, var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-banner p {
+            color: rgba(255, 255, 255, 0.7);
+            margin: 10px 0 0 0;
+            font-size: 1.1rem;
         }
     </style>
-
-    <!-- bootstrap -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-
-    <!-- font-awasome icon -->
-    <link rel="stylesheet" href="..\plugins/fontawesome-free/css/all.min.css">
-
-    <!-- datatable css -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
-
-    <!-- css file import -->
-    <link rel="stylesheet" href="..\css\nav1.css">
-
-
-
-
 </head>
 
-<body style="background-color:rgb(217, 216, 216);">
-    <!-- Image and text -->
-    <div class="container-fluid">
-   
-        <!-- navbar -->
-        <div class="row">
-            <div class="col-md-12">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light mt-2 d-print-none">
-                    <a class="navbar-brand" href="#">
-                        <img src="..\img\fir.png" width="30" height="30" class="d-inline-block align-top" alt="FIR_Service_LOGO">
-                        <b>FIR - Services</b>
-                    </a>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <?php include '../common/_navbar.php'; ?>
 
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="..\index.php">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="..\Contact.php">Contact</a>
-                            </li>
-
-                            <!-- <li class="nav-item">
-                                <a class="nav-link disabled">Disabled</a>
-                            </li> -->
-                        </ul>
-                        <i class="fa fa-clock" aria-hidden="true">&nbsp;</i>
-                        <span class="mr-2" id="clock"></span>
-                        |
-                        <i class="fa fa-calendar ml-3" aria-hidden="true"> &nbsp;</i>
-                        <span class=" mr-2" id="Date"></span>
-
+        <div class="content-wrapper">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0">Application Investigation</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="../index.php">Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="../e-app.php">E-Applications</a></li>
+                                <li class="breadcrumb-item active">Investigation</li>
+                            </ol>
+                        </div>
                     </div>
-                </nav>
+                </div>
             </div>
-        </div>
 
-        <!-- breadcrumb ex. home > contact  -->
-
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb mt-2">
-                <li class="breadcrumb-item"><a href="..\index.php">Home</a></li>
-                <li class="breadcrumb-item"><a href="..\e-app.php">E-application</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Application - services</li>
-            </ol>
-        </nav>
-
-        <!-- list of records -->
-
-        <div class="row mt-1">
-            <div class="col-md-12 ">
-                <div class="card">
-                    <div class="card-header">
-                        <b style="font-size: xx-large;">List of Application</b>
+            <section class="content">
+                <div class="container-fluid">
+                    
+                    <div class="hero-banner">
+                        <div>
+                            <h1>Application #<?php echo $rno; ?></h1>
+                            <p><?php echo $apptype; ?> - Filed on <?php echo date('M d, Y', strtotime($occurance_date)); ?></p>
+                        </div>
+                        <div class="text-right">
+                            <button onclick="window.print()" class="btn btn-outline-info mr-2">
+                                <i class="fas fa-print mr-2"></i>Print Report
+                            </button>
+                            <a href="../e-app.php" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left mr-2"></i>Back to List
+                            </a>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <!-- --------------------------------------------------------------------------e - Application Form  -->
-                        <h2 class="text-center "><b>E-Application</b> </h2>
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col">
-                                    <h3><u>Applicant Details</u> </h3>
-                                    <form action=""  method="POST">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="mb-2">
-                                                    <label for="exampleInputEmail1" class="form-label">First Name</label>
-                                                    <span id="required"></span>
-                                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php echo $firstname ?>" disabled>
-                                                </div>
 
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="mb-2">
-                                                    <label for="exampleInputEmail1" class="form-label">Father's/Husband's Name</label>
-                                                    <span id="required"></span>
-                                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php echo $middlename ?>" disabled>
-                                                </div>
-
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="mb-2">
-                                                    <label for="exampleInputEmail1" class="form-label">Surname</label>
-                                                    <span id="required"></span>
-                                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php echo $lastname ?>" disabled>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                        <!-- end row tag -->
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="mb-2">
-                                                    <label for="exampleInputEmail1" class="form-label">Permanent Address</label>
-                                                    <span id="required"></span>
-                                                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php echo $uaddress ?>" disabled>
-                                                </div>
-
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="mb-2">
-                                                    <label for="exampleInputEmail1" class="form-label">Email</label>
-                                                    <span id="required"></span>
-                                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php echo $email ?>" disabled>
-                                                </div>
-
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="mb-2">
-                                                    <label for="exampleInputEmail1" class="form-label">Mobile Number</label>
-                                                    <span id="required"></span>
-                                                    <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php echo $mobile ?>" disabled>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <!-- end row tag -->
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="mb-2">
-                                                    <label for="exampleInputEmail1" class="form-label">Landline No. (If available, prefix
-                                                        with STD Code)</label>
-                                                    <span id="required"></span>
-                                                    <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php echo "" ?>" disabled>
-                                                </div>
-
-                                            </div>
-
-                                            <div class="col-md-4">
-                                                <div class="mb-2">
-                                                    <label for="exampleInputEmail1" class="form-label">Pin Code</label>
-                                                    <span id="required"></span>
-                                                    <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php echo $pincode ?>" disabled>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                        <h4><u>Incident Occurance Place</u> </h4>
-
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="mb-2">
-                                                    <label for="exampleInputEmail1" class="form-label">Country</label>
-                                                    <span id="required">*</span>
-                                                    <select class="form-control" aria-label="Default select example" disabled>
-                                                        <option>-Select-</option>
-                                                        <option value="1" selected>India</option>
-                                                        <!-- only for india -->
-
-
-                                                    </select>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="mb-2">
-                                                    <label for="exampleInputEmail1" class="form-label">State</label>
-                                                    <span id="required">*</span>
-                                                    <select class="form-control" aria-label="Default select example" disabled>
-                                                        <option selected>-Select-</option>
-                                                        <option value="12" selected>Gujarat</option>
-                                                    </select>
-
-                                                </div>
-                                            </div>
-                                            <!-- End row tag -->
-                                        </div>
-
-
-                                        <div class="row">
-
-                                            <div class="col-md-8">
-                                                <div class="mb-2">
-                                                    <label for="exampleInputEmail1" class="form-label"> Occurance Area</label>
-                                                    <span id="required">*</span>
-                                                    <textarea class="form-control" name id style="width: 100%;" maxlength="300" disabled><?php echo $occurence_address ?></textarea>
-                                                </div>
-                                            </div>
-
-                                            <!-- End row tag -->
-                                        </div>
-                                        <h4><u>Complaint/Application Details</u> </h4>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="mb-2">
-                                                    <label for="exampleInputEmail1" class="form-label">Type</label>
-                                                    <span id="required">*</span>
-                                                    <select class="form-control" aria-label="Default select example" disabled>
-                                                        <?php
-
-                                                        echo " <option selected>" . $apptype . "</option>";
-
-                                                        ?>
-
-                                                    </select>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="mb-2">
-                                                    <label for="exampleInputEmail1" class="form-label">City/District</label>
-                                                    <span id="required">*</span>
-                                                    <select class="form-control" aria-label="Default select example" disabled>
-
-                                                        <option value="1" selected>Ahmedabad City</option>
-
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="mb-2">
-                                                    <label for="exampleInputEmail1" class="form-label">Police Station</label>
-                                                    <span id="required"></span>
-                                                    <select class="form-control" aria-label="Default select example" disabled>
-                                                        <option selected><?php echo $policestation; ?></option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <!-- End row tag -->
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div class="mb-2">
-                                                    <label for="exampleInputEmail1" class="form-label">Occurance Date</label>
-                                                    <span id="required">*</span>
-                                                    <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php echo $occurance_date ?>" disabled>
-
-                                                </div>
-
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="mb-2">
-                                                    <label for="exampleInputEmail1" class="form-label">Occurance Time</label>
-                                                    <span id="required"></span>
-                                                    <input type="time" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="<?php echo $occurance_time ?>" disabled>
-
-                                                </div>
-
-                                            </div>
-                                            <!-- End row tag -->
-                                        </div>
-
-                                        <h4>Brief Description <span id="brief">*</span> (Maximum 300 Characters)</43>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="mb-2">
-                                                        <textarea class="form-control" name id style="width: 100%; height: 180px;" maxlength="300" disabled><?php echo $desc ?></textarea>
-                                                    </div>
-                                                </div>
-                                                <!-- End row tag -->
-                                            </div>
-                                            <!-- officer's action  -->
-                                            <hr>
-                                            <h2><b>Take a action on application :</b></h2>
-                                            <div class="container-fluid ">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <label for="exampleInputEmail1" class="form-label">Action Type</label>
-                                                        <select class="form-control"  name="takeaction" required>
-                                                            <option selected value="">-Select-</option>
-                                                            <option value="Approved">Approved</option>
-                                                            <option value="Under Scrutiny">Under Scrutiny</option>
-                                                            <option value="Rejected">Reject</option>
-
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <label for="actionBY" class="form-label">Action taken BY :</label>
-                                                        <input type="text" class="form-control" id="actionBY" aria-describedby="ActionBY" value="<?php echo $_SESSION["user"] ." (PSO)"; ?>" style="background: #E4DEDE;"  disabled>
-                                                    </div>
-                                                </div>
-                                                <div class="row mt-3 ">
-                                                    <div class="col-md-8">
-                                                        <label for="action Remark" class="form-label">Action Remarks :</label>
-                                                        <div class="mb-2">
-                                                            <textarea class="form-control"  style="width: 100%; height: 60px;" maxlength="50" name="action_remark" placeholder="Remark Action taken by you  " required></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End row tag -->
-                                                </div>
-                                            </div>
-
-                                            <center>
-                                                <div class="m-1">
-                                                    <button type="submit" class="btn btn-primary" value="action" name="actionn">Take Action</button>
-                                                    <!-- <button type="reset" class="btn btn-secondary "></button> -->
-                                                    <button type="reset" class="btn btn-danger">Cancel</button>
-                                                </div>
-                                            </center>
-
-
-                                    </form>
-
+                    <div class="row">
+                        <!-- Applicant Details -->
+                        <div class="col-lg-12">
+                            <div class="detail-card">
+                                <h3 class="section-title"><i class="fas fa-user-circle"></i> Applicant Profile</h3>
+                                <div class="row">
+                                    <div class="col-md-4 info-group">
+                                        <label class="info-label">Full Name</label>
+                                        <div class="info-value"><?php echo $firstname . " " . $middlename . " " . $lastname; ?></div>
+                                    </div>
+                                    <div class="col-md-4 info-group">
+                                        <label class="info-label">Email Address</label>
+                                        <div class="info-value"><?php echo $email; ?></div>
+                                    </div>
+                                    <div class="col-md-4 info-group">
+                                        <label class="info-label">Mobile Number</label>
+                                        <div class="info-value">+91 <?php echo $mobile; ?></div>
+                                    </div>
+                                    <div class="col-lg-8 col-md-12 info-group">
+                                        <label class="info-label">Permanent Address</label>
+                                        <div class="info-value"><?php echo $uaddress; ?></div>
+                                    </div>
+                                    <div class="col-md-4 info-group">
+                                        <label class="info-label">Pincode</label>
+                                        <div class="info-value"><?php echo $pincode; ?></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
+                        <!-- Incident Details -->
+                        <div class="col-lg-8">
+                            <div class="detail-card">
+                                <h3 class="section-title"><i class="fas fa-exclamation-triangle"></i> Incident Information</h3>
+                                <div class="row">
+                                    <div class="col-md-6 info-group">
+                                        <label class="info-label">Type of Application</label>
+                                        <div class="info-value"><?php echo $apptype; ?></div>
+                                    </div>
+                                    <div class="col-md-6 info-group">
+                                        <label class="info-label">Police Station Jurisdiction</label>
+                                        <div class="info-value"><?php echo $policestation; ?></div>
+                                    </div>
+                                    <div class="col-md-6 info-group">
+                                        <label class="info-label">Occurrence Date & Time</label>
+                                        <div class="info-value">
+                                            <i class="far fa-calendar-alt mr-2"></i><?php echo date('d M Y', strtotime($occurance_date)); ?> 
+                                            <i class="far fa-clock ml-3 mr-2"></i><?php echo $occurance_time; ?>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 info-group">
+                                        <label class="info-label">Location Status</label>
+                                        <div class="info-value">Gujarat, India</div>
+                                    </div>
+                                    <div class="col-12 info-group">
+                                        <label class="info-label">Specific Occurrence Area</label>
+                                        <div class="info-value"><?php echo $occurence_address; ?></div>
+                                    </div>
+                                    <div class="col-12 info-group">
+                                        <label class="info-label">Brief Description of Incident</label>
+                                        <div class="info-value" style="min-height: 150px; line-height: 1.6;">
+                                            <?php echo nl2br($desc); ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
+                        <!-- Investigative Action -->
+                        <div class="col-lg-4">
+                            <div class="detail-card action-card">
+                                <h3 class="section-title"><i class="fas fa-gavel"></i> Investigative Action</h3>
+                                <form action="" method="POST">
+                                    <div class="form-group">
+                                        <label class="info-label">Update Status</label>
+                                        <select class="form-control modern-input" name="takeaction" required>
+                                            <option value="" disabled selected>Select Action...</option>
+                                            <option value="Approved">Approve Application</option>
+                                            <option value="Under Scrutiny">Move to Scrutiny</option>
+                                            <option value="Rejected">Reject Application</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="form-group mt-4">
+                                        <label class="info-label">Investigator Remarks</label>
+                                        <textarea class="form-control modern-input" name="action_remark" 
+                                                  placeholder="Provide detailed investigative remarks..." 
+                                                  rows="5" required></textarea>
+                                    </div>
 
+                                    <div class="form-group mb-0 mt-4">
+                                        <label class="info-label">Action Performed By</label>
+                                        <div class="info-value" style="background: rgba(0,0,0,0.2);">
+                                            <?php echo $_SESSION["user"] . " (PSO)"; ?>
+                                        </div>
+                                    </div>
 
+                                    <button type="submit" name="actionn" class="btn btn-cyan btn-block mt-4 py-3">
+                                        <i class="fas fa-check-circle mr-2"></i>SUBMIT INVESTIGATION
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div class="detail-card mt-4" style="background: rgba(8, 145, 178, 0.05);">
+                                <h3 class="section-title" style="font-size: 0.9rem;"><i class="fas fa-info-circle"></i> Admin Note</h3>
+                                <p style="color: rgba(255,255,255,0.6); font-size: 0.85rem; line-height: 1.5;">
+                                    Updating the status will immediately notify the citizen and trigger relevant administrative processes. Ensure all remarks are professional and legally compliant.
+                                </p>
+                            </div>
+                        </div>
                     </div>
-
-                    <!-- end form ---------------------------------------------- -->
                 </div>
-            </div>
+            </section>
         </div>
 
-
+        <?php include '../common/_footer.php'; ?>
     </div>
 
+    <!-- Scripts -->
+    <script src="../common/myJS/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../dist/js/adminlte.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    </div>
-    </div>
-
-
-    <!-- toggole js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
-    </script>
-
-    <script src="..\common/time.js"></script>
-    <script src="..\common/date.js"></script>
-
-
-    <!-- datatable js/jquery file -->
-    <script src="..\common\myJS\jquery.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="..\common\myJS\jquery.datatables.js"></script>
+    <?php if($done): ?>
     <script>
-        $(document).ready(function() {
-            $('#myTable').DataTable();
+        Swal.fire({
+            icon: 'success',
+            title: 'Action recorded successfully',
+            text: 'The application status has been updated.',
+            background: '#0f172a',
+            color: '#fff',
+            confirmButtonColor: '#0891b2'
+        }).then(function() {
+            window.location = '../e-app.php';
         });
     </script>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<?php
-if($done ==  true){
-echo "
-<script>
-Swal.fire(
-    'Action Taked Successfully!',
-    '',
-    'success'
-  ).then(function() {
-    window.location = '../e-app.php';
-});
-</script>";
-}
-?>
+    <?php endif; ?>
 </body>
 
 </html>

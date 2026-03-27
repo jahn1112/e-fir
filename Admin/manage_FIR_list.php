@@ -191,68 +191,63 @@ include "manage_FIR/search.php";
                             <tbody>
 
                                 <?php
-                                // for ($i = 0; $i <= 1000; $i++) {
-                                //     echo '<tr>
-                                //         <th scope="row">' . $i + 1 . '</th>
-                                //         <td>Mark</td>
-                                //         <td>e-FIR(vehicle Theft)</td>
-                                //         <td><a href=".\manage_FIR\FIR_dashboard.php?rno=878997">878337</a></td>
-                                //         <td>12/12/2022</td>
-                                //         <td>In Progress</td>
-                                //       </tr>';
-                                // }
+// for ($i = 0; $i <= 1000; $i++) {
+//     echo '<tr>
+//         <th scope="row">' . $i + 1 . '</th>
+//         <td>Mark</td>
+//         <td>e-FIR(vehicle Theft)</td>
+//         <td><a href=".\manage_FIR\FIR_dashboard.php?rno=878997">878337</a></td>
+//         <td>12/12/2022</td>
+//         <td>In Progress</td>
+//       </tr>';
+// }
 
-                                $typ = $_GET['typ'];
-                                if(isset($typ) && $typ == 'A' )
-                                {
-                                   $qry = "SELECT efm.e_fir_id,efm.sbmt_date,efm.action_taken,efm.action_takenBY,um.gender,efm.occupation,um.user_fname,um.user_lname,typ.fir_type, efm.occurence_of_offence_date_from,efm.occurence_of_offence_date_to from e_fir_master as efm LEFT OUTER JOIN user_master um on efm.user_id=um.user_id LEFT OUTER JOIN types_of_fir_table typ on efm.types_of_fir_id=typ.types_of_FIR_id where efm.action_taken LIKE 'Assign to%';";
+$typ = $_GET['typ'];
+if (isset($typ) && $typ == 'A') {
+    $qry = "SELECT efm.e_fir_id,efm.sbmt_date,efm.action_taken,efm.action_takenBY,um.gender,efm.occupation,um.user_fname,um.user_lname,typ.fir_type, efm.occurence_of_offence_date_from,efm.occurence_of_offence_date_to from e_fir_master as efm LEFT OUTER JOIN user_master um on efm.user_id=um.user_id LEFT OUTER JOIN types_of_fir_table typ on efm.types_of_fir_id=typ.types_of_FIR_id where efm.action_taken LIKE 'Assign to%';";
 
-                                }
-                                else if (isset($typ) && $typ == 'P' )
-                                {
-                                   $qry = "SELECT efm.e_fir_id,efm.sbmt_date,efm.action_taken,efm.action_takenBY,um.gender,efm.occupation,um.user_fname,um.user_lname,typ.fir_type, efm.occurence_of_offence_date_from,efm.occurence_of_offence_date_to from e_fir_master as efm LEFT OUTER JOIN user_master um on efm.user_id=um.user_id LEFT OUTER JOIN types_of_fir_table typ on efm.types_of_fir_id=typ.types_of_FIR_id where efm.action_taken in ('Pending','Under Scrutiny');";
+}
+else if (isset($typ) && $typ == 'P') {
+    $qry = "SELECT efm.e_fir_id,efm.sbmt_date,efm.action_taken,efm.action_takenBY,um.gender,efm.occupation,um.user_fname,um.user_lname,typ.fir_type, efm.occurence_of_offence_date_from,efm.occurence_of_offence_date_to from e_fir_master as efm LEFT OUTER JOIN user_master um on efm.user_id=um.user_id LEFT OUTER JOIN types_of_fir_table typ on efm.types_of_fir_id=typ.types_of_FIR_id where efm.action_taken in ('Pending','Under Scrutiny');";
 
-                                }
-                                else if (isset($typ) && $typ == 'R' )
-                                {
-                                   $qry = "SELECT efm.e_fir_id,efm.sbmt_date,efm.action_taken,efm.action_takenBY,um.gender,efm.occupation,um.user_fname,um.user_lname,typ.fir_type, efm.occurence_of_offence_date_from,efm.occurence_of_offence_date_to from e_fir_master as efm LEFT OUTER JOIN user_master um on efm.user_id=um.user_id LEFT OUTER JOIN types_of_fir_table typ on efm.types_of_fir_id=typ.types_of_FIR_id where efm.action_taken LIKE 'Rejected';";
+}
+else if (isset($typ) && $typ == 'R') {
+    $qry = "SELECT efm.e_fir_id,efm.sbmt_date,efm.action_taken,efm.action_takenBY,um.gender,efm.occupation,um.user_fname,um.user_lname,typ.fir_type, efm.occurence_of_offence_date_from,efm.occurence_of_offence_date_to from e_fir_master as efm LEFT OUTER JOIN user_master um on efm.user_id=um.user_id LEFT OUTER JOIN types_of_fir_table typ on efm.types_of_fir_id=typ.types_of_FIR_id where efm.action_taken LIKE 'Rejected';";
 
-                                }
-                                else if (isset($typ) && $typ == 'done' )
-                                {
-                                   $qry = "SELECT efm.e_fir_id,efm.sbmt_date,efm.action_taken,efm.action_takenBY,um.gender,efm.occupation,um.user_fname,um.user_lname,typ.fir_type, efm.occurence_of_offence_date_from,efm.occurence_of_offence_date_to from e_fir_master as efm LEFT OUTER JOIN user_master um on efm.user_id=um.user_id LEFT OUTER JOIN types_of_fir_table typ on efm.types_of_fir_id=typ.types_of_FIR_id where efm.action_taken LIKE 'Approved';";
+}
+else if (isset($typ) && $typ == 'done') {
+    $qry = "SELECT efm.e_fir_id,efm.sbmt_date,efm.action_taken,efm.action_takenBY,um.gender,efm.occupation,um.user_fname,um.user_lname,typ.fir_type, efm.occurence_of_offence_date_from,efm.occurence_of_offence_date_to from e_fir_master as efm LEFT OUTER JOIN user_master um on efm.user_id=um.user_id LEFT OUTER JOIN types_of_fir_table typ on efm.types_of_fir_id=typ.types_of_FIR_id where efm.action_taken LIKE 'Approved';";
 
-                                }
-                                //     if($_SESSION['cat'] == 'Police Station Officer'){
-                                // $qry = "SELECT efm.e_fir_id,efm.sbmt_date,efm.action_taken,efm.action_takenBY,um.gender,efm.occupation,um.user_fname,um.user_lname,typ.fir_type, efm.occurence_of_offence_date_from,efm.occurence_of_offence_date_to from e_fir_master as efm LEFT OUTER JOIN user_master um on efm.user_id=um.user_id LEFT OUTER JOIN types_of_fir_table typ on efm.types_of_fir_id=typ.types_of_FIR_id where efm.action_taken in ('Pending','Under Scrutiny',null);";
-                                //     }
-                                //     if($_SESSION['cat'] == 'Investigation Officer')
-                                // {
-                                // $qry = "SELECT efm.e_fir_id,efm.sbmt_date,efm.action_taken,efm.action_takenBY,um.gender,efm.occupation,um.user_fname,um.user_lname,typ.fir_type, efm.occurence_of_offence_date_from,efm.occurence_of_offence_date_to from e_fir_master as efm LEFT OUTER JOIN user_master um on efm.user_id=um.user_id LEFT OUTER JOIN types_of_fir_table typ on efm.types_of_fir_id=typ.types_of_FIR_id where efm.action_taken in ('Assign to IO','Rejected','Approved');";
-                                // }
-                                $res = mysqli_query($con,$qry);
-                                $sr = 0;
-                                while($row = mysqli_fetch_assoc($res))
-                                {
-                                    $sr +=1;
-                                    echo '<tr>
-                                        <th scope="row">' . $sr. '</th>
-                                        <td style="color: blue; font-weight: bold;">GJFIR202300'. $row['e_fir_id'].'</td>
-                                         <td>' . $row['user_fname'].' '.$row['user_lname'].'</td>
-                                         <td>'. $row['fir_type'].'</td>
-                                          <td>'. $row['gender'].'</td>
-                                          <td>'. $row['occupation'].'</td>
-                                         <td>'. $row['sbmt_date']. '</td>
-                                         <td>'. $row['occurence_of_offence_date_from']. '</td>
-                                         <td>'. $row['occurence_of_offence_date_to']. '</td>
-                                         <td>'. $row['action_taken']. '</td>
-                                         <td>'. $row['action_takenBY']. '</td>
+}
+//     if($_SESSION['cat'] == 'Police Station Officer'){
+// $qry = "SELECT efm.e_fir_id,efm.sbmt_date,efm.action_taken,efm.action_takenBY,um.gender,efm.occupation,um.user_fname,um.user_lname,typ.fir_type, efm.occurence_of_offence_date_from,efm.occurence_of_offence_date_to from e_fir_master as efm LEFT OUTER JOIN user_master um on efm.user_id=um.user_id LEFT OUTER JOIN types_of_fir_table typ on efm.types_of_fir_id=typ.types_of_FIR_id where efm.action_taken in ('Pending','Under Scrutiny',null);";
+//     }
+//     if($_SESSION['cat'] == 'Investigation Officer')
+// {
+// $qry = "SELECT efm.e_fir_id,efm.sbmt_date,efm.action_taken,efm.action_takenBY,um.gender,efm.occupation,um.user_fname,um.user_lname,typ.fir_type, efm.occurence_of_offence_date_from,efm.occurence_of_offence_date_to from e_fir_master as efm LEFT OUTER JOIN user_master um on efm.user_id=um.user_id LEFT OUTER JOIN types_of_fir_table typ on efm.types_of_fir_id=typ.types_of_FIR_id where efm.action_taken in ('Assign to IO','Rejected','Approved');";
+// }
+$res = mysqli_query($con, $qry);
+$sr = 0;
+while ($row = mysqli_fetch_assoc($res)) {
+    $sr += 1;
+    echo '<tr>
+                                        <th scope="row">' . $sr . '</th>
+                                        <td style="color: blue; font-weight: bold;">GJFIR202300' . $row['e_fir_id'] . '</td>
+                                         <td>' . $row['user_fname'] . ' ' . $row['user_lname'] . '</td>
+                                         <td>' . $row['fir_type'] . '</td>
+                                          <td>' . $row['gender'] . '</td>
+                                          <td>' . $row['occupation'] . '</td>
+                                         <td>' . $row['sbmt_date'] . '</td>
+                                         <td>' . $row['occurence_of_offence_date_from'] . '</td>
+                                         <td>' . $row['occurence_of_offence_date_to'] . '</td>
+                                         <td>' . $row['action_taken'] . '</td>
+                                         <td>' . $row['action_takenBY'] . '</td>
                                        </tr>';
-                                }
-                            
+}
 
 
-                                ?>
+
+?>
                             </tbody>
                         </table>
 

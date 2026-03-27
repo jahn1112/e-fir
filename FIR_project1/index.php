@@ -3,7 +3,7 @@
 error_reporting(E_ERROR | E_PARSE);
 // ------------------------------------------
 session_start();
-$_SESSION['login'] == false;
+// session_start already called above
 // Import database connection configuration
 include_once "DBconfig.php";
 
@@ -42,57 +42,33 @@ include_once "DBconfig.php";
 
 
         <nav>
-            <a href="index.php" class="logo">
-
-            </a>
-
-            
+            <div class="logo">
+                <a href="index.php"><img src="img/police.png" alt="Logo" style="height: 40px;"></a>
+            </div>
   
             <div class="nav-links" id="navLinks">
-
                 <ul>
                     <li class="select active"><a href="index.php"><i class="fa fa-home"></i>Home</a></li>
-                    <li><a href="Form.php"><i class="fa fa-file"></i>Online Form</a></li>
-                    <li><a href="Gallery.php"><i class="fa fa-image"></i>Photo Gallery</a></li>
-                    <li><a href="Department.php"><i class="fa fa-star"></i>Know Home Department</a></li>
-
-                    <li><a href="Absconder.php"><i class="fa fa-list"></i>Absconder List</a></li>
-                    <li><a href="Contact.php"><i class="fa fa-mobile"></i>Contact Details</a></li>
-                    <li><a href="Notice.php"><i class="fa fa-book"></i>Lookout Notice</a></li>
-                    
+                    <li><a href="Form.php"><i class="fa fa-file"></i>Forms</a></li>
+                    <li><a href="Gallery.php"><i class="fa fa-image"></i>Gallery</a></li>
+                    <li><a href="Department.php"><i class="fa fa-star"></i>Department</a></li>
+                    <li><a href="Absconder.php"><i class="fa fa-list"></i>Absconders</a></li>
+                    <li><a href="Contact.php"><i class="fa fa-mobile"></i>Contact</a></li>
+                    <li><a href="Notice.php"><i class="fa fa-book"></i>Notice</a></li>
                 </ul>
-                
             </div>
 
+            <div class="nav-right">
+                <?php
+                if ($_SESSION['login'] == false) {
+                    echo '<a href="login.php" class="login-link"><i class="fa fa-key"></i> Login</a>';
+                } else {
+                    echo '<span class="user-greeting">Hi, ' . $_SESSION['userfname'] . '</span>';
+                    echo '<a href="logout.php" class="login-link logout"><i class="fa fa-user"></i> Logout</a>';
+                }
+                ?>
+            </div>
         </nav>
-
-<script>
-
-</script>
-
-        <!-- log in / log out button -->
-        <div>
-
-        </div>
-
-        <div class="boot">
-
-            <?php
-if ($_SESSION['login'] == false) {
-    echo '
-                
-                <button type="button" id="bootn" style="color: aliceblue; text-decoration: none; margin-right:"><a href="login.php" style="color: white;"><i class="fa fa-key" style="margin-right: 1em;"></i>Log in/Registration</a></button>
-                ';
-}
-else {
-    echo '   <h4 id="wcmsg"> Welcome  ' . $_SESSION['userfname'] . '  ' . $_SESSION['userlname'] . '    </h4>';
-    echo '
-                <button type="button" id="bootn11" style="color: aliceblue; text-decoration: none;"><a href="logout.php" style="color: white;"><i class="fa fa-user" style="margin-right: 1em;"></i>Log Out</a></button>
-                ';
-}
-?>
-
-        </div>
 
 
 
@@ -130,19 +106,39 @@ else {
             <p class="home">(HOME DEPARTMENT, GOVERNMENT OF GUJARAT)</p>
         </header>
 
-        <!-- 2. Modern Services Grid -->
+        <!-- 2. Dynamic Statistics Section -->
+        <section class="modern-stats">
+            <div class="stat-card">
+                <h2>1M+</h2>
+                <p>Citizens Served</p>
+            </div>
+            <div class="stat-card">
+                <h2>24/7</h2>
+                <p>Active Surveillance</p>
+            </div>
+            <div class="stat-card">
+                <h2>500+</h2>
+                <p>Police Stations</p>
+            </div>
+            <div class="stat-card">
+                <h2>100%</h2>
+                <p>Digital Governance</p>
+            </div>
+        </section>
+
+        <!-- 3. Modern Services Grid -->
         <section class="modern-services">
-            <h2 class="modern-services-header">Our Services</h2>
+            <h2 class="modern-services-header">Our Digital Services</h2>
             <div class="modern-services-grid">
                 
                 <a href="e-FIR.php" class="modern-service-card">
                     <img src="img/2.png" alt="e-FIR">
-                    <p>e-FIR</p>
+                    <p>e-FIR Registration</p>
                 </a>
 
                 <a href="e-application.php" class="modern-service-card">
                     <img src="img/Eapplication.png" alt="e-Application">
-                    <p>e-Application</p>
+                    <p>Track e-Application</p>
                 </a>
 
                 <a href="Missing Person.php" class="modern-service-card">
@@ -152,42 +148,42 @@ else {
 
                 <a href="Senior Citizen Registration.php" class="modern-service-card">
                     <img src="img/SeniorRegi.png" alt="Senior Citizen">
-                    <p>Senior Citizen Registration</p>
+                    <p>Senior Citizen Care</p>
                 </a>
 
             </div>
             
-            <!-- 3. News & Announcement -->
-            <div style="text-align: center;">
-                <a href="News.php" class="modern-news-btn">News & Announcements</a>
+            <!-- News & Announcement -->
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="News.php" class="modern-news-btn">Latest News & Announcements</a>
             </div>
         </section>
 
         <!-- 4. Virtual Tour -->
         <section class="modern-tour">
-            <h2 class="modern-tour-header">Take Our Virtual Tour</h2>
+            <h2 class="modern-tour-header">Experience Digital Patrol</h2>
             <div class="modern-tour-grid">
                 
                 <div class="modern-tour-card">
                     <img src="img/Ahemdabad.jpg" alt="Ahemdabad">
-                    <h3>Ahemdabad</h3>
+                    <h3>Ahmedabad City</h3>
                 </div>
 
                 <div class="modern-tour-card">
                     <img src="img/Amreli.jpg" alt="Amreli">
-                    <h3>Amreli</h3>
+                    <h3>Amreli District</h3>
                 </div>
 
                 <div class="modern-tour-card">
                     <img src="img/surat.jpg" alt="Surat">
-                    <h3>Surat</h3>
+                    <h3>Surat Metropolitan</h3>
                 </div>
 
             </div>
         </section>
 
         <!-- 5. Modern Partner Logos -->
-        <section class="modern-partners-header">Information For The Public</section>
+        <section class="modern-partners-header">Official Portals</section>
         <div class="modern-partners">
             <a href="https://police.gujarat.gov.in/dgp/default.aspx" target="_blank">
                 <img src="img/GujaratPolice.jpg" alt="Gujarat Police">
@@ -248,7 +244,5 @@ else {
 
 
 </body>
-
-</html>
 
 </html>

@@ -3,7 +3,7 @@ session_start();
 //print_r($_SESSION);
 include '.\common\dbconfig.php';
 if ($_SESSION["lg"] == false) {
-    
+
     header("location:login.php");
 }
 include "manage_FIR/search.php";
@@ -188,41 +188,40 @@ include "manage_FIR/search.php";
                             <tbody>
 
                                 <?php
-                                // for ($i = 0; $i <= 100; $i++) {
-                                //     echo '<tr>
-                                //         <th scope="row">' . $i + 1 . '</th>
-                                //         <td>Mark</td>
-                                //         <td>e-Application</td>
-                                //         <td><a href=".\e-app\e-app_info.php?rno=878997">878337</a></td>
-                                //         <td>12/12/2022</td>
-                                //         <td>In Progress</td>
-                                //       </tr>';
-                                // }
+// for ($i = 0; $i <= 100; $i++) {
+//     echo '<tr>
+//         <th scope="row">' . $i + 1 . '</th>
+//         <td>Mark</td>
+//         <td>e-Application</td>
+//         <td><a href=".\e-app\e-app_info.php?rno=878997">878337</a></td>
+//         <td>12/12/2022</td>
+//         <td>In Progress</td>
+//       </tr>';
+// }
 
-                                
-                    
-                                $qry = "SELECT * FROM `e_application_table` e join user_master u WHERE e.user_id = u.user_id and e.action_taken in ('Pending','Under Scrutiny',null);";
-                                $res = mysqli_query($con,$qry);
-                                $sr = 0;
-                                while($row = mysqli_fetch_assoc($res))
-                                {
-                                    $sr +=1;
-                                    echo '<tr>
-                                        <th scope="row">' . $sr. '</th>
-                                        <td><a href=".\e-app\e-app_info.php?rno='. $row['e_application_id']. '">GJEAPP202300'. $row['e_application_id']. '</a></td>
 
-                                         <td>' . $row['user_fname'].' '.$row['user_lname'].'</td>
-                                         <td>'. $row['application_type'].'</td>
-                                         <td>'. $row['gender'].'</td>
-                                         <td>'. $row['sbmt_date']. '</td>
-                                         <td>'. $row['user_dob']. '</td>
-                                         <td>'. $row['action_taken']. '</td>
-                                         <td>'. $row['action_takenBY']. '</td>
+
+$qry = "SELECT * FROM `e_application_table` e join user_master u WHERE e.user_id = u.user_id and e.action_taken in ('Pending','Under Scrutiny',null);";
+$res = mysqli_query($con, $qry);
+$sr = 0;
+while ($row = mysqli_fetch_assoc($res)) {
+    $sr += 1;
+    echo '<tr>
+                                        <th scope="row">' . $sr . '</th>
+                                        <td><a href=".\e-app\e-app_info.php?rno=' . $row['e_application_id'] . '">GJEAPP202300' . $row['e_application_id'] . '</a></td>
+
+                                         <td>' . $row['user_fname'] . ' ' . $row['user_lname'] . '</td>
+                                         <td>' . $row['application_type'] . '</td>
+                                         <td>' . $row['gender'] . '</td>
+                                         <td>' . $row['sbmt_date'] . '</td>
+                                         <td>' . $row['user_dob'] . '</td>
+                                         <td>' . $row['action_taken'] . '</td>
+                                         <td>' . $row['action_takenBY'] . '</td>
                                        </tr>';
-                                }
-                            
+}
 
-                                ?>
+
+?>
                             </tbody>
                         </table>
 
