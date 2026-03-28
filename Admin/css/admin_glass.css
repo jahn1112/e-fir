@@ -1,0 +1,211 @@
+/* admin_glass.css - Premium Glassmorphism Overrides for AdminLTE */
+
+:root {
+    --primary-depth: #0f172a;
+    --accent-blue: #0ea5e9;
+    --accent-glow: rgba(14, 165, 233, 0.4);
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --text-white: #f8fafc;
+    --text-muted: #94a3b8;
+}
+
+body, .wrapper {
+    background: radial-gradient(circle at top right, #1e293b, #020617) !important;
+    background-attachment: fixed !important;
+    color: var(--text-white) !important;
+}
+
+/* Navbar */
+.main-header.navbar {
+    background: rgba(15, 23, 42, 0.7) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border-bottom: 1px solid var(--glass-border) !important;
+}
+.main-header .nav-link, 
+.main-header .fas {
+    color: var(--text-white) !important;
+}
+
+/* Sidebar */
+.main-sidebar.sidebar-light-primary {
+    background: rgba(15, 23, 42, 0.6) !important;
+    backdrop-filter: blur(20px) !important;
+    border-right: 1px solid var(--glass-border) !important;
+}
+.brand-link {
+    border-bottom: 1px solid var(--glass-border) !important;
+    color: var(--text-white) !important;
+}
+.brand-link span {
+    color: var(--text-white) !important;
+}
+.sidebar .user-panel {
+    border-bottom: 1px solid var(--glass-border) !important;
+}
+.sidebar .user-panel a {
+    color: var(--text-white) !important;
+}
+.nav-sidebar .nav-link p,
+.nav-sidebar .nav-link i {
+    color: var(--text-muted) !important;
+}
+.nav-sidebar .nav-link:hover p,
+.nav-sidebar .nav-link:hover i {
+    color: var(--text-white) !important;
+}
+
+/* Content Area */
+.content-wrapper {
+    background: transparent !important;
+}
+.content-header h1 {
+    color: var(--text-white) !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+.breadcrumb-item a {
+    color: var(--accent-blue) !important;
+}
+.breadcrumb-item.active {
+    color: var(--text-muted) !important;
+}
+
+/* Cards */
+.card {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(15px) !important;
+    -webkit-backdrop-filter: blur(15px) !important;
+    border: 1px solid var(--glass-border) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3) !important;
+    color: var(--text-white) !important;
+    overflow: hidden !important;
+}
+.card-header {
+    border-bottom: 1px solid var(--glass-border) !important;
+    background: transparent !important;
+}
+.card-title {
+    color: var(--text-white) !important;
+}
+.card-footer {
+    background: transparent !important;
+    border-top: 1px solid var(--glass-border) !important;
+}
+
+/* Form Controls Backgrounds */
+.form-control {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: var(--text-white) !important;
+    border-radius: 12px;
+}
+.form-control:focus {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: var(--accent-blue) !important;
+    box-shadow: 0 0 0 0.2rem var(--accent-glow) !important;
+    color: var(--text-white) !important;
+}
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+label {
+    color: #cbd5e1 !important;
+    font-weight: 600 !important;
+    font-size: 1.05rem !important;
+}
+
+/* Fix Dropdown Menus Rendering White-on-White */
+select.form-control {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    color: #fff !important;
+}
+select.form-control option {
+    background-color: #0f172a !important; /* Forces dark abstract background */
+    color: #f8fafc !important;
+    font-size: 1.1rem !important;
+    padding: 10px !important;
+}
+
+/* Improve Typography Readability Globally */
+td, th, p, span, h1, h2, h3, h4, h5, h6, .info-value, input, textarea {
+    color: #ffffff !important;
+    font-family: 'Outfit', 'Poppins', sans-serif !important;
+}
+input:disabled, textarea:disabled {
+    font-size: 1.05rem !important;
+    font-weight: 500 !important;
+    opacity: 1 !important; /* Stop washing out disabled inputs */
+    background: rgba(0, 0, 0, 0.35) !important; /* Darker backdrop to make white text pop */
+}
+
+/* Small Boxes Texts */
+.small-box h3, .small-box p {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* specific modern overrides */
+.welcome-box {
+    background: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(2, 132, 199, 0.1)) !important;
+    border: 1px solid rgba(14, 165, 233, 0.3) !important;
+}
+.separator {
+    background: linear-gradient(to right, transparent, var(--accent-blue), transparent) !important;
+}
+
+/* Modern DataTables Support for Glass Theme */
+.dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
+    color: #fff !important;
+    margin-bottom: 15px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    color: #fff !important;
+    border: 1px solid rgba(255,255,255,0.2) !important;
+    border-radius: 8px !important;
+    background: rgba(255,255,255,0.05) !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+    background: #0ea5e9 !important;
+    color: #fff !important;
+    border: 1px solid #0ea5e9 !important;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: rgba(255,255,255,0.1) !important;
+    color: #fff !important;
+}
+.dataTables_wrapper .dataTables_filter input {
+    background: rgba(255,255,255,0.1) !important;
+    border: 1px solid rgba(255,255,255,0.2) !important;
+    color: #fff !important;
+    border-radius: 8px;
+    padding: 5px 10px;
+}
+table.dataTable tbody tr {
+    background-color: transparent !important;
+}
+table.dataTable tbody tr:hover {
+    background-color: rgba(255,255,255,0.05) !important;
+}
+table.dataTable thead th {
+    border-bottom: 2px solid rgba(14, 165, 233, 0.5) !important;
+    background: rgba(15, 23, 42, 0.8) !important;
+    color: #0ea5e9 !important;
+}
+
+/* Glass Navbar */
+.custom-glass-nav {
+    background: rgba(15, 23, 42, 0.7) !important;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    padding: 10px 25px;
+    margin-bottom: 20px;
+}
+.custom-glass-nav a, .custom-glass-nav i, .custom-glass-nav span, .custom-glass-nav b {
+    color: #f8fafc !important;
+}
+.custom-glass-nav a:hover {
+    color: #0ea5e9 !important;
+}
