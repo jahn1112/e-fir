@@ -453,6 +453,7 @@ if (isset($_POST['login'])) {
                                 <option value="" disabled selected>Select your designation</option>
                                 <option value="Police Station Officer">Police Station Officer</option>
                                 <option value="Investigation Officer">Investigation Officer</option>
+                                <option value="Administrator">Administrator</option>
                             </select>
                         </div>
                     </div>

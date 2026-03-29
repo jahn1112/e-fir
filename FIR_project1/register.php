@@ -39,7 +39,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $check_user_sql = "SELECT username FROM user_master WHERE username='".mysqli_real_escape_string($con, $username)."'";
     $check_result = mysqli_query($con, $check_user_sql);
     if (mysqli_num_rows($check_result) > 0) {
-        echo "<script>alert('Error: Username already exists. Please choose another one.')</script>";
+        $msg = 'duplicate';
         $uploadOk = false;
     }
 
@@ -61,7 +61,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 $file_path = $new_file_name;
             }
         } else if (!empty($file_name)) {
-            echo "<script>alert('The uploaded file is in incorrect format. Please upload PDF, JPG, or PNG.')</script>";
+            $msg = 'file_error';
             $uploadOk = false;
         }
     }
@@ -92,15 +92,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         try {
             $result = mysqli_query($con, $sql);
             if ($result) {
-                echo "<script>alert('Registered Successfully...')</script>";
-                echo "<script> window.location = './index.php';</script>";
+                $msg = 'success';
             } else {
+                $msg = 'error';
                 $error_msg = mysqli_error($con);
-                echo "<script>alert('Registration Failed: " . addslashes($error_msg) . "')</script>";
             }
         } catch (Exception $e) {
-            $error_msg = addslashes($e->getMessage());
-            echo "<script>alert('Registration Error: " . $error_msg . "')</script>";
+            $msg = 'error';
+            $error_msg = addslashes($e.getMessage());
         }
     }
 }
@@ -117,6 +116,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -288,6 +288,53 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             window.history.replaceState(null, null, window.location.href);
         }
     </script>
+
+    <?php
+    if (isset($msg)) {
+        if ($msg == 'success') {
+            echo "<script>
+            Swal.fire({
+                title: 'Success!',
+                text: 'Registered Successfully...',
+                icon: 'success',
+                confirmButtonColor: '#0ea5e9'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location = './login.php';
+                }
+            });
+            </script>";
+        } elseif ($msg == 'duplicate') {
+            echo "<script>
+            Swal.fire({
+                title: 'Duplicate Username!',
+                text: 'Error: Username already exists. Please choose another one.',
+                icon: 'warning',
+                confirmButtonColor: '#f59e0b'
+            });
+            </script>";
+        } elseif ($msg == 'file_error') {
+            echo "<script>
+            Swal.fire({
+                title: 'Invalid File!',
+                text: 'The uploaded file is in incorrect format. Please upload PDF, JPG, or PNG.',
+                icon: 'error',
+                confirmButtonColor: '#ef4444'
+            });
+            </script>";
+        } elseif ($msg == 'error') {
+            $display_err = isset($error_msg) ? $error_msg : 'Unknown database error occurred.';
+            echo "<script>
+            Swal.fire({
+                title: 'Registration Failed!',
+                text: '" . $display_err . "',
+                icon: 'error',
+                confirmButtonColor: '#ef4444'
+            });
+            </script>";
+        }
+    }
+    ?>
 </body>
 
 </html>
