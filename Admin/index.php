@@ -22,17 +22,12 @@ if ($_SESSION["lg"] == false) {
     <!-- Google Font: Outfit & Poppins -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Tempusdominus Bootstrap 4.6.2 final-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <!-- Modern Admin Style -->
-    <link rel="stylesheet" href="css/modern_admin.css">
-    <!-- Theme style (Original fallback) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Theme foundations -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="dist/css/adminlte.min.css">
-    <!-- summernote -->
-    <link rel="stylesheet" href="plugins/summernote/summernote-bs4.min.css">
+    <!-- Modern Admin Style Overrides -->
+    <link rel="stylesheet" href="css/admin_glass.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -175,36 +170,13 @@ if ($_SESSION["lg"] == false) {
     </div>
     <!-- ./wrapper -->
 
-    <!-- Bootstrap 4 -->
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
-    </script>
-    <!-- <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-    <!-- jQuery -->
-    <script src="plugins/jquery/jquery.min.js"></script>
-    <!-- jQuery UI 1.11.4 -->
-    <script src="plugins/jquery-ui/jquery-ui.min.js"></script>
-    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-        $.widget.bridge('uibutton', $.ui.button)
-    </script>
-
-
-    <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/37520468b2.js" crossorigin="anonymous"></script>
-
+    <!-- jQuery & Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <!-- <script src="dist/js/demo.js"></script> -->
     <script src="common\date.js"></script>
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <!-- <script src="dist/js/pages/dashboard.js"></script> -->
     <script src="common\time.js"></script>
-
-
-
 </body>
-
 </html>

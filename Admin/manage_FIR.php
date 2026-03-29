@@ -18,277 +18,124 @@ include "manage_FIR/search.php";
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage F.I.R</title>
-    <!-- website logo -->
+    <title>Manage F.I.R | Admin</title>
+    
     <link rel="icon" href="img\weblogo1.ico" type="image/icon">
-    <!-- css -->
-    <style type="text/css">
-        #compulsory {
-            color: red;
-            font-weight: bold;
-        }
-
-        #searchpanel {
-            display: none;
-        }
-    </style>
-
-    <!-- bootstrap -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-
-    <!-- font-awasome icon -->
-    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-
+    <!-- Google Font: Outfit & Poppins -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Theme foundations -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
     <!-- datatable css -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+    <!-- Modern Admin Style Overrides -->
+    <link rel="stylesheet" href="css/admin_glass.css">
 
-    <!-- css file import -->
-    <link rel="stylesheet" href="css\nav1.css">
+    <style type="text/css">
+        #compulsory { color: #ef4444; font-weight: bold; }
+        #searchpanel { display: none; }
+        .content-wrapper { background: transparent !important; }
+    </style>
 
     <!-- jquery CDN Path -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script>
-        // show search panel when clicked
         $(document).ready(function() {
             $('#srchbtn').click(function() {
                 $('#searchpanel').toggle();
             });
-
-
         });
     </script>
-
-
-
 </head>
 
-<body style="background-color:rgb(217, 216, 216);">
-    <!-- Image and text -->
-    <div class="container-fluid">
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        <!-- Import all Navbar -->
+        <?php include "common/_navbar.php"; ?>
 
-        <!-- navbar -->
+        <!-- Content Wrapper -->
+        <div class="content-wrapper p-4">
+            <!-- list of records -->
+            <div class="container-fluid">
+                <div class="row mt-3">
+                    <div class="col-md-12 ">
+                        <div class="card">
+                            <div class="card-header border-0">
+                                <h2 class="card-title font-weight-bold" style="font-size: 1.8rem;">List of Complaints</h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover" id="myTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Sr.No.</th>
+                                                <th>Reference No.</th>
+                                                <th>Applicant Name</th>
+                                                <th>Type of FIR</th>
+                                                <th>Gender</th>
+                                                <th>Occupation</th>
+                                                <th>Submitted</th>
+                                                <th>Occurence From</th>
+                                                <th>Occurence To</th>
+                                                <th>Status</th>
+                                                <th>Handled By</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            $typ = $_GET['typ'];
+                                            if (isset($typ) && $typ == 'A') {
+                                                $qry = "SELECT efm.e_fir_id,efm.sbmt_date,efm.action_taken,efm.action_takenBY,um.gender,efm.occupation,um.user_fname,um.user_lname,typ.fir_type, efm.occurence_of_offence_date_from,efm.occurence_of_offence_date_to from e_fir_master as efm LEFT OUTER JOIN user_master um on efm.user_id=um.user_id LEFT OUTER JOIN types_of_fir_table typ on efm.types_of_fir_id=typ.types_of_FIR_id where efm.action_taken LIKE 'Assign to%';";
+                                            } else if (isset($typ) && $typ == 'P') {
+                                                $qry = "SELECT efm.e_fir_id,efm.sbmt_date,efm.action_taken,efm.action_takenBY,um.gender,efm.occupation,um.user_fname,um.user_lname,typ.fir_type, efm.occurence_of_offence_date_from,efm.occurence_of_offence_date_to from e_fir_master as efm LEFT OUTER JOIN user_master um on efm.user_id=um.user_id LEFT OUTER JOIN types_of_fir_table typ on efm.types_of_fir_id=typ.types_of_FIR_id where efm.action_taken in ('Pending','Under Scrutiny');";
+                                            } else if (isset($typ) && $typ == 'R') {
+                                                $qry = "SELECT efm.e_fir_id,efm.sbmt_date,efm.action_taken,efm.action_takenBY,um.gender,efm.occupation,um.user_fname,um.user_lname,typ.fir_type, efm.occurence_of_offence_date_from,efm.occurence_of_offence_date_to from e_fir_master as efm LEFT OUTER JOIN user_master um on efm.user_id=um.user_id LEFT OUTER JOIN types_of_fir_table typ on efm.types_of_fir_id=typ.types_of_FIR_id where efm.action_taken LIKE 'Rejected';";
+                                            }
 
-        <div class="row">
-            <div class="col-md-12">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light mt-2 d-print-none">
-                    <a class="navbar-brand" href="#">
-                        <img src="img\fir.png" width="30" height="30" class="d-inline-block align-top" alt="FIR_Service_LOGO">
-                        <b>FIR - Services</b>
-                    </a>
-
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="index.php">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="Contact.php">Contact</a>
-                            </li>
-
-                            <!-- <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" id="srchbtn" href="#"><i class="fa fa-search" aria-hidden="true "></i>
-                                    Search by Date</a>
-                            </li> -->
-
-                        </ul>
-                        <i class="fa fa-clock" aria-hidden="true">&nbsp;</i>
-                        <span class="mr-2" id="clock"></span>
-                        |
-                        <i class="fa fa-calendar ml-3" aria-hidden="true"> &nbsp;</i>
-                        <span class=" mr-2" id="Date"></span>
-
-                    </div>
-                </nav>
-            </div>
-        </div>
-
-
-        <!-- for search FIR  -->
-        <!-- <div class="row mt-2" id="searchpanel">
-            <div class="col-md-12">
-                <div class=" d-print-none">
-                    <div class="card">
-                        <div class="card-header">
-                            <i class="fa fa-search" aria-hidden="true"></i> &nbsp; <b>Search Records</b>
-                        </div>
-                        <div class="container-fuild card-body">
-                            <form action="manage_FIR.php" method="post">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="aid">Application Id:<span id="compulsory">*</span></label>
-                                            <input type="text" id="aid" class="form-control" name="a_id" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="status">Status<span id="compulsory">*</span></label>
-                                            <select class="form-control" id="status" name="status" required>
-                                                <option selected value="">Select Status</option>
-                                                <option value="In Progress">In Progress</option>
-                                                <option value="Assign Investing Officer">Assign Investing Officer</option>
-
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="FromDate">From Date</label>
-                                            <input type="date" id="FromDate" class="form-control" name="fdt" ">
-                                    </div>
+                                            $res = mysqli_query($con, $qry);
+                                            $sr = 0;
+                                            while ($row = mysqli_fetch_assoc($res)) {
+                                                $sr += 1;
+                                                echo '<tr>
+                                                        <td>' . $sr . '</td>
+                                                        <td><a href="manage_FIR/FIR_dashboard.php?rno=' . $row['e_fir_id'] . '&type=' . $row['fir_type'] . '" style="color: var(--accent-blue); font-weight: 600;">GJFIR202300' . $row['e_fir_id'] . '</a></td>
+                                                        <td>' . $row['user_fname'] . ' ' . $row['user_lname'] . '</td>
+                                                        <td>' . $row['fir_type'] . '</td>
+                                                        <td>' . $row['gender'] . '</td>
+                                                        <td>' . $row['occupation'] . '</td>
+                                                        <td>' . $row['sbmt_date'] . '</td>
+                                                        <td>' . $row['occurence_of_offence_date_from'] . '</td>
+                                                        <td>' . $row['occurence_of_offence_date_to'] . '</td>
+                                                        <td>' . $row['action_taken'] . '</td>
+                                                        <td>' . $row['action_takenBY'] . '</td>
+                                                    </tr>';
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <div class=" col-md-6">
-                                            <div class="form-group">
-                                                <label for="ToDate">To Date</label>
-                                                <input type="date" id="ToDate" class="form-control" name="tdt">
-                                            </div>
-                                        </div>
-                                        <div class="col-md">
-                                            <div class="form-group">
-
-                                                <input type="submit" class="btn btn-outline-primary form-control" name="srch_btn" id="srch_btn">
-                                            </div>
-                                        </div>
-                                    </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div> -->
 
+            <!-- Import Footer -->
+            <?php include "common/_footer.php"; ?>
+        </div><!-- /.content-wrapper -->
+    </div><!-- /.wrapper -->
 
-        <!-- list of records -->
-
-        <div class="row mt-3">
-            <div class="col-md-12 ">
-                <div class="card">
-                    <div class="card-header">
-                        <b style="font-size: xx-large;">List of complaints</b>
-                    </div>
-                    <div class="card-body">
-
-                        <table class="table  table-bordered table-hover" id="myTable">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Sr.No.</th>
-                                    <th scope="col">Reference No.</th>
-                                    <th scope="col">Applicant Name</th>
-                                    <th scope="col">Type of FIR</th>
-                                    <th scope="col">Gender</th>
-                                    <th scope="col">Occupation</th>
-                                    <th scope="col">Requested Date</th>
-                                    <th scope="col">Date from</th>
-                                    <th scope="col">Date to</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Action_taken_By</th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                <?php
-// for ($i = 0; $i <= 1000; $i++) {
-//     echo '<tr>
-//         <th scope="row">' . $i + 1 . '</th>
-//         <td>Mark</td>
-//         <td>e-FIR(vehicle Theft)</td>
-//         <td><a href=".\manage_FIR\FIR_dashboard.php?rno=878997">878337</a></td>
-//         <td>12/12/2022</td>
-//         <td>In Progress</td>
-//       </tr>';
-// }
-
-$typ = $_GET['typ'];
-if (isset($typ) && $typ == 'A') {
-    $qry = "SELECT efm.e_fir_id,efm.sbmt_date,efm.action_taken,efm.action_takenBY,um.gender,efm.occupation,um.user_fname,um.user_lname,typ.fir_type, efm.occurence_of_offence_date_from,efm.occurence_of_offence_date_to from e_fir_master as efm LEFT OUTER JOIN user_master um on efm.user_id=um.user_id LEFT OUTER JOIN types_of_fir_table typ on efm.types_of_fir_id=typ.types_of_FIR_id where efm.action_taken LIKE 'Assign to%';";
-
-}
-else if (isset($typ) && $typ == 'P') {
-    $qry = "SELECT efm.e_fir_id,efm.sbmt_date,efm.action_taken,efm.action_takenBY,um.gender,efm.occupation,um.user_fname,um.user_lname,typ.fir_type, efm.occurence_of_offence_date_from,efm.occurence_of_offence_date_to from e_fir_master as efm LEFT OUTER JOIN user_master um on efm.user_id=um.user_id LEFT OUTER JOIN types_of_fir_table typ on efm.types_of_fir_id=typ.types_of_FIR_id where efm.action_taken in ('Pending','Under Scrutiny');";
-
-}
-else if (isset($typ) && $typ == 'R') {
-    $qry = "SELECT efm.e_fir_id,efm.sbmt_date,efm.action_taken,efm.action_takenBY,um.gender,efm.occupation,um.user_fname,um.user_lname,typ.fir_type, efm.occurence_of_offence_date_from,efm.occurence_of_offence_date_to from e_fir_master as efm LEFT OUTER JOIN user_master um on efm.user_id=um.user_id LEFT OUTER JOIN types_of_fir_table typ on efm.types_of_fir_id=typ.types_of_FIR_id where efm.action_taken LIKE 'Rejected';";
-
-}
-
-//     if($_SESSION['cat'] == 'Police Station Officer'){
-// $qry = "SELECT efm.e_fir_id,efm.sbmt_date,efm.action_taken,efm.action_takenBY,um.gender,efm.occupation,um.user_fname,um.user_lname,typ.fir_type, efm.occurence_of_offence_date_from,efm.occurence_of_offence_date_to from e_fir_master as efm LEFT OUTER JOIN user_master um on efm.user_id=um.user_id LEFT OUTER JOIN types_of_fir_table typ on efm.types_of_fir_id=typ.types_of_FIR_id where efm.action_taken in ('Pending','Under Scrutiny',null);";
-//     }
-//     if($_SESSION['cat'] == 'Investigation Officer')
-// {
-// $qry = "SELECT efm.e_fir_id,efm.sbmt_date,efm.action_taken,efm.action_takenBY,um.gender,efm.occupation,um.user_fname,um.user_lname,typ.fir_type, efm.occurence_of_offence_date_from,efm.occurence_of_offence_date_to from e_fir_master as efm LEFT OUTER JOIN user_master um on efm.user_id=um.user_id LEFT OUTER JOIN types_of_fir_table typ on efm.types_of_fir_id=typ.types_of_FIR_id where efm.action_taken in ('Assign to IO','Rejected','Approved');";
-// }
-$res = mysqli_query($con, $qry);
-$sr = 0;
-while ($row = mysqli_fetch_assoc($res)) {
-    $sr += 1;
-    echo '<tr>
-                                        <th scope="row">' . $sr . '</th>
-                                        <td><a href=".\manage_FIR\FIR_dashboard.php?rno=' . $row['e_fir_id'] . '&type=' . $row['fir_type'] . '">GJFIR202300' . $row['e_fir_id'] . '</a></td>
-                                         <td>' . $row['user_fname'] . ' ' . $row['user_lname'] . '</td>
-                                         <td>' . $row['fir_type'] . '</td>
-                                          <td>' . $row['gender'] . '</td>
-                                          <td>' . $row['occupation'] . '</td>
-                                         <td>' . $row['sbmt_date'] . '</td>
-                                         <td>' . $row['occurence_of_offence_date_from'] . '</td>
-                                         <td>' . $row['occurence_of_offence_date_to'] . '</td>
-                                         <td>' . $row['action_taken'] . '</td>
-                                         <td>' . $row['action_takenBY'] . '</td>
-                                       </tr>';
-}
-
-
-
-?>
-                            </tbody>
-                        </table>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- footer div  -->
-        <div class="mt-2 mb-1">
-            <footer>
-                <div class="text-center p-3" style="background-color:#8d9f8d;">
-                    <strong>Copyright &copy; Home Department | 2022-2023<a href="https://gujhome.gujarat.gov.in/portal/webHP?requestType=ApplicationRH&actionVal=privacyTerms&screenId=115">
-                            All Rights Reserved</a>.</strong>
-                    All rights reserved.
-                    <div class="float-right d-none d-sm-inline-block">
-
-                    </div>
-                </div>
-            </footer>
-        </div>
-
-    </div>
-    </div>
-
-
-    <!-- toggole js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
-    </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="dist/js/adminlte.js"></script>
     <script src="common/time.js"></script>
     <script src="common/date.js"></script>
-
-
-    <!-- datatable js/jquery file -->
-    <script src="common\myJS\jquery.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="common\myJS\jquery.datatables.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#myTable').DataTable();
         });
     </script>
-
-
 </body>
-
 </html>

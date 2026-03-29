@@ -43,112 +43,55 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <!-- website logo -->
     <link rel="icon" href="img\weblogo1.ico" type="image/icon">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="form_theme.css">
-    <link rel="stylesheet" href="e-application.css">
+    <link rel="stylesheet" href="modern_index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap">
 </head>
 
 
 <body>
 
 
-    <section class="header">
-        <nav>
-            <a href="index.php" class="logo">
+<body>
+    <?php include "common/_navbar.php"; ?>
 
-            </a>
-
-            <div class="nav-links" class="navLinks">
-
-                <ul>
-                    <li class="select active"><a href="index.php"><i class="fa fa-home"></i>Home</a></li>
-                    <li><a href="Form.php"><i class="fa fa-file"></i>Online Form</a></li>
-                    <li><a href="Gallery.php"><i class="fa fa-image"></i>Photo Gallery</a></li>
-                    <li><a href="Department.php"><i class="fa fa-star"></i>Know Home Department</a></li>
-                    <li><a href="Absconder.php"><i class="fa fa-list"></i>Absconder List</a></li>
-                    <li><a href="Contact.php"><i class="fa fa-mobile"></i>Contact Details</a></li>
-                    <li><a href="Notice.php"><i class="fa fa-book"></i>Lookout Notice</a></li>
-                </ul>
-            </div>
-
-        </nav>
-
-
-
-        <div class="t">
-            <h2><b>Feedback</b> </h2>
+    <div class="main-form-container">
+        <div class="page-header">
+            <h1>Citizen Feedback</h1>
+            <p>Your feedback helps us serve you better</p>
         </div>
-        <form action="#" method="POST">
-            <div class="app1">
-                <div class="">
-                    <div class="app2">
-                        
-                    
-                            <div class="r1">
-                                
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Email <span class="r5">*</span></label>
-                                        <span class="r5"></span>
-                                        <input type="email" class="r6" class="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" name="Email" required>
-                                    </div>
 
-                                </div>
-                            </div>
-
-                            <div class="r1">
-                                
-                                <div class="r2">
-                                    <div class="r3">
-                                        <label for="exampleInputEmail1" class="r4">Subject <span class="r5">*</span></label>
-                                        <span class="r5"></span>
-                                        <input type="text" class="r6" class="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Sunject" name="Subject" required>
-                                    </div>
-
-                                </div>
-                            </div>
-                            
-                                
-                                <h3 class="appdet">Give Your Feedback <span class="r5">*</span></h3>
-                                    <div class="r1">
-                                        <div class="r2">
-                                            <div class="r3">
-                                                <textarea class="r6"  id style="width: 280%;" maxlength="300" name="Brief" name="Feedback" required ></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                
-
-
-                                
-
-                                <div>
-                                    <center class="">
-                                        <button type="submit" class="boot1">submit</button>
-                                        <button type="reset" class="boot2">reset</button>
-                                        <button type="Cancel" class="boot3"><a href="index.php" style="color: aliceblue; text-decoration: none;">Cancel</button>
-                                    </center>
-
-                                </div>
-                        
-
+        <div class="glass-container" style="max-width: 800px; margin: 0 auto;">
+            <form action="#" method="POST">
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fas fa-comment-alt"></i> Share Your Thoughts</h2>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label>Email Address <span class="required">*</span></label>
+                            <input type="email" name="Email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Subject <span class="required">*</span></label>
+                            <input type="text" name="Subject" placeholder="Brief summary of your feedback" required>
+                        </div>
+                    </div>
+                    <div class="form-group full-width" style="margin-top: 15px;">
+                        <label>Your Feedback <span class="required">*</span></label>
+                        <textarea name="Feedback" maxlength="500" placeholder="Please describe your experience or suggestions..." style="min-height: 150px;" required></textarea>
+                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 5px;">Maximum 500 characters</p>
                     </div>
                 </div>
-            </div>
-        </form>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous">
-        </script>
+                <div class="form-actions" style="margin-top: 2rem;">
+                    <button type="submit" class="btn-submit">Submit Feedback</button>
+                    <button type="reset" class="btn-reset">Clear</button>
+                    <button type="button" class="btn-reset" onclick="window.location.href='index.php'" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; border-color: rgba(239, 68, 68, 0.2);">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-
-
-
-        
-        <script src="script.js"></script>
-
-
-
+    <?php include "common/_footer.php"; ?>
 </body>
 
 </html>

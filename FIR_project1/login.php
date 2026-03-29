@@ -62,103 +62,73 @@ if (isset($_POST['login'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign in / Sign up</title>
-    <!-- website logo -->
     <link rel="icon" href="img\weblogo1.ico" type="image/icon">
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="form_theme.css">
+    <link rel="stylesheet" href="modern_index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap">
 </head>
-<body> 
+<body>
+    <?php include "common/_navbar.php"; ?>
 
+    <div class="main-form-container" style="min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 2rem 0;">
+        <div class="glass-container" style="max-width: 450px; width: 100%; padding: 3rem; text-align: center;">
+            <div style="background: rgba(14, 165, 233, 0.1); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                <i class="fas fa-lock" style="font-size: 2rem; color: var(--accent);"></i>
+            </div>
+            
+            <h1 style="color: var(--text-white); font-size: 2rem; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif;">Welcome Back</h1>
+            <p style="color: var(--text-muted); margin-bottom: 2.5rem;">Sign in to the E-FIR Citizen Portal</p>
 
-    
-           
-<div class="modal-content" style="max-width: 500px; margin: 4rem auto;">
-<span class="close-form"> &nbsp;</span>
-
-    <div class="form-box">
-        <img src="img/user.png" class="user-img">
-        <p style="text-align: center;"><small>Please identify yourself</small></p>
-
-        <div class="text-center">
-            <div>
-                <div class="form-body">
-                    <p style="text-align: center;"> <b> Sign in to start your session </b></p>
-                    <form action="#" method="POST">
-                        <input type="text" name="username" placeholder="Username" required> <br>
-                        <input type="password" name="password" placeholder="Password" required>
-                    
-                    <div id="log" style="margin-right: 10.7em;">
-                        
-                        <button type="submit" name="login" value="login">Login</button>
-                        <button type="reset">Reset</button>
-                       
-                    
-                    </div>
-                    </form>
-                    <div class="login-links">
-                        
-                        <a href="register.php" style="float: left; text-decoration: none;">Register</a>
-                        <a href="password.php" style="float: right; text-decoration: none;">Forgot Password</a>
+            <form action="#" method="POST" style="text-align: left;">
+                <div class="form-group" style="margin-bottom: 1.5rem;">
+                    <label style="display: block; color: var(--text-white); margin-bottom: 0.5rem; font-size: 0.9rem;">Username</label>
+                    <div style="position: relative;">
+                        <i class="fas fa-user" style="position: absolute; left: 15px; top: 12px; color: var(--accent);"></i>
+                        <input type="text" name="username" placeholder="Enter your username" style="width: 100%; padding: 10px 15px 10px 45px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--text-white); outline: none;" required>
                     </div>
                 </div>
-            </div>
+
+                <div class="form-group" style="margin-bottom: 1rem;">
+                    <label style="display: block; color: var(--text-white); margin-bottom: 0.5rem; font-size: 0.9rem;">Password</label>
+                    <div style="position: relative;">
+                        <i class="fas fa-key" style="position: absolute; left: 15px; top: 12px; color: var(--accent);"></i>
+                        <input type="password" name="password" placeholder="Enter your password" style="width: 100%; padding: 10px 15px 10px 45px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border); border-radius: 8px; color: var(--text-white); outline: none;" required>
+                    </div>
+                </div>
+
+                <div style="text-align: right; margin-bottom: 2rem;">
+                    <a href="password.php" style="color: var(--accent); text-decoration: none; font-size: 0.85rem;">Forgot Password?</a>
+                </div>
+
+                <button type="submit" name="login" value="login" class="btn-submit" style="width: 100%; padding: 12px; font-weight: 600;">Sign In</button>
+                
+                <div style="margin-top: 2rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+                    Don't have an account? <a href="register.php" style="color: var(--accent); text-decoration: none; font-weight: 500;">Create Account</a>
+                </div>
+            </form>
         </div>
-
-
     </div>
 
+    <!-- sweet alert cdn path -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <?php
+    if ($errmsg == true) {
+        echo "<script>
+        Swal.fire({
+            title: 'Login Failed!',
+            text: 'Username & Password do not match, or user is not registered.',
+            icon: 'error',
+            background: 'rgba(15, 23, 42, 0.95)',
+            color: '#f8fafc',
+            confirmButtonColor: '#0ea5e9'
+        })
+        </script>";
+    }
+    ?>
 
-
-</div>
-
-
-<!-- sweet alert cdn path -->
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-<?php
-// error message
-if ($errmsg == true) {
-
-    echo "<script>
-    Swal.fire(
-        'Login Failed!',
-        'Username & Password do not match, or user is not registered.',
-        'error')
-    </script>";
-}
-?>
-
-    <section class="footer">
-
-        <div class="footer-links">
-            <h4><a href="PDF/T_And_C.pdf" target="_blank" class="term">Terms & Conditions</a></h4>
-            <h4><a href="PDF/F_And_Q.pdf" target="_blank" class="faq">FAQ</a></h4>
-            <h4><a href="PDF/P_And_p.pdf" target="_blank" class="pp">Privacy Policy</a></h4>
-            <h4><a href="feedback.php" target="" class="feed">Feedback</a></h4>
-        </div>
-        <!-- <h4><a href="#.php">Visitors : 1674785</a></h4> -->
-
-
-        <div class="follow">
-            <h6>Follow Us</h6>
-        </div>
-
-        <div class="icons" id="ir">
-            <a href="https://www.facebook.com/dgpgujaratofficial/" target="_blank">
-                <h3 class="face"><i class="fab fa-facebook-f"></i> Facebook</h3>
-            </a>
-            <a href="https://www.instagram.com/gujaratpolice_/" target="_blank">
-                <h3 class="face2"><i class="fab fa-instagram"></i> Instagram </h3>
-            </a>
-            <a href="https://twitter.com/GujaratPolice" target="_blank">
-                <h3 class="face3"><i class="fab fa-twitter"></i> Twitter </h3>
-            </a>
-
-
-        </div>
-
-    </section>
+    <?php include "common/_footer.php"; ?>
+</body>
 </body>
 </html>

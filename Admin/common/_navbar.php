@@ -6,11 +6,11 @@ include "modals/logout_model.php";
 
 ?>
 <!-- Navbar -->
-<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+<nav class="main-header navbar navbar-expand border-0">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
         <li class="nav-item">
-            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button" style="color: var(--text-white) !important;"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block <?php if ($_SESSION["curr_page"] == "home") {
     echo 'active ';
@@ -68,36 +68,30 @@ include "modals/logout_model.php";
 <!-- /.navbar -->
 
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-light-primary elevation-3">
+<aside class="main-sidebar sidebar-light-primary elevation-0">
     <!-- Brand Logo -->
-    <a href="index.php" class="brand-link m-0 pl-0">
-        <img src="https://gumlet.assettype.com/afaqs%2F2020-06%2F58a77941-cd90-4789-87ac-47e9cb25cb24%2FSTP_logo.png?format=webp&w=400&dpr=2.6"
-            alt="LOGO" data-bs-toggle="tooltip" title="GUJARAT POLICE" style="opacity: .9" height="50" width="70">
-        <span class="brand-text font-weight-bold">Admin Portal</span>
+    <a href="index.php" class="brand-link" style="border: none !important; padding: 1.5rem 1rem;">
+        <img src="img/user.png" alt="Logo" class="brand-image img-circle elevation-3" style="opacity: .8; background: #fff; padding: 2px;">
+        <span class="brand-text font-weight-bold" style="letter-spacing: 1px;">Admin Portal</span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
-        <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3  d-flex">
+        <!-- Sidebar user panel -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex align-items-center" style="border-bottom: 1px solid var(--glass-border) !important;">
             <div class="image">
-                <img src="img/user.png" class="img-circle elevation-3" alt="User">
+                <img src="img/user.png" class="img-circle elevation-2" alt="User" style="border: 1px solid var(--accent-blue);">
             </div>
             <div class="info">
-                <a href="#" class="d-block font-weight-black ml-2 text-bold" ><?php echo $_SESSION['cat']; ?></a>
+                <a href="#" class="d-block font-weight-bold ml-2" style="font-size: 0.95rem;"><?php echo $_SESSION['cat']; ?></a>
             </div>
         </div>
 
- <!-- Sidebar Menu -->
+        <!-- Sidebar Menu -->
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-               <li class="nav-item mb-2" style="background-color:rgba(5, 28, 160, 0.836); border-radius: 5px;">
-                    <a  class="nav-link" >
-                        <i class="fa fa-bars fa-5x nav-icon text-white" aria-hidden="true"></i>
-                        <p style="font-size: 23px; " class="text-white"><u>Services</u></p>
-                    </a>
+            <ul class="nav nav-pills nav-sidebar flex-column nav-flat" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-header" style="color: var(--accent-blue); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; font-size: 0.75rem; padding: 0.5rem 1rem 1rem 1rem;">
+                    Main Services
                 </li>
                 
                 <?php

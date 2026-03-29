@@ -59,26 +59,28 @@ if (isset($_POST['login'])) {
     
     <style>
         :root {
-            --primary: #1e40af;
-            --primary-light: #3b82f6;
-            --primary-dark: #1e3a8a;
+            --primary: #0ea5e9;
+            --primary-light: #38bdf8;
+            --primary-dark: #0284c7;
             --secondary: #0f172a;
-            --text-muted: #64748b;
-            --bg-light: #f8fafc;
-            --white: #ffffff;
-            --error: #ef4444;
+            --accent-glow: rgba(14, 165, 233, 0.4);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-white: #f8fafc;
+            --text-muted: #94a3b8;
+            --bg-dark: #020617;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Outfit', 'Poppins', sans-serif;
         }
 
         body {
-            background-color: var(--bg-light);
-            color: var(--secondary);
+            background: #020617 !important;
+            color: var(--text-white);
             min-height: 100vh;
             display: flex;
         }
@@ -93,25 +95,24 @@ if (isset($_POST['login'])) {
         /* Left Side: Branding / Showcase */
         .login-banner {
             flex: 1;
-            background: linear-gradient(135deg, rgba(30, 64, 175, 0.95) 0%, rgba(15, 23, 42, 0.95) 100%), 
-                        url('https://images.unsplash.com/photo-1555820585-c5ae44394b79?auto=format&fit=crop&q=80');
-            background-size: cover;
-            background-position: center;
+            background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 4rem;
-            color: var(--white);
+            padding: 4.5rem;
+            color: var(--text-white);
             position: relative;
             overflow: hidden;
+            border-right: 1px solid var(--glass-border);
         }
 
         .login-banner::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.4));
+            background: radial-gradient(circle at top left, var(--accent-glow), transparent 70%);
             z-index: 1;
+            opacity: 0.3;
         }
 
         .banner-content {
@@ -130,30 +131,39 @@ if (isset($_POST['login'])) {
         .branded-logo img {
             width: 80px;
             height: 80px;
-            background: var(--white);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
             border-radius: 50%;
-            padding: 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            padding: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            filter: drop-shadow(0 0 10px var(--accent-glow));
         }
 
         .branded-logo h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: 800;
             letter-spacing: -1px;
             line-height: 1.1;
+            background: linear-gradient(to bottom, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .banner-text h2 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
+            font-size: 3.8rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
             line-height: 1.1;
+            letter-spacing: -2px;
             animation: fadeInUp 1s ease 0.2s both;
+            color: #fff;
         }
 
         .banner-text p {
             font-size: 1.25rem;
-            color: #cbd5e1;
+            color: var(--text-muted);
             max-width: 480px;
             line-height: 1.6;
             animation: fadeInUp 1s ease 0.4s both;
@@ -162,13 +172,15 @@ if (isset($_POST['login'])) {
         /* Right Side: Form */
         .login-form-wrapper {
             flex: 0 0 550px;
-            background: var(--white);
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 3rem;
             position: relative;
-            box-shadow: -20px 0 50px rgba(0,0,0,0.05);
+            border-left: 1px solid var(--glass-border);
             z-index: 10;
         }
 
@@ -183,10 +195,11 @@ if (isset($_POST['login'])) {
         }
 
         .form-header h3 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--secondary);
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #fff;
             margin-bottom: 0.5rem;
+            letter-spacing: -1px;
         }
 
         .form-header p {
@@ -202,10 +215,12 @@ if (isset($_POST['login'])) {
 
         .form-group label {
             display: block;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-weight: 600;
-            color: var(--secondary);
-            margin-bottom: 0.5rem;
+            color: var(--text-white);
+            margin-bottom: 0.6rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .input-wrapper {
@@ -216,20 +231,21 @@ if (isset($_POST['login'])) {
 
         .input-wrapper i {
             position: absolute;
-            left: 1rem;
-            color: var(--text-muted);
+            left: 1.2rem;
+            color: var(--primary);
             font-size: 1.1rem;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            z-index: 5;
         }
 
         .form-control {
             width: 100%;
-            padding: 1rem 1rem 1rem 3rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
+            padding: 1.1rem 1.1rem 1.1rem 3.2rem;
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
             font-size: 1rem;
-            color: var(--secondary);
-            background: var(--bg-light);
+            color: #fff;
+            background: rgba(255, 255, 255, 0.03);
             transition: all 0.3s ease;
             outline: none;
         }
@@ -254,13 +270,14 @@ if (isset($_POST['login'])) {
         }
 
         .form-control:focus {
-            border-color: var(--primary-light);
-            background: var(--white);
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.07);
+            box-shadow: 0 0 20px rgba(14, 165, 233, 0.2);
         }
 
         .form-control:focus + i, .form-control:focus ~ i {
-            color: var(--primary);
+            color: var(--primary-light);
+            filter: drop-shadow(0 0 5px var(--accent-glow));
         }
 
         /* Button */
@@ -268,21 +285,26 @@ if (isset($_POST['login'])) {
             width: 100%;
             padding: 1.1rem;
             background: var(--primary);
-            color: var(--white);
+            color: #fff;
             border: none;
-            border-radius: 12px;
+            border-radius: 14px;
             font-size: 1.1rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             margin-top: 1rem;
-            box-shadow: 0 10px 20px rgba(30, 64, 175, 0.2);
+            box-shadow: 0 10px 25px rgba(14, 165, 233, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .btn-login:hover {
-            background: var(--primary-dark);
-            box-shadow: 0 15px 25px rgba(30, 64, 175, 0.3);
-            transform: translateY(-2px);
+            background: var(--primary-light);
+            box-shadow: 0 15px 30px rgba(14, 165, 233, 0.4);
+            transform: translateY(-3px);
+            color: #fff;
         }
 
         .btn-login:active {
@@ -293,16 +315,48 @@ if (isset($_POST['login'])) {
         .forgot-link {
             display: block;
             text-align: center;
-            margin-top: 1.5rem;
-            color: var(--primary);
+            margin-top: 2rem;
+            color: var(--text-muted);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
         }
 
         .forgot-link:hover {
-            color: var(--primary-dark);
-            text-decoration: underline;
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        /* Back to Home Button */
+        .back-home {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            z-index: 10;
+        }
+
+        .btn-back {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.6rem 1.2rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--text-white);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-back:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--primary);
+            transform: translateX(-5px);
+            color: var(--primary);
         }
 
         /* Animations */
@@ -367,7 +421,12 @@ if (isset($_POST['login'])) {
         </div>
 
         <!-- Right Form Side -->
-        <div class="login-form-wrapper">
+        <div class="login-form-wrapper" style="position: relative;">
+            <div class="back-home">
+                <a href="../FIR_project1/index.php" class="btn-back">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+            </div>
             <div class="form-inner">
                 <div class="form-header">
                     <h3>Welcome Back</h3>

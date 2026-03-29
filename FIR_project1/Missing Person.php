@@ -56,7 +56,7 @@ if (isset($_POST['sbmt'])) {
 
         $Country = $_POST['Country'];
         $State = $_POST['State'];
-        $PinCode = $_POST['Pin_Code'];
+        $PinCode = !empty($_POST['Pin_Code']) ? $_POST['Pin_Code'] : 0;
         $City = $_POST['City'];
         $Area = $_POST['Area'];
         $PlaceOfMissingCountry = $_POST['Place_Of_Missing_Country'];
@@ -67,36 +67,53 @@ if (isset($_POST['sbmt'])) {
         $Reporting_PS_City = $_POST['Reporting_PS_City'];
         $PoliceStation = $_POST['Police_Station'];
         $BriefDescription = $_POST['Brief_Description'];
-        $DocumentType = $_POST['Document_Type'];
-        // $UploadDocument = $_POST['Upload_Document'];
-        // $Uploadfile = $_POST['Upload_file'];
+        $DocumentType = !empty($_POST['Document_Type']) ? $_POST['Document_Type'] : 0;
+
+        $file_name = "";
+        $upload_ok = true;
 
 
-        if (isset($_FILES['upldFILE'])) {
-
+        if (isset($_FILES['upldFILE']) && $_FILES['upldFILE']['size'] > 0) {
             $file_name = $_FILES["upldFILE"]["name"];
-            $file_size = $_FILES["upldFILE"]["size"];
             $file_tmp = $_FILES["upldFILE"]["tmp_name"];
             $file_type = $_FILES["upldFILE"]["type"];
 
-            // print_r($_POST);
+            // Ensure directory exists
+            $target_dir = "./msng_prsn_doc/";
+            if (!is_dir($target_dir)) {
+                mkdir($target_dir, 0777, true);
+            }
+
             if ($file_type == 'application/pdf' || $file_type == 'image/jpeg' || $file_type == 'image/png') {
-                $res =  move_uploaded_file($file_tmp, "./msng_prsn_doc/" . $file_name);
-                if ($res) {
-
-                    $sql = 'INSERT INTO `report_missing_person_table` ( `user_id`, `first_name`, `middle_name`, `surname`, `dob`, `gender`, `missing_date`, `missing_time`, `religion_id`, `caste`, `category`, `occupation`, `height(cm)`, `weight(kgs)`, `missing_person_description`, `area`, `pincode`, `police_station_id`, `brief_description`, `document_id`, `sbmt_date`) VALUES (' . $userid . ',"'.$MissingPersonFirstname.'","' . $MissingPersonFathername . '","' . $MissingPersonSurname . '","' . $DateOfBirth . '","' . $Gender . '","' . $Missingdate . '","' . $MissingTime . '","' . $Religion . '","' . $Caste . '","' . $Category . '","' . $Occupation . '",' . $Height . ',' . $Weight . ',"' . $MissingPersonDescription . '","' . $Area . '",' . $PinCode . ',' . $PoliceStation . ',"' . $BriefDescription . '",' . $DocumentType . ',current_timestamp())';
-                    $result = mysqli_query($con, $sql);
-                    if ($result) {
-                        echo "<script>alert('Missing Report Person Form Submited...')</script>";
-                    } else {
-                        // echo 'The record was not inserted successfully because of this error' . mysqli_error($con);
-                        echo "<script>alert('Form Not Submited...')</script>";
-                    }
-
-                } else {
-                    // $docalert = true;
-                    echo "<script>alert('The uploaded file is in incorrect format...')</script>";
+                $res = move_uploaded_file($file_tmp, $target_dir . $file_name);
+                if (!$res) {
+                    $upload_ok = false;
+                    echo "<script>alert('Failed to move uploaded file.')</script>";
                 }
+            } else {
+                $upload_ok = false;
+                echo "<script>alert('Incorrect file format. Only PDF, JPEG, PNG allowed.')</script>";
+            }
+        }
+
+        if ($upload_ok) {
+            // Handle optional numeric fields for the database
+            $Height_val = !empty($Height) ? (int)$Height : 0;
+            $Weight_val = !empty($Weight) ? (int)$Weight : 0;
+            $Religion_val = !empty($Religion) ? (int)$Religion : "NULL";
+            $DocumentType_val = !empty($DocumentType) ? (int)$DocumentType : "NULL";
+
+            $sql = "INSERT INTO `report_missing_person_table` 
+                    (`user_id`, `first_name`, `middle_name`, `surname`, `dob`, `gender`, `missing_date`, `missing_time`, `religion_id`, `caste`, `category`, `occupation`, `height(cm)`, `weight(kgs)`, `missing_person_description`, `area`, `pincode`, `police_station_id`, `brief_description`, `document_id`, `sbmt_date`, `doc_name`) 
+                    VALUES 
+                    ($userid, '$MissingPersonFirstname', '$MissingPersonFathername', '$MissingPersonSurname', '$DateOfBirth', '$Gender', '$Missingdate', '$MissingTime', $Religion_val, '$Caste', '$Category', '$Occupation', $Height_val, $Weight_val, '$MissingPersonDescription', '$Area', $PinCode, $PoliceStation, '$BriefDescription', $DocumentType_val, current_timestamp(), '$file_name')";
+
+            $result = mysqli_query($con, $sql);
+            if ($result) {
+                echo "<script>alert('Missing Report Person Form Submitted Successfully!')</script>";
+            } else {
+                // For debugging if needed: echo "Error: " . mysqli_error($con);
+                echo "<script>alert('Form Not Submitted. Please try again.')</script>";
             }
         }
     }
@@ -110,240 +127,125 @@ if (isset($_POST['sbmt'])) {
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Missing Person</title>
-    <!-- website logo -->
+    <title>Missing Person Registry | Gujarat Police</title>
     <link rel="icon" href="img\weblogo1.ico" type="image/icon">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="modern_index.css">
-    <link rel="stylesheet" href="form_theme.css">
-    <link rel="stylesheet" href="missing person report.css">
+    <link rel="stylesheet" href="modern_efir.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
+    <?php include "common/_navbar.php"; ?>
 
-    <section class="header">
-        <nav>
-            <a href="index.php" class="logo">
-                <img src="img/weblogo1.ico" alt="Logo" style="height: 40px;">
-            </a>
+    <div class="main-form-container">
+        <div class="page-header">
+            <h1>Report Missing Person</h1>
+            <p>Official Missing Person Registry of Gujarat State</p>
+        </div>
 
-            <div class="nav-links" id="navLinks">
-                <ul>
-                    <li><a href="index.php"><i class="fa fa-home"></i> Home</a></li>
-                    <li><a href="Form.php"><i class="fa fa-file-alt"></i> Online Form</a></li>
-                    <li><a href="Gallery.php"><i class="fa fa-images"></i> Gallery</a></li>
-                    <li><a href="Department.php"><i class="fa fa-building"></i> Department</a></li>
-                    <li><a href="Absconder.php"><i class="fa fa-user-secret"></i> Absconders</a></li>
-                    <li><a href="Contact.php"><i class="fa fa-phone"></i> Contact</a></li>
-                </ul>
-            </div>
-
-            <div class="auth-section">
-                <?php
-                if (!isset($_SESSION['login']) || $_SESSION['login'] == false) {
-                    echo '<a href="login.php" class="auth-btn login"><i class="fa fa-key"></i> Login/Register</a>';
-                } else {
-                    echo '<div class="user-profile">
-                            <span id="wcmsg">Welcome, ' . $_SESSION['userfname'] . '</span>
-                            <a href="logout.php" class="auth-btn logout"><i class="fa fa-sign-out-alt"></i> Log Out</a>
-                          </div>';
-                }
-                ?>
-            </div>
-        </nav>
-
-        <h2 class="t" id="align"><b>
-                <center>Report Missing Person</center>
-            </b> </h2>
-        <div class="app1">
-            <div class="">
-                <div class="app2">
-                    <form action="" method="POST" enctype="multipart/form-data">
-                        <h3 class="appdet"><u>Applicant Details</u> </h3>
-
-                        <div class="r1">
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">First Name</label>
-                                    <span class="r5"></span>
-                                    <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" style="background: #E4DEDE;" value="<?php echo $ufname; ?>" disabled>
-                                </div>
-
-                            </div>
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Father Name</label>
-                                    <span class="r5"></span>
-                                    <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" style="background: #E4DEDE;" value="<?php echo $umname; ?>" disabled>
-                                </div>
-
-                            </div>
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">surname</label>
-                                    <span class="r5"></span>
-                                    <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" style="background: #E4DEDE;" value="<?php echo $ulname; ?>" disabled>
-                                </div>
-                            </div>
-
+        <div class="glass-container">
+            <form action="" method="POST" enctype="multipart/form-data">
+                
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fas fa-id-card"></i> Applicant Identity</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>First Name</label>
+                            <input type="text" value="<?php echo $ufname; ?>" disabled>
                         </div>
-
-                        <div class="r1">
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Permanent Address</label>
-                                    <span class="r5"></span>
-                                    <textarea class="r6" id="textAreaExample1" rows="4"  disabled><?php echo $uaddress ?></textarea>
-                                </div>
-
-                            </div>
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Email address</label>
-                                    <span class="r5"></span>
-                                    <input type="email" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" style="background: #E4DEDE;" value="<?php echo $uemail; ?>" disabled>
-                                </div>
-                            </div>
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Mobile Number</label>
-                                    <span class="r5"></span>
-                                    <input type="number" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" style="background: #E4DEDE;" value="<?php echo $ucontact; ?>" disabled>
-                                </div>
-                            </div>
-
-
+                        <div class="form-group">
+                            <label>Father Name</label>
+                            <input type="text" value="<?php echo $umname; ?>" disabled>
                         </div>
-                        <div class="r1">
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Landline No</label>
-                                    <span class="r5"></span>
-                                    <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" value="NA" style="background: #E4DEDE;" disabled>
-                                </div>
-
-                            </div>
-
+                        <div class="form-group">
+                            <label>Surname</label>
+                            <input type="text" value="<?php echo $ulname; ?>" disabled>
                         </div>
-                        <div class="r1">
-
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" value="<?php echo $uemail; ?>" disabled>
                         </div>
-
-                        <h3 class="appdet"><u>Missing Person Details</u></h3>
-                        <div class="r1">
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Missing Person First name</label>
-                                    <span class="r5">*</span>
-                                    <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" required name="Missing_Person_First_name">
-                                </div>
-
-                            </div>
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Missing Person Father Name</label>
-                                    <span class="r5"></span>
-                                    <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" required name="Missing_Person_Father_name">
-                                </div>
-
-                            </div>
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Missing Person surname</label>
-                                    <span class="r5">*</span>
-                                    <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" required name="Missing_Person_Surname">
-                                </div>
-                            </div>
-
+                        <div class="form-group">
+                            <label>Mobile Number</label>
+                            <input type="text" value="<?php echo $ucontact; ?>" disabled>
                         </div>
-                        <div class="r1">
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Date Of Birth</label>
-                                    <span class="r5"></span>
-                                    <input type="date" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" required name="Date_Of_Birth">
-                                </div>
-                            </div>
-
-
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Gender</label>
-                                    <span class="r5">*</span>
-                                    <select class="r6" aria-label="Default select example" name="Gender" id="select">
-                                        <option selected>-Select-</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                        <option value="Other">Other</option>
-
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Missing Person Description</label>
-                                    <span class="r5">*</span>
-                                    <!-- <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" required name="Area"> -->
-                                    <textarea name="Missing_Person_Description" class="r6" id="textAreaExample2" cols="30" rows="1.5"  required></textarea>
-
-                                </div>
-                            </div>
+                        <div class="form-group">
+                            <label>Permanent Address</label>
+                            <textarea disabled style="height: 60px;"><?php echo $uaddress; ?></textarea>
                         </div>
+                    </div>
+                </div>
 
-
-
-                        <div class="r1">
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Missing Date</label>
-                                    <span class="r5">*</span>
-                                    <input type="date" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" required name="Missing_date">
-                                </div>
-                            </div>
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Missing Time</label>
-                                    <span class="r5">*</span>
-                                    <input type="time" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" required name="Missing_time">
-                                </div>
-                            </div>
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fas fa-user-friends"></i> Missing Person Details</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>First Name <span class="required">*</span></label>
+                            <input type="text" name="Missing_Person_First_name" required>
                         </div>
-
-                        <div class="r1">
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Religion</label>
-                                    <span class="r5">*</span>
-                                    <select class="r6" aria-label="Default select example" name="Religion" id="select">
-                                        <option selected>-Select-</option>
-                                        <option value="1">Buddhist</option>
-                                        <option value="2">Christian</option>
-                                        <option value="3">Donyipolo</option>
-                                        <option value="4">Hindu</option>
-                                        <option value="5">Islam</option>
-                                        <option value="6">Jain</option>
-                                        <option value="7">Jews/Yehudi</option>
-                                        <option value="8">Muslim</option>
-                                        <option value="9">Other</option>
-                                        <option value="10">Parsi</option>
-                                        <option value="11">Sikh</option>
-
-
-                                    </select>
-                                </div>
-
-
-                            </div>
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Caste</label>
-                                    <span class="r5"></span>
-                                    <select class="r6" aria-label="Default select example" name="Caste" id="select">
-                                        <option selected>-Select-</option>
+                        <div class="form-group">
+                            <label>Father's Name</label>
+                            <input type="text" name="Missing_Person_Father_name">
+                        </div>
+                        <div class="form-group">
+                            <label>Surname <span class="required">*</span></label>
+                            <input type="text" name="Missing_Person_Surname" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Date of Birth</label>
+                            <input type="date" name="Date_Of_Birth" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Gender <span class="required">*</span></label>
+                            <select name="Gender" required>
+                                <option value="" hidden disabled selected>-Select-</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Missing Date <span class="required">*</span></label>
+                            <input type="date" name="Missing_date" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Missing Time <span class="required">*</span></label>
+                            <input type="time" name="Missing_time" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Physical Description <span class="required">*</span></label>
+                            <textarea name="Missing_Person_Description" required placeholder="Height, build, identifying marks..." style="height: 80px;"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Height (cm)</label>
+                            <input type="text" name="Height">
+                        </div>
+                        <div class="form-group">
+                            <label>Weight (kg)</label>
+                            <input type="text" name="Weight">
+                        </div>
+                        <div class="form-group">
+                            <label>Religion</label>
+                            <select name="Religion">
+                                <option value="" hidden disabled>-Select-</option>
+                                <option value="1">Buddhist</option>
+                                <option value="2">Christian</option>
+                                <option value="3">Donyipolo</option>
+                                <option value="4">Hindu</option>
+                                <option value="5">Islam</option>
+                                <option value="6">Jain</option>
+                                <option value="7">Jews/Yehudi</option>
+                                <option value="8">Muslim</option>
+                                <option value="9">Other</option>
+                                <option value="10">Parsi</option>
+                                <option value="11">Sikh</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Caste</label>
+                            <select name="Caste">
+                                <option value="" hidden disabled selected>-Select-</option>
                                         <option value="Anjana">Anjana</option>
                                         <option value="Adiwasi">Adiwasi</option>
                                         <option value="Ahir">Ahir</option>
@@ -518,28 +420,20 @@ if (isset($_POST['sbmt'])) {
                                 </div>
 
                             </div>
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Category</label>
-                                    <span class="r5"></span>
-                                    <select class="r6" aria-label="Default select example" name="Category"  id="select">
-                                        <option selected>-Select-</option>
-                                        <option value="General">General</option>
-                                        <option value="OBC">OBC</option>
-                                        <option value="SC">SC</option>
-                                        <option value="ST">ST</option>
-
-                                    </select>
-                                </div>
-                            </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select name="Category">
+                                <option value="" hidden disabled selected>-Select-</option>
+                                <option value="General">General</option>
+                                <option value="OBC">OBC</option>
+                                <option value="SC">SC</option>
+                                <option value="ST">ST</option>
+                            </select>
                         </div>
-                        <div class="r1">
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Occupation</label>
-                                    <span class="r5"></span>
-                                    <select class="r6" aria-label="Default select example" name="Occupation"  id="select">
-                                        <option selected>-Select-</option>
+                        <div class="form-group">
+                            <label>Occupation</label>
+                            <select name="Occupation">
+                                <option value="" hidden disabled selected>-Select-</option>
                                         <option value="Academician">Academician</option>
                                         <option value="Accountant">Accountant</option>
                                         <option value="Administrative Personnel">Administrative Personnel</option>
@@ -692,118 +586,68 @@ if (isset($_POST['sbmt'])) {
                                     </select>
 
 
-                                </div>
-                            </div>
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Height</label>
-                                    <span class="r5">*</span>
-                                    <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" required name="Height">
-                                </div>
+                    </div>
+                </div>
 
-                            </div>
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Weight</label>
-                                    <span class="r5">*</span>
-                                    <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" required name="Weight">
-                                </div>
-                            </div>
+
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fas fa-map-marked-alt"></i> Missing Person Address</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Country <span class="required">*</span></label>
+                            <select name="Country" required>
+                                <option value="" hidden disabled>-Select-</option>
+                                <option value="1" selected>India</option>
+                            </select>
                         </div>
-
-
-                        <h4 class="appdet"><u>Address of Missing Person</u></h4>
-                        <div class="r1">
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Country</label>
-                                    <span class="r5">*</span>
-                                    <select class="r6" aria-label="Default select example" name="Country" id="select">
-                                        <option selected>-Select-</option>
-                                        <option value="1">India</option>
-
-
-
-                                    </select>
-
-                                </div>
-                            </div>
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">State</label>
-                                    <span class="r5">*</span>
-                                    <select class="r6" aria-label="Default select example" name="State" id="select">
-                                        <option selected>-Select-</option>
-
-                                        <option value="1">Gujarat</option>
-
-
-
-                                    </select>
-
-                                </div>
-                            </div>
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Pin Code</label>
-                                    <span class="r5"></span>
-                                    <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" required name="Pin_Code">
-                                </div>
-                            </div>
+                        <div class="form-group">
+                            <label>State <span class="required">*</span></label>
+                            <select name="State" required>
+                                <option value="" hidden disabled>-Select-</option>
+                                <option value="1" selected>Gujarat</option>
+                            </select>
                         </div>
-
-
-
-
-                        <div class="r1">
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">City</label>
-                                    <span class="r5">*</span>
-                                    <select class="r6" aria-label="Default select example" name="City" id="select">
-                                        <option selected>-Select-</option>
-                                        <option value="1">Ahmedabad City</option>
-                                        <option value="2">Rajkot City</option>
-                                        <option value="3">Surat City</option>
-                                        <option value="4">Vadodara City</option> 
-                                    </select>
-
-                                </div>
-                            </div>
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Area</label>
-                                    <span class="r5">*</span>
-                                    <!-- <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" required name="Area"> -->
-                                    <textarea name="Area" class="r6" id="textAreaExample3" cols="30" rows="1.5" ></textarea>
-
-                                </div>
-                            </div>
-
+                        <div class="form-group">
+                            <label>City <span class="required">*</span></label>
+                            <select name="City" required>
+                                <option value="" hidden disabled selected>-Select-</option>
+                                <option value="1">Ahmedabad City</option>
+                                <option value="2">Rajkot City</option>
+                                <option value="3">Surat City</option>
+                                <option value="4">Vadodara City</option> 
+                            </select>
                         </div>
+                        <div class="form-group">
+                            <label>Pin Code</label>
+                            <input type="text" name="Pin_Code" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Area <span class="required">*</span></label>
+                            <textarea name="Area" placeholder="Full address or area..." style="height: 60px;"></textarea>
+                        </div>
+                    </div>
+                </div>
 
-                        <h2 class="appdet"><u>Place Of Missing</u></h2>
-                        <div class="r1">
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Place Of Missing Country</label>
-                                    <span class="r5">*</span>
-                                    <select class="r6" aria-label="Default select example" name="Place_Of_Missing_Country" id="select">
-                                        <option selected>-Select-</option>
-                                        <option value="1">India</option>
-
-
-
-                                    </select>
-
-                                </div>
-                            </div>
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Place Of Missing State</label>
-                                    <span class="r5">*</span>
-                                    <select class="r6" aria-label="Default select example" name="Place_Of_Missing_State" id="select">
-                                        <option selected>-Select-</option>
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fas fa-search-location"></i> Last Seen Location</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Country <span class="required">*</span></label>
+                            <select name="Place_Of_Missing_Country" required>
+                                <option value="" hidden disabled>-Select-</option>
+                                <option value="1" selected>India</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>State <span class="required">*</span></label>
+                            <select name="Place_Of_Missing_State" required>
+                                <option value="" hidden disabled>-Select-</option>
+                                <option value="1" selected>Gujarat</option>
+                            </select>
+                        </div>
                                         <!-- <option value="100">Andaman and Nicobar Island</option>
                                     <option value="2">Andhra Pradesh</option>
                                     <option value="3">Arunachal Pradesh</option>
@@ -842,255 +686,139 @@ if (isset($_POST['sbmt'])) {
                                     <option value="36">West Bengal</option> -->
 
 
-                                    </select>
-
-
-                                </div>
-                            </div>
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Place Of Missing Pin Code</label>
-                                    <span class="r5"></span>
-                                    <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" required name="Place_Of_Missing_Pin_Code">
-                                </div>
-                            </div>
+                        <div class="form-group">
+                            <label>City <span class="required">*</span></label>
+                            <select name="Place_Of_Missing_City" required>
+                                <option value="" hidden disabled selected>-Select-</option>
+                                <option value="1">Ahmedabad City</option>
+                                <option value="2">Rajkot City</option>
+                                <option value="3">Surat City</option>
+                                <option value="4">Vadodara City</option>
+                            </select>
                         </div>
-
-
-
-                        <div class="r1">
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Place Of Missing City</label>
-                                    <span class="r5">*</span>
-                                    <select class="r6" aria-label="Default select example" name="Place_Of_Missing_City" id="select">
-                                        <option selected>-Select-</option>
-                                        <option value="1">Ahmedabad City</option>
-                                        <option value="2">Rajkot City</option>
-                                        <option value="3">Surat City</option>
-                                        <option value="4">Vadodara City</option>
-                                    </select>
-
-                                </div>
-
-                            </div>
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Place Of Missing Area</label>
-                                    <span class="r5">*</span>
-                                    <!-- <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" required name="Area"> -->
-                                    <textarea name="Place_Of_Missing_Area" class="r6" id="textAreaExample3" cols="30" rows="1.5" style="height: 38px;"></textarea>
-
-
-                                </div>
-                            </div>
-                            <!-- <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Pin Code</label>
-                                    <span class="r5"></span>
-                                    <input type="text" class="r6" id="exampleInputEmail1" aria-describedby="emailHelp" required 
-                                    name="Pin_Code">
-                                </div>
-                            </div> -->
-
+                        <div class="form-group">
+                            <label>Pin Code</label>
+                            <input type="text" name="Place_Of_Missing_Pin_Code" required>
                         </div>
-                        <h2 class="appdet"><u>Reporting Police Station Details</u></h2>
-                        <div class="r1">
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Reporting PS City</label>
-                                    <span class="r5">*</span>
-                                    <select class="r6" aria-label="Default select example" name="Reporting_PS_City"  id="select">
-                                        <option selected>-Select-</option>
-                                        <option value="1">Ahmedabad City</option>
-                                        <option value="2">Ahmedabad Rural</option>
-                                    <option value="3">Amreli</option>
-                                    <option value="4">Anand</option>
-                                    <option value="5">Arvalli</option>
-                                    <option value="6">Banaskantha</option>
-                                    <option value="7">Bharuch</option>
-                                    <option value="8">Bhavnagar</option>
-                                    <option value="9">Botad</option>
-                                    <option value="10">Chhotaudepur</option>
-                                    <option value="11">Dahod</option>
-                                    <option value="12">Dang</option>
-                                    <option value="13">Devbhumi Dwarka</option>
-                                    <option value="14">Gandhinagar</option>
-                                    <option value="15">Gir Somnath</option>
-                                    <option value="16">Jamnagar</option>
-                                    <option value="17">Junagath</option>
-                                    <option value="18">Kheda</option>
-                                    <option value="19">Kutch East - Gandhidham</option>
-                                    <option value="20">Kutch West - Bhuj</option>
-                                    <option value="21">Mahisagar</option>
-                                    <option value="22">Mehsana</option>
-                                    <option value="23">Morbi</option>
-                                    <option value="24">Narmada</option>
-                                    <option value="25">Navsari</option>
-                                    <option value="26">Panchmahal</option>
-                                    <option value="27">Patan</option>
-                                    <option value="28">Porbandar</option>
-                                    <option value="29">Rajkot City</option>
-                                    <option value="30">Sabarkantha</option>
-                                    <option value="31">Surat City</option>
-                                    <option value="32">Surat Rural</option>
-                                    <option value="33">Surendranagar</option>
-                                    <option value="34">Tapi</option>
-                                    <option value="35">Vadodara City</option>
-                                     <option value="36">Vadodara Rural</option>
-                                    <option value="37">Valsad</option>
-
-
-
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="r2">
-                                <div class="r3">
-                                    <label for="exampleInputEmail1" class="r4">Police Station</label>
-                                    <span class="r5"></span>
-                                    <select class="r6" aria-label="Default select example" name="Police_Station" id="select">
-                                        <option selected>-Select-</option>
-                                        <option value="11">Nana Varachha</option>
-                                        <option value="12">Mota Varachha</option>
-                                        <option value="13">Yogichowk</option>
-                                        <option value="14">Vesu</option>
-                                        <option value="15">Gujarat University</option>
-                                        <option value="16">Adajan</option>
-                                        <option value="17">Sarathana</option>
-                                        <option value="1">Kalupur</option>
-                                        <option value="2">Bapunagar</option>
-                                        <option value="3">Bodakdev</option>
-                                        <option value="4">Ellisbridge</option>
-                                        <option value="5">Gujarat University</option>
-                                        <option value="6">Nikol</option>
-                                        <option value="7">Ranip</option>
-                                        <option value="8">Sabarmati River Front</option>
-                                        <option value="9">Satellite</option>
-                                        <option value="10">Vastrapur</option>
-                                        <option value="11">Sarkhej</option>
-                                    </select>
-                                </div>
-                            </div>
-
+                        <div class="form-group">
+                            <label>Area of Missing <span class="required">*</span></label>
+                            <textarea name="Place_Of_Missing_Area" placeholder="Specific location/landmark..." style="height: 60px;"></textarea>
                         </div>
-                        <h4 class="appdet">Brief Description <span class="r5">*</span> (Maximum 2000 Characters)</43>
-                            <div class="r1">
-                                <div class="r2">
-                                    <div class="r3">
-                                        <textarea name="Brief_Description" class="r6" id="brief"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="">
-                                <div class="r1">
-                                    <div class="r2">
-                                        <div class="r3">
-                                            <label for="exampleInputPassword1" class="r4">
-                                                <h6>Document Type</h6>
-                                            </label>
-                                            <span class="r5"></span>
-                                            <select class="r6" aria-label="Default select example" name="Document_Type" id="select">
-                                                <option selected>SELECT</option>
-                                                <option value="1">Aadhar card</option>
-                                                <option value="2">Pan card</option>
-                                                <option value="3">VoterId</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="">
-                                        <div class="">
-                                            <label class=""><u>
-                                                    <h6>Upload Document</h6>
-                                                </u></label>
-                                            <input type="file" class="r6" ids="up1" aria-describedby="emailHelp" name="upldFILE" style="margin-top: 0.5em;">
-                                        </div>
-
-                                    </div>
-                                    <!-- <div class="">
-                                        <div class="">
-                                            <label>
-                                                <h6> <u>Upload file</u></h6>
-                                            </label>
-                                            <div>
-                                                <button type="button" id="boot1" name="Upload_file" style="color: aliceblue; text-decoration: none;">Upload Document</button>
-                                            </div>
-                                        </div>
-                                    </div> -->
-
-
-                                </div>
-
-
-
-
-                                <label for="" class="r5">
-                                    <h6>Note : Only PDF,JPEG,PNG,JPG are allowed</h6>
-                                </label>
-
-                            </div>
-
-                            <h3>Disclaimer</h3>
-                            <label for="" id="for">
-                                The facility of complaint on this site is purely a measure of public service. The complaint
-                                cannot be treated as First Information Report. While every effort has been made to ensure the
-                                prompt and accurate action, Gujarat Police and Home Department, Government of Gujarat does not
-                                hold itself liable in any aspect, for any consequences, legal or otherwise.
-                            </label>
-                            <h3>Warning</h3>
-                            <label id="for">Legal action will be taken under the relevant law of India against the person who misuses the portal. </label>
-                            <div>
-                                <input class="" id="..." type="checkbox" class="checkboxNoLabel" required>
-                                <label for="...">I Agree</label>
-                            </div>
-                            <div>
-                                <center class="">
-                                    <button type="submit" class="boot1" name="sbmt" value="sbmt">Submit</button>
-                                    <button type="reset" class="boot2">Reset</button>
-                                    <button type="Cancel" class="boot3"><a href="index.php" style="color: aliceblue; text-decoration: none;">Cancel</button>
-                                </center>
-
-                            </div>
-
-                    </form>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
-
-    </section>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-links">
-                <h4 style="margin-bottom: 1.5rem; color: var(--accent);">Quick Links</h4>
-                <h4><a href="PDF/T_And_C.pdf" target="_blank" class="term"><i class="fas fa-chevron-right" style="font-size: 0.8rem; margin-right: 8px;"></i> Terms & Conditions</a></h4>
-                <h4><a href="PDF/F_And_Q.pdf" target="_blank" class="faq"><i class="fas fa-chevron-right" style="font-size: 0.8rem; margin-right: 8px;"></i> FAQ</a></h4>
-                <h4><a href="PDF/P_And_p.pdf" target="_blank" class="pp"><i class="fas fa-chevron-right" style="font-size: 0.8rem; margin-right: 8px;"></i> Privacy Policy</a></h4>
-                <h4><a href="feedback.php" target="" class="feed"><i class="fas fa-chevron-right" style="font-size: 0.8rem; margin-right: 8px;"></i> Feedback</a></h4>
-            </div>
-
-            <div class="footer-info">
-                <h4 style="margin-bottom: 1.5rem; color: var(--accent);">Emergency Contacts</h4>
-                <p style="margin-bottom: 0.5rem;"><i class="fas fa-phone-alt" style="margin-right: 10px;"></i> Police Helpline: 100 / 112</p>
-                <p style="margin-bottom: 0.5rem;"><i class="fas fa-woman" style="margin-right: 10px;"></i> Women Helpline: 1091</p>
-                <p><i class="fas fa-child" style="margin-right: 10px;"></i> Child Helpline: 1098</p>
-            </div>
-
-            <div class="footer-social">
-                <h4 style="margin-bottom: 1.5rem; color: var(--accent);">Follow Gujarat Police</h4>
-                <div class="icons">
-                    <a href="https://www.facebook.com/dgpgujaratofficial/" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://www.instagram.com/gujaratpolice_/" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="https://twitter.com/GujaratPolice" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fas fa-building"></i> Reporting Police Station</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>City/District <span class="required">*</span></label>
+                            <select name="Reporting_PS_City" required>
+                                <option value="" hidden disabled selected>-Select-</option>
+                                <option value="1">Ahmedabad City</option>
+                                <option value="2">Ahmedabad Rural</option>
+                                <option value="3">Amreli</option>
+                                <option value="4">Anand</option>
+                                <option value="5">Arvalli</option>
+                                <option value="6">Banaskantha</option>
+                                <option value="7">Bharuch</option>
+                                <option value="8">Bhavnagar</option>
+                                <option value="9">Botad</option>
+                                <option value="10">Chhotaudepur</option>
+                                <option value="11">Dahod</option>
+                                <option value="12">Dang</option>
+                                <option value="13">Devbhumi Dwarka</option>
+                                <option value="14">Gandhinagar</option>
+                                <option value="15">Gir Somnath</option>
+                                <option value="16">Jamnagar</option>
+                                <option value="17">Junagath</option>
+                                <option value="18">Kheda</option>
+                                <option value="19">Kutch East - Gandhidham</option>
+                                <option value="20">Kutch West - Bhuj</option>
+                                <option value="21">Mahisagar</option>
+                                <option value="22">Mehsana</option>
+                                <option value="23">Morbi</option>
+                                <option value="24">Narmada</option>
+                                <option value="25">Navsari</option>
+                                <option value="26">Panchmahal</option>
+                                <option value="27">Patan</option>
+                                <option value="28">Porbandar</option>
+                                <option value="29">Rajkot City</option>
+                                <option value="30">Sabarkantha</option>
+                                <option value="31">Surat City</option>
+                                <option value="32">Surat Rural</option>
+                                <option value="33">Surendranagar</option>
+                                <option value="34">Tapi</option>
+                                <option value="35">Vadodara City</option>
+                                <option value="36">Vadodara Rural</option>
+                                <option value="37">Valsad</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Police Station <span class="required">*</span></label>
+                            <select name="Police_Station" required>
+                                <option value="" hidden disabled selected>-Select-</option>
+                                <option value="11">Nana Varachha</option>
+                                <option value="12">Mota Varachha</option>
+                                <option value="13">Yogichowk</option>
+                                <option value="14">Vesu</option>
+                                <option value="1">Kalupur</option>
+                                <option value="2">Bapunagar</option>
+                                <option value="10">Vastrapur</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
-            </div>
+
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fas fa-file-alt"></i> Additional Information</h2>
+                    <div class="form-grid">
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Brief Description (Max 2000 chars)</label>
+                            <textarea name="Brief_Description" placeholder="Circumstances of disappearance, behavior, clothes worn..." style="height: 100px;"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Document Type</label>
+                            <select name="Document_Type">
+                                <option value="" hidden disabled selected>SELECT</option>
+                                <option value="1">Aadhar card</option>
+                                <option value="2">Pan card</option>
+                                <option value="3">VoterId</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Upload Photo/ID</label>
+                            <div class="file-upload-wrapper">
+                                <input type="file" name="upldFILE">
+                                <p class="file-note">Accepted: PDF, JPEG, PNG (Max 5MB)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section disclaimer-section">
+                    <h2 class="section-title"><i class="fas fa-exclamation-triangle"></i> Disclaimer & Warning</h2>
+                    <div class="disclaimer-text">
+                        <p><strong>Registry Service:</strong> This portal is a public service measure. Submission here does not automatically constitute a First Information Report (FIR) until verified by the respective Police Station.</p>
+                        <p><strong>Legal Liability:</strong> Gujarat Police and the Home Department are not liable for any legal consequences arising from inaccurate submissions.</p>
+                        <p class="warning-text"><strong>Warning:</strong> Intentional misuse of this portal or providing false information will lead to legal action under the relevant laws of India.</p>
+                    </div>
+                    <div class="agreement-checkbox">
+                        <input type="checkbox" id="agree" required>
+                        <label for="agree">I hereby declare that the information provided is true to the best of my knowledge.</label>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-submit" name="sbmt" value="sbmt">Submit Report</button>
+                    <button type="reset" class="btn-reset">Reset Form</button>
+                    <a href="index.php" class="btn-cancel">Exit</a>
+                </div>
+
+            </form>
         </div>
-        <div style="text-align: center; font-size: 0.9rem; opacity: 0.7; padding-top: 2rem;">
-            &copy; <?php echo date("Y"); ?> Gujarat Police Department. All Rights Reserved.
-        </div>
-    </footer>
+    </div>
+
+    <?php include "common/_footer.php"; ?>
 </body>
 
 </html>

@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `project_info`
 --
+CREATE DATABASE IF NOT EXISTS `project_info`;
+USE `project_info`;
 
 -- --------------------------------------------------------
 
@@ -125,17 +127,18 @@ CREATE TABLE `e_application_table` (
   `document_id` int(5) NOT NULL,
   `Remarks_act` varchar(50) DEFAULT NULL,
   `sbmt_date` date NOT NULL DEFAULT current_timestamp(),
-  `action_takenBY` varchar(50) DEFAULT '---'
+  `action_takenBY` varchar(50) DEFAULT '---',
+  `file_name` longtext DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `e_application_table`
 --
 
-INSERT INTO `e_application_table` (`e_application_id`, `user_id`, `occurance_address`, `pincode`, `police_station_id`, `application_type`, `occurance_date`, `occurance_time`, `brief_desc`, `action_taken`, `document_id`, `Remarks_act`, `sbmt_date`, `action_takenBY`) VALUES
-(1, 1, 'Vastrapurlake,Ahmedabad,360078', 360078, 10, 'Cyber crime', '2023-02-01', '06:59:39', 'WHEN I\'M tranfered Money from my bank account to my cilent bank account than someone trying fishing and it was thef my money', 'Under Scrutiny', 1, 'Not yet verified', '2023-02-22', 'Arpit Patel'),
-(2, 2, 'Maninagar,Ahmedabad - 380007', 380007, 5, 'Application', '2023-01-05', '05:16:11', 'we want to out of india purpose of Studing in master Degree, So approved appointmnet  passport verification..', 'Approved', 2, 'done', '2023-02-22', 'PARIMAL'),
-(3, 1, 'Ambawadi,Nehrunagar Circle,Ahmedadbad - 360015', 360015, 5, 'Information', '2023-01-26', '12:37:32', 'we are organized music event so we are playing sound late night according rules and guidlines', 'Approved', 1, 'test', '2023-02-22', 'Arpit');
+INSERT INTO `e_application_table` (`e_application_id`, `user_id`, `occurance_address`, `pincode`, `police_station_id`, `application_type`, `occurance_date`, `occurance_time`, `brief_desc`, `action_taken`, `document_id`, `Remarks_act`, `sbmt_date`, `action_takenBY`, `file_name`) VALUES
+(1, 1, 'Vastrapurlake,Ahmedabad,360078', 360078, 10, 'Cyber crime', '2023-02-01', '06:59:39', 'WHEN I\'M tranfered Money from my bank account to my cilent bank account than someone trying fishing and it was thef my money', 'Under Scrutiny', 1, 'Not yet verified', '2023-02-22', 'Arpit Patel', NULL),
+(2, 2, 'Maninagar,Ahmedabad - 380007', 380007, 5, 'Application', '2023-01-05', '05:16:11', 'we want to out of india purpose of Studing in master Degree, So approved appointmnet  passport verification..', 'Approved', 2, 'done', '2023-02-22', 'PARIMAL', NULL),
+(3, 1, 'Ambawadi,Nehrunagar Circle,Ahmedadbad - 360015', 360015, 5, 'Information', '2023-01-26', '12:37:32', 'we are organized music event so we are playing sound late night according rules and guidlines', 'Approved', 1, 'test', '2023-02-22', 'Arpit', NULL);
 
 -- --------------------------------------------------------
 
@@ -340,7 +343,7 @@ CREATE TABLE `report_missing_person_table` (
   `gender` varchar(7) NOT NULL,
   `missing_date` date NOT NULL,
   `missing_time` time NOT NULL,
-  `religion_id` int(5) NOT NULL,
+  `religion_id` int(5) DEFAULT NULL,
   `caste` varchar(30) NOT NULL,
   `category` varchar(25) NOT NULL,
   `occupation` varchar(30) NOT NULL,
@@ -352,7 +355,7 @@ CREATE TABLE `report_missing_person_table` (
   `police_station_id` int(5) NOT NULL,
   `brief_description` varchar(3000) NOT NULL,
   `action_taken` varchar(30) DEFAULT 'Pending',
-  `document_id` int(5) NOT NULL,
+  `document_id` int(5) DEFAULT NULL,
   `Remarks_act` varchar(50) DEFAULT NULL,
   `sbmt_date` date NOT NULL DEFAULT current_timestamp(),
   `action_takenBY` varchar(50) NOT NULL DEFAULT '---',
@@ -394,7 +397,7 @@ CREATE TABLE `senior_citizen_reg_table` (
   `relative_details` varchar(100) NOT NULL,
   `action_taken` varchar(30) DEFAULT 'Pending',
   `action_takenBY` varchar(50) NOT NULL DEFAULT '---',
-  `document_id` int(5) NOT NULL,
+  `document_id` int(5) DEFAULT NULL,
   `Remarks_act` varchar(50) DEFAULT NULL,
   `reg_date_time` date NOT NULL DEFAULT current_timestamp(),
   `doc_name` longtext NOT NULL

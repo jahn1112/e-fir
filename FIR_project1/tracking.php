@@ -36,15 +36,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['search_btn'])) {
             $alertMessage = "Please enter correct FIR or Application number";
         } else {
             $row = mysqli_fetch_assoc($res);
-            
-            // Bypass strict authorization for easier manual testing
-            // Success Rendering
-            $searchResult = [
-                'type' => $searchType,
-                'ref' => ($searchType == "FIR" ? "GJFIR" : "GJEAPP") . "202300" . $numericId,
-                'status' => empty($row['action_taken']) ? "Pending" : $row['action_taken'],
-                'by' => empty($row['action_takenBY']) ? "Investigation Officer" : $row['action_takenBY']
-            ];
+            // Row-Level Security Enforcement
+            if ($row['user_id'] != $_SESSION['userid']) {
+                $alertMessage = "Access Denied. This FIR or Application was not filed by you.";
+                $searchResult = null;
+            } else {
+                // Success Rendering
+                $searchResult = [
+                    'type' => $searchType,
+                    'ref' => ($searchType == "FIR" ? "GJFIR" : "GJEAPP") . "202300" . $numericId,
+                    'status' => empty($row['action_taken']) ? "Pending" : $row['action_taken'],
+                    'by' => empty($row['action_takenBY']) ? "Investigation Officer" : $row['action_takenBY']
+                ];
+            }
         }
     }
 }
@@ -56,206 +60,249 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['search_btn'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tracking Status | Gujarat Police</title>
-    <!-- website logo -->
-    <link rel="icon" href="img\weblogo1.ico" type="image/icon">
+    <link rel="icon" href="img/weblogo1.ico" type="image/icon">
+    <!-- Base Styling -->
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="modern_efir.css">
+    <link rel="stylesheet" href="modern_index.css">
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700&display=swap">
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <style>
-        .tracking-form {
-            background: rgba(15, 23, 42, 0.6) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 16px;
-            padding: 2.5rem;
-            max-width: 600px;
-            margin: 2rem auto;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+        .main-form-container {
+            padding: 8rem 2rem 4rem;
+            min-height: 100vh;
+            background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.1), transparent 50%),
+                        radial-gradient(circle at bottom left, rgba(15, 23, 42, 0.1), transparent 50%);
         }
-        .tracking-form label {
-            color: #cbd5e1;
-            font-weight: 500;
-            display: block;
-            margin-bottom: 0.5rem;
+
+        .tracking-card {
+            background: rgba(15, 23, 42, 0.4) !important;
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 3rem;
+            max-width: 650px;
+            margin: 0 auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.8s ease-out;
         }
-        .tracking-form select, .tracking-form input[type="text"] {
+
+        .search-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary);
+            font-size: 1.1rem;
+            pointer-events: none;
+        }
+
+        .input-group select, .input-group input {
             width: 100%;
-            padding: 12px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 8px;
+            padding: 1rem 1rem 1rem 3.2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
             color: #fff;
-            margin-bottom: 1.5rem;
             outline: none;
             transition: all 0.3s ease;
+            font-size: 1rem;
         }
-        .tracking-form select:focus, .tracking-form input[type="text"]:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+
+        .input-group select:focus, .input-group input:focus {
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 15px rgba(14, 165, 233, 0.2);
         }
-        .tracking-form select option {
+
+        .input-group select option {
             background: #0f172a;
             color: #fff;
         }
-        .btn-track {
-            background: linear-gradient(135deg, #0ea5e9, #2563eb);
-            color: white;
+
+        .btn-tracking {
+            background: linear-gradient(135deg, var(--primary) 0%, #0284c7 100%);
+            color: #fff;
             border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
+            padding: 1.2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
             cursor: pointer;
-            width: 100%;
-            transition: all 0.3s ease;
-        }
-        .btn-track:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 10px 20px rgba(14, 165, 233, 0.2);
         }
 
-        .result-card {
-            background: rgba(255, 255, 255, 0.05); /* Soft transparent background */
-            border: 1px solid rgba(14, 165, 233, 0.3); /* Blue tinted border to match theme */
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-top: 2rem;
+        .btn-tracking:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(14, 165, 233, 0.4);
+            letter-spacing: 0.5px;
+        }
+
+        .result-reveal {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+            animation: fadeIn 1s ease forwards;
+        }
+
+        .status-hero {
             text-align: center;
+            padding: 2rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            margin-bottom: 2rem;
         }
-        .result-card h3 {
-            color: #38bdf8; /* Bright sky blue matching theme accents */
+
+        .status-badge-lg {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.8rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 1rem;
+            letter-spacing: 1px;
             margin-bottom: 1rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
-        .result-item {
+
+        .status-pending { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .status-approved { background: rgba(16, 185, 129, 0.2); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .status-rejected { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+        .detail-row {
             display: flex;
             justify-content: space-between;
-            background: rgba(0,0,0,0.2);
-            padding: 12px 20px;
-            border-radius: 8px;
-            margin-bottom: 10px;
+            padding: 1.2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px;
+            margin-bottom: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .result-item span.label {
-            color: #94a3b8;
-            font-weight: 500;
-        }
-        .result-item span.val {
-            color: #f8fafc;
-            font-weight: 600;
-        }
-        .status-badge {
-            background: rgba(245, 158, 11, 0.2);
-            color: #fbbf24;
-            padding: 4px 12px;
-            border-radius: 20px;
-            border: 1px solid rgba(245, 158, 11, 0.4);
-            font-size: 0.9em;
-        }
-        .status-badge.approved {
-            background: rgba(16, 185, 129, 0.2);
-            color: #10b981;
-            border-color: rgba(16, 185, 129, 0.4);
-        }
-        .status-badge.rejected {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-            border-color: rgba(239, 68, 68, 0.4);
+
+        .detail-row .lbl { color: var(--text-muted); font-size: 0.95rem; }
+        .detail-row .val { color: #fff; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -1.5px;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
     </style>
 </head>
 
 <body>
+    <?php include "common/_navbar.php"; ?>
+
+    <!-- Alert System using SweetAlert2 -->
     <?php if (!empty($alertMessage)) { ?>
-        <script>alert("<?php echo htmlspecialchars($alertMessage); ?>");</script>
+        <script>
+            Swal.fire({
+                icon: '<?php echo (strpos($alertMessage, "Denied") !== false || strpos($alertMessage, "correct") !== false) ? "error" : "warning"; ?>',
+                title: 'Search Status',
+                text: '<?php echo htmlspecialchars($alertMessage); ?>',
+                confirmButtonColor: '#0ea5e9'
+            });
+        </script>
     <?php } ?>
 
-    <section class="header" style="min-height: auto;">
-        <nav>
-            <a href="index.php" class="logo">
-                <img src="img/police.png" alt="Logo" style="height: 40px;">
-            </a>
-
-            <div class="nav-links" id="navLinks">
-                <ul>
-                    <li><a href="index.php"><i class="fa fa-home"></i> Home</a></li>
-                    <li><a href="Form.php"><i class="fa fa-file-alt"></i> Online Form</a></li>
-                    <li><a href="Gallery.php"><i class="fa fa-images"></i> Gallery</a></li>
-                    <li><a href="Department.php"><i class="fa fa-building"></i> Department</a></li>
-                    <li><a href="Absconder.php"><i class="fa fa-user-secret"></i> Absconders</a></li>
-                    <li><a href="Contact.php"><i class="fa fa-phone"></i> Contact</a></li>
-                    <li><a href="Notice.php"><i class="fa fa-book"></i> Notice</a></li>
-                    <?php if (isset($_SESSION['login']) && $_SESSION['login'] == true) { ?>
-                        <li class="select active"><a href="tracking.php"><i class="fa fa-search"></i> Tracking FIR</a></li>
-                    <?php } ?>
-                </ul>
-            </div>
-
-            <div class="auth-section">
-                <?php
-                if (!isset($_SESSION['login']) || $_SESSION['login'] == false) {
-                    echo '<a href="login.php" class="auth-btn login"><i class="fa fa-key"></i> Login/Register</a>';
-                } else {
-                    echo '<div class="user-profile">
-                            <span id="wcmsg">Welcome, ' . htmlspecialchars($_SESSION['userfname']) . '</span>
-                            <a href="logout.php" class="auth-btn logout"><i class="fa fa-sign-out-alt"></i> Log Out</a>
-                          </div>';
-                }
-                ?>
-            </div>
-        </nav>
-    </section>
-
-    <!-- Main Content Area -->
-    <section class="form-wrapper">
-        <div class="glass-container" style="max-width: 900px;">
-            <div class="form-header">
-                <h2>Tracking Status Dashboard</h2>
-                <p>Securely track the real-time fulfillment status of your FIRs and e-Applications from the administrative backend.</p>
-            </div>
-
-            <div class="tracking-form">
-                <form action="tracking.php" method="POST">
-                    <label for="search_type"><i class="fa fa-filter"></i> Select Tracking Type</label>
-                    <select name="search_type" id="search_type" required>
-                        <option value="FIR">First Information Report (FIR)</option>
-                        <option value="APP">E-Application</option>
-                    </select>
-
-                    <label for="ref_no"><i class="fa fa-hashtag"></i> Reference Number</label>
-                    <input type="text" name="ref_no" id="ref_no" placeholder="e.g., GJFIR2023001" autocomplete="off" required>
-
-                    <button type="submit" name="search_btn" class="btn-track"><i class="fa fa-search"></i> Verify Status</button>
-                </form>
-
-                <?php if ($searchResult != null) { 
-                    $badgeClass = "status-badge";
-                    if (strpos(strtolower($searchResult['status']), 'approv') !== false) {
-                        $badgeClass .= " approved";
-                    } elseif (strpos(strtolower($searchResult['status']), 'reject') !== false) {
-                        $badgeClass .= " rejected";
-                    }
-                ?>
-                    <div class="result-card">
-                        <h3><i class="fa fa-check-circle"></i> Result Retrieved</h3>
-                        
-                        <div class="result-item">
-                            <span class="label">Reference ID</span>
-                            <span class="val"><?php echo htmlspecialchars($searchResult['ref']); ?></span>
-                        </div>
-                        
-                        <div class="result-item">
-                            <span class="label">Status</span>
-                            <span class="val"><span class="<?php echo $badgeClass; ?>"><?php echo htmlspecialchars($searchResult['status']); ?></span></span>
-                        </div>
-                        
-                        <div class="result-item">
-                            <span class="label">Action Taken By</span>
-                            <span class="val"><i class="fa fa-user-shield"></i> <?php echo htmlspecialchars($searchResult['by']); ?></span>
-                        </div>
-                    </div>
-                <?php } ?>
-            </div>
+    <div class="main-form-container">
+        <div class="page-header text-center mb-5">
+            <h1>Tracking Center</h1>
+            <p class="text-muted">Real-time surveillance on your filed FIRs and applications.</p>
         </div>
-    </section>
 
+        <div class="tracking-card">
+            <form action="tracking.php" method="POST" class="search-inner">
+                <div class="input-group">
+                    <i class="fas fa-filter"></i>
+                    <select name="search_type" id="search_type" required>
+                        <option value="FIR" <?php echo ($searchType == 'FIR' ? 'selected' : ''); ?>>First Information Report (FIR)</option>
+                        <option value="APP" <?php echo ($searchType == 'APP' ? 'selected' : ''); ?>>E-Application</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <i class="fas fa-hashtag"></i>
+                    <input type="text" name="ref_no" id="ref_no" 
+                           placeholder="Reference Number (e.g., GJFIR2023001)" 
+                           autocomplete="off" required
+                           value="<?php echo htmlspecialchars($rawInput); ?>">
+                </div>
+
+                <button type="submit" name="search_btn" class="btn-tracking">
+                    <i class="fas fa-search-location"></i> Verify Real-time Fulfillment
+                </button>
+            </form>
+
+            <?php if ($searchResult != null) { 
+                $badgeClass = "status-pending";
+                $statusIcon = "fas fa-clock";
+                
+                if (strpos(strtolower($searchResult['status']), 'approv') !== false || strpos(strtolower($searchResult['status']), 'done') !== false) {
+                    $badgeClass = "status-approved";
+                    $statusIcon = "fas fa-check-circle";
+                } elseif (strpos(strtolower($searchResult['status']), 'reject') !== false) {
+                    $badgeClass = "status-rejected";
+                    $statusIcon = "fas fa-times-circle";
+                }
+            ?>
+                <div class="result-reveal">
+                    <div class="status-hero">
+                        <div class="status-badge-lg <?php echo $badgeClass; ?>">
+                            <i class="<?php echo $statusIcon; ?>"></i> <?php echo htmlspecialchars($searchResult['status']); ?>
+                        </div>
+                        <p class="text-white mb-0" style="opacity: 0.7;">Case #<?php echo htmlspecialchars($searchResult['ref']); ?></p>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="lbl"><i class="fas fa-tags mr-2"></i> Record Type</span>
+                        <span class="val"><?php echo ($searchResult['type'] == 'FIR' ? 'F.I.R' : 'Application'); ?></span>
+                    </div>
+                    
+                    <div class="detail-row">
+                        <span class="lbl"><i class="fas fa-user-shield mr-2"></i> Validated By</span>
+                        <span class="val"><?php echo htmlspecialchars($searchResult['by']); ?></span>
+                    </div>
+
+                    <div class="text-center mt-4 pt-3">
+                        <button onclick="window.print()" class="text-muted bg-transparent border-0" style="cursor:pointer; font-size: 0.9rem;">
+                            <i class="fas fa-print mr-1"></i> Generate Hard Copy
+                        </button>
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
+    </div>
+
+    <?php include "common/_footer.php"; ?>
 </body>
 </html>

@@ -105,255 +105,181 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Registration Form</title>
     <link rel="icon" href="img/weblogo1.ico" type="image/icon">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="register.css">
+    <link rel="stylesheet" href="modern_efir.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <section class="header">
-        <div class="gov-banner">
-            <img src="img/gujaratpolice.png" alt="Government of Gujarat" />
-            <div class="gov-title">
-                <h1>Government of Gujarat - Police Department</h1>
-                <p>Citizen Registration Portal</p>
-            </div>
+    <?php include "common/_navbar.php"; ?>
+
+    <div class="main-form-container">
+        <div class="page-header">
+            <h1>Citizen Registration</h1>
+            <p>Join the E-FIR portal to access online services and track your applications</p>
         </div>
-        <nav>
-            <div class="nav-links" id="navLinks">
-                <ul>
-                    <li class="select"><a href="index.php"><i class="fa fa-home"></i>Home</a></li>
-                    <li><a href="Form.php"><i class="fa fa-file"></i>Online Form</a></li>
-                    <li><a href="Gallery.php"><i class="fa fa-image"></i>Photo Gallery</a></li>
-                    <li><a href="Department.php"><i class="fa fa-star"></i>Know Home Department</a></li>
-                    <li><a href="Absconder.php"><i class="fa fa-list"></i>Absconder List</a></li>
-                    <li><a href="Contact.php"><i class="fa fa-phone"></i>Contact Details</a></li>
-                    <li><a href="Notice.php"><i class="fa fa-info-circle"></i>Lookout Notice</a></li>
-                </ul>
-            </div>
-        </nav>
 
-        <div class="container">
-            <div class="t">
-                <h2>Registration Form</h2>
-            </div>
-
-            <div class="app1">
-                <form action="#" method='POST' enctype="multipart/form-data">
-                    <div class="app2">
-                        <h6>Personal Details</h6>
-                        <div class="r1">
-                            <div class="r3">
-                                <label class="r4">First Name <span class="r5">*</span></label>
-                                <input type="text" class="r6" name="First_Name" required>
-                            </div>
-                            <div class="r3">
-                                <label class="r4">Middle Name</label>
-                                <input type="text" class="r6" name="middle_name">
-                            </div>
-                            <div class="r3">
-                                <label class="r4">Last Name <span class="r5">*</span></label>
-                                <input type="text" class="r6" name="last_name" required>
-                            </div>
+        <div class="glass-container">
+            <form action="#" method='POST' enctype="multipart/form-data">
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fas fa-user-circle"></i> Personal Details</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>First Name <span class="required">*</span></label>
+                            <input type="text" name="First_Name" required>
                         </div>
-
-                        <div class="r1">
-                            <div class="r3">
-                                <label class="r4">Username <span class="r5">*</span></label>
-                                <input type="text" class="r6" name="username" required>
-                            </div>
-                            <div class="r3">
-                                <label class="r4">Mobile Number <span class="r5">*</span></label>
-                                <input type="tel" class="r6" name="mobile_number" maxlength="10" minlength="10" pattern="[0-9]{10}" required>
-                            </div>
-                            <div class="r3">
-                                <label class="r4">Address</label>
-                                <input type="text" class="r6" name="Address" maxlength="60">
-                            </div>
+                        <div class="form-group">
+                            <label>Middle Name</label>
+                            <input type="text" name="middle_name">
                         </div>
-
-                        <div class="r1">
-                            <div class="r3">
-                                <label class="r4">Occupation</label>
-                                <input type="text" class="r6" name="occupation">
-                            </div>
-                            <div class="r3">
-                                <label class="r4">Gender <span class="r5">*</span></label>
-                                <select class="r6" name="Gender" required>
-                                    <option value="" selected disabled>Select Gender</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
-                            <div class="r3">
-                                <label class="r4">Religion</label>
-                                <select class="r6" name="Religion">
-                                    <option value="" selected disabled>Select Religion</option>
-                                    <option value="1">Buddhist</option>
-                                    <option value="2">Christian</option>
-                                    <option value="3">Donyipolo</option>
-                                    <option value="4">Hindu</option>
-                                    <option value="5">Islam</option>
-                                    <option value="6">Jain</option>
-                                    <option value="7">Jews/Yehudi</option>
-                                    <option value="8">Muslim</option>
-                                    <option value="9">Other</option>
-                                    <option value="10">Parsi</option>
-                                    <option value="11">Sikh</option>
-                                </select>
-                            </div>
+                        <div class="form-group">
+                            <label>Last Name <span class="required">*</span></label>
+                            <input type="text" name="last_name" required>
                         </div>
-
-                        <div class="r1">
-                            <div class="r3">
-                                <label class="r4">Date Of Birth</label>
-                                <input type="date" class="r6" name="Date_Of_Birth">
-                            </div>
-                            <div class="r3">
-                                <label class="r4">Nationality</label>
-                                <select class="r6" name="nationality">
-                                    <option value="" selected disabled>Select</option>
-                                    <option value="1">Indian</option>
-                                </select>
-                            </div>
-                            <div class="r3">
-                                <label class="r4">Pincode</label>
-                                <input type="number" class="r6" name="pincode">
-                            </div>
+                        <div class="form-group">
+                            <label>Username <span class="required">*</span></label>
+                            <input type="text" name="username" required>
                         </div>
-
-                        <h6>Documents & Security</h6>
-                        <div class="r1">
-                            <div class="r3">
-                                <label class="r4">Upload Document</label>
-                                <input type="file" class="r6" name="reg_doc">
-                            </div>
-                            <div class="r3">
-                                <label class="r4">Document Type <span class="r5">*</span></label>
-                                <select class="r6" name="Document_Type" required>
-                                    <option value="" selected disabled>Select Document</option>
-                                    <option value="1">Aadhar card</option>
-                                    <option value="2">Pan card</option>
-                                    <option value="3">Voter Id</option>
-                                </select>
-                            </div>
-                            <div class="r3">
-                                <label class="r4">Document No <span class="r5">*</span></label>
-                                <input type="text" class="r6" name="document_no" maxlength="12" required>
-                            </div>
+                        <div class="form-group">
+                            <label>Mobile Number <span class="required">*</span></label>
+                            <input type="tel" name="mobile_number" maxlength="10" minlength="10" pattern="[0-9]{10}" required>
                         </div>
-
-                        <div class="r1">
-                            <div class="r3">
-                                <label class="r4">Password <span class="r5">*</span></label>
-                                <input type="password" class="r6" name="password" required>
-                            </div>
-                            <div class="r3">
-                                <label class="r4">Confirm Password <span class="r5">*</span></label>
-                                <input type="password" class="r6" name="confirm_password" required>
-                            </div>
-                            <div class="r3">
-                                <label class="r4">Email Address <span class="r5">*</span></label>
-                                <input type="email" class="r6" name="E-mail_address" placeholder="name@example.com" required>
-                            </div>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" name="Address" maxlength="60">
                         </div>
-
-                        <div class="r1">
-                            <div class="r3">
-                                <label class="r4">Security Question</label>
-                                <select class="r6" name="Select_Question">
-                                    <option value="" selected disabled>Select Question</option>
-                                    <option value="1">What is your nickname?</option>
-                                    <option value="2">What is your favourite food?</option>
-                                    <option value="3">What is your favourite place?</option>
-                                    <option value="4">Who is your favourite cricketer?</option>
-                                    <option value="5">Which is your birth place?</option>
-                                    <option value="6">Who is your ideal person?</option>
-                                </select>
-                            </div>
-                            <div class="r3">
-                                <label class="r4">Answer</label>
-                                <input type="text" class="r6" name="answere">
-                            </div>
+                        <div class="form-group">
+                            <label>Occupation</label>
+                            <input type="text" name="occupation">
                         </div>
-
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="flexCheckChecked">
-                            <label class="form-check-label" for="flexCheckChecked">
-                                I have read and agree to the <a href="#">Terms & Conditions</a>
-                            </label>
+                        <div class="form-group">
+                            <label>Gender <span class="required">*</span></label>
+                            <select name="Gender" required>
+                                <option value="" selected disabled>Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
                         </div>
-
-                        <div class="button-container">
-                            <button type="submit" class="boot1 shadow-lg">Create Account</button>
-                            <button type="reset" class="boot2">Reset Form</button>
-                            <button type="button" onclick="window.location='./index.php'" class="boot3">Cancel</button>
+                        <div class="form-group">
+                            <label>Religion</label>
+                            <select name="Religion">
+                                <option value="" selected disabled>Select Religion</option>
+                                <option value="1">Buddhist</option>
+                                <option value="2">Christian</option>
+                                <option value="3">Donyipolo</option>
+                                <option value="4">Hindu</option>
+                                <option value="5">Islam</option>
+                                <option value="6">Jain</option>
+                                <option value="7">Jews/Yehudi</option>
+                                <option value="8">Muslim</option>
+                                <option value="9">Other</option>
+                                <option value="10">Parsi</option>
+                                <option value="11">Sikh</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Date Of Birth</label>
+                            <input type="date" name="Date_Of_Birth">
+                        </div>
+                        <div class="form-group">
+                            <label>Nationality</label>
+                            <select name="nationality">
+                                <option value="" selected disabled>Select</option>
+                                <option value="1">Indian</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Pincode</label>
+                            <input type="number" name="pincode">
                         </div>
                     </div>
-                </form>
-            </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="section-title"><i class="fas fa-shield-alt"></i> Documents & Security</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Upload Document</label>
+                            <input type="file" name="reg_doc">
+                        </div>
+                        <div class="form-group">
+                            <label>Document Type <span class="required">*</span></label>
+                            <select name="Document_Type" required>
+                                <option value="" selected disabled>Select Document</option>
+                                <option value="1">Aadhar card</option>
+                                <option value="2">Pan card</option>
+                                <option value="3">Voter Id</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Document No <span class="required">*</span></label>
+                            <input type="text" name="document_no" maxlength="12" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Password <span class="required">*</span></label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm Password <span class="required">*</span></label>
+                            <input type="password" id="confirm_password" name="confirm_password" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address <span class="required">*</span></label>
+                            <input type="email" name="E-mail_address" placeholder="name@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Security Question</label>
+                            <select name="Select_Question">
+                                <option value="" selected disabled>Select Question</option>
+                                <option value="1">What is your nickname?</option>
+                                <option value="2">What is your favourite food?</option>
+                                <option value="3">What is your favourite place?</option>
+                                <option value="4">Who is your favourite cricketer?</option>
+                                <option value="5">Which is your birth place?</option>
+                                <option value="6">Who is your ideal person?</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Answer</label>
+                            <input type="text" name="answere">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions" style="margin-top: 3rem;">
+                    <button type="submit" class="btn-submit">Create Account</button>
+                    <button type="reset" class="btn-reset">Reset Form</button>
+                    <button type="button" onclick="window.location='./index.php'" class="btn-reset" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; border-color: rgba(239, 68, 68, 0.2);">Cancel</button>
+                </div>
+            </form>
         </div>
-    </section>
+    </div>
 
-
-    </section>
-
-
-
-
-    <section class="footer">
-
-        <div class="footer-links">
-            <h4><a href="PDF/T_And_C.pdf" target="_blank" class="term">Terms & Conditions</a></h4>
-            <h4><a href="PDF/F_And_Q.pdf" target="_blank" class="faq">FAQ</a></h4>
-            <h4><a href="PDF/P_And_p.pdf" target="_blank" class="pp">Privacy Policy</a></h4>
-            <h4><a href="feedback.php" target="" class="feed">Feedback</a></h4>
-        </div>
-        <!-- <h4><a href="#.php">Visitors : 1674785</a></h4> -->
-
-
-        <div class="follow">
-            <h6>Follow Us</h6>
-        </div>
-
-        <div class="icons" id="ir">
-            <a href="https://www.facebook.com/dgpgujaratofficial/" target="_blank">
-                <h3 class="face"><i class="fab fa-facebook-f"></i> Facebook</h3>
-            </a>
-            <a href="https://www.instagram.com/gujaratpolice_/" target="_blank">
-                <h3 class="face2"><i class="fab fa-instagram"></i> Instagram </h3>
-            </a>
-            <a href="https://twitter.com/GujaratPolice" target="_blank">
-                <h3 class="face3"><i class="fab fa-twitter"></i> Twitter </h3>
-            </a>
-
-
-        </div>
-
-    </section>
-
-
-    <script src="script.js"></script>
-
-
-
-
-
-
-
-
-
+    <?php include "common/_footer.php"; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
 
     <script>
-            if (window.history.replaceState) {
-                window.history.replaceState(null, null, window.location.href);
+        // Password matching validation
+        const form = document.querySelector('form');
+        const password = document.getElementById('password');
+        const confirmPassword = document.getElementById('confirm_password');
+
+        form.addEventListener('submit', function(e) {
+            if (password.value !== confirmPassword.value) {
+                e.preventDefault();
+                alert("Passwords do not match! Please try again.");
+                confirmPassword.focus();
+                return false;
             }
-        </script>
+        });
+
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    </script>
 </body>
 
 </html>

@@ -1,77 +1,86 @@
+<?php
+session_start();
+include "DBconfig.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Absconder</title>
-    <!-- website logo -->
+    <title>Absconder List | Gujarat Police</title>
     <link rel="icon" href="img\weblogo1.ico" type="image/icon">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="modern_efir.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;600;700&display=swap">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .absconder-container {
+            max-width: 800px;
+            margin: 100px auto;
+            padding: 40px;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: var(--glass-shadow);
+        }
+        .download-box {
+            margin-top: 30px;
+            padding: 30px;
+            border: 2px dashed var(--accent-blue);
+            border-radius: 15px;
+            background: rgba(14, 165, 233, 0.05);
+            transition: all 0.3s ease;
+        }
+        .download-box:hover {
+            background: rgba(14, 165, 233, 0.1);
+            transform: translateY(-5px);
+        }
+        .download-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 15px 35px;
+            background: var(--accent-blue);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            box-shadow: 0 10px 20px -5px rgba(14, 165, 233, 0.4);
+            transition: all 0.3s ease;
+        }
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 25px -5px rgba(14, 165, 233, 0.5);
+        }
+    </style>
 </head>
-
 <body>
-     <section class="header">
-        <nav>
-            <a href="index.php" class="logo">
 
-            </a>
+    <?php include "common/_navbar.php"; ?>
 
-            <div class="nav-links" class="navLinks">
-                
-                <ul>
-                    <li class="select active"><a href="index.php"><i class="fa fa-home"></i>Home</a></li>
-                    <li><a href="Form.php"><i class="fa fa-file"></i>Online Form</a></li>
-                    <li><a href="Gallery.php"><i class="fa fa-image"></i>Photo Gallery</a></li>
-                    <li><a href="Department.php"><i class="fa fa-star"></i>Know Home Department</a></li>
-                    <li><a href="Absconder.php"><i class="fa fa-list"></i>Absconder List</a></li>
-                    <li><a href="Contact.php"><i class="fa fa-mobile"></i>Contact Details</a></li>
-                    <li><a href="Notice.php"><i class="fa fa-book"></i>Lookout Notice</a></li>
-                </ul>
-            </div>
-            
-        </nav>
-
-        <div style="margin: 2em;">
-            <b><a href="PDF/Absconder Final_List_Gujarat.pdf" target="blank"> Download</a>  Gujarat Absconder List </b>
+    <div class="absconder-container">
+        <div class="page-header" style="margin: 0;">
+            <i class="fas fa-user-secret" style="font-size: 4rem; color: #f87171; margin-bottom: 20px;"></i>
+            <h1>Wanted Criminals List</h1>
+            <p>Official Absconder Registry of Gujarat State</p>
         </div>
 
-    </section>
-     
-    <section class="footer">
-
-        <div class="footer-links">
-            <h4><a href="PDF/T_And_C.pdf" target="_blank" class="term">Terms & Conditions</a></h4>
-            <h4><a href="PDF/F_And_Q.pdf" target="_blank" class="faq">FAQ</a></h4>
-            <h4><a href="PDF/P_And_p.pdf" target="_blank" class="pp">Privacy Policy</a></h4>
-            <h4><a href="feedback.php" target="" class="feed">Feedback</a></h4>
-        </div>
-        <!-- <h4><a href="#.php">Visitors : 1674785</a></h4> -->
-
-
-        <div class="follow">
-            <h6>Follow Us</h6>
-        </div>
-
-        <div class="icons" id="ir">
-            <a href="https://www.facebook.com/dgpgujaratofficial/" target="_blank">
-                <h3 class="face"><i class="fab fa-facebook-f"></i> Facebook</h3>
+        <div class="download-box">
+            <h3 style="color: var(--text-white);">Latest Absconder PDF</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 10px;">Download the comprehensive list of individuals fleeing from justice.</p>
+            <a href="PDF/Absconder Final_List_Gujarat.pdf" target="_blank" class="download-btn">
+                <i class="fas fa-download mr-2"></i> Download Database (PDF)
             </a>
-            <a href="https://www.instagram.com/gujaratpolice_/" target="_blank">
-                <h3 class="face2"><i class="fab fa-instagram"></i> Instagram </h3>
-            </a>
-            <a href="https://twitter.com/GujaratPolice" target="_blank">
-                <h3 class="face3"><i class="fab fa-twitter"></i> Twitter </h3>
-            </a>
-
-
         </div>
+        
+        <p style="margin-top: 30px; font-size: 0.8rem; color: #f87171;">
+            <i class="fas fa-info-circle"></i> If you have any information regarding these individuals, please contact your nearest police station immediately.
+        </p>
+    </div>
 
-    </section>
-     
+    <?php include "common/_footer.php"; ?>
+
+
 </body>
-
 </html>

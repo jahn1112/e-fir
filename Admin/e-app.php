@@ -17,94 +17,45 @@ include "manage_FIR/search.php";
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - E application</title>
-    <!-- website logo -->
-    <link rel="icon" href="img\weblogo1.ico" type="image/icon">
-    <!-- css -->
-    <style type="text/css">
-        #compulsory {
-            color: red;
-            font-weight: bold;
-        }
-
-        #searchpanel {
-            display: none;
-        }
-    </style>
+    <title>E-Applications | Admin</title>
     
-
-    <!-- bootstrap -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-
-    <!-- font-awasome icon -->
-    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-
+    <link rel="icon" href="img\weblogo1.ico" type="image/icon">
+    <!-- Google Font: Outfit & Poppins -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Theme foundations -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
     <!-- datatable css -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+    <!-- Modern Admin Style Overrides -->
+    <link rel="stylesheet" href="css/admin_glass.css">
 
-    <!-- css file import -->
-    <link rel="stylesheet" href="css\nav1.css">
-
-    <!-- jquery CDN Path -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-    <script>
-        // show search panel when clicked
-        $(document).ready(function() {
-            $('#srchbtn').click(function() {
-                $('#searchpanel').toggle();
-            });
-
-
-        });
-        
-    </script>
-
-
-
+    <style>
+        .content-wrapper { background: transparent !important; padding: 20px; }
+        .card { border-radius: 15px; overflow: hidden; }
+        #searchpanel { display: none; }
+    </style>
 </head>
 
-<body style="background-color:rgb(217, 216, 216);">
-    <!-- Image and text -->
-    <div class="container-fluid">
-
-        <!-- navbar -->
-        <div class="row">
-            <div class="col-md-12">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light mt-2 d-print-none">
-                    <a class="navbar-brand" href="">
-                        <img src="img\e-app.png" width="30" height="30" class="d-inline-block align-top" alt="FIR_Service_LOGO">
-                        <b>Application's - Services</b>
-                    </a>
-
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="index.php">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="Contact.php">Contact</a>
-                            </li>
-
-                            <!-- <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" id="srchbtn" href="#"><i class="fa fa-search" aria-hidden="true"></i>
-                                    Search by Date</a>
-                            </li> -->
-
-
-                        </ul>
-                        <i class="fa fa-clock" aria-hidden="true">&nbsp;</i>
-                        <span class="mr-2" id="clock"></span>
-                        |
-                        <i class="fa fa-calendar ml-3" aria-hidden="true"> &nbsp;</i>
-                        <span class=" mr-2" id="Date"></span>
-
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        <?php include 'common/_navbar.php'; ?>
+        
+        <div class="content-wrapper">
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0">E-Application Services</h1>
+                        </div>
                     </div>
-                </nav>
+                </div>
             </div>
-        </div>
+            
+            <section class="content">
+                <div class="container-fluid">
 
            <!-- search Panel  -->
         <div class="row mt-2" id="searchpanel">
@@ -230,42 +181,26 @@ while ($row = mysqli_fetch_assoc($res)) {
             </div>
         </div>
 
-        <!-- footer div  -->
-        <div class="mt-2 mb-1">
-            <footer>
-                <div class="text-center p-3" style="background-color:#8d9f8d;">
-                    <strong>Copyright &copy; Home Department | 2022-2023<a href="https://gujhome.gujarat.gov.in/portal/webHP?requestType=ApplicationRH&actionVal=privacyTerms&screenId=115">
-                            All Rights Reserved</a>.</strong>
-                    All rights reserved.
-                    <div class="float-right d-none d-sm-inline-block">
+            </section>
+        </div><!-- /.content-wrapper -->
+        
+        <?php include 'common/_footer.php'; ?>
+    </div><!-- ./wrapper -->
 
-                    </div>
-                </div>
-            </footer>
-        </div>
-
-    </div>
-    </div>
-
-
-    <!-- toggole js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
-    </script>
-
+    <!-- jQuery & Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="dist/js/adminlte.js"></script>
     <script src="common/time.js"></script>
     <script src="common/date.js"></script>
-
-
-    <!-- datatable js/jquery file -->
-    <script src="common\myJS\jquery.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="common\myJS\jquery.datatables.js"></script>
+    <!-- Datatables -->
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function() {
             $('#myTable').DataTable();
         });
     </script>
-
-
 </body>
 
 </html>

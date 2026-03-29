@@ -3,16 +3,16 @@
 :root {
     --primary-depth: #0f172a;
     --accent-blue: #0ea5e9;
-    --accent-glow: rgba(14, 165, 233, 0.4);
+    --accent-glow: rgba(14, 165, 233, 0.5);
     --glass-bg: rgba(255, 255, 255, 0.05);
     --glass-border: rgba(255, 255, 255, 0.1);
     --text-white: #f8fafc;
     --text-muted: #94a3b8;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 body, .wrapper {
-    background: radial-gradient(circle at top right, #1e293b, #020617) !important;
-    background-attachment: fixed !important;
+    background: #020617 !important;
     color: var(--text-white) !important;
 }
 
@@ -148,7 +148,7 @@ input:disabled, textarea:disabled {
 
 /* specific modern overrides */
 .welcome-box {
-    background: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(2, 132, 199, 0.1)) !important;
+    background: rgba(14, 165, 233, 0.1) !important;
     border: 1px solid rgba(14, 165, 233, 0.3) !important;
 }
 .separator {

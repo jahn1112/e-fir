@@ -22,22 +22,18 @@ if(isset($_POST["submit"]))
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Contact Us</title>
+    <title>Contact Support | Admin</title>
 
-    <!-- website logo -->
     <link rel="icon" href="img\weblogo1.ico" type="image/icon">
     <!-- Google Font: Outfit & Poppins -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Tempusdominus Bootstrap 4.6.2 final-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <!-- Modern Admin Style -->
-    <link rel="stylesheet" href="css/modern_admin.css">
-    <!-- Theme style (Original fallback) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Theme foundations -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <!-- Modern Admin Style Overrides -->
+    <link rel="stylesheet" href="css/admin_glass.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -128,10 +124,9 @@ if(isset($_POST["submit"]))
     </div>
     <!-- ./wrapper -->
 
-    <!-- jQuery -->
-    <script src="plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+    <!-- jQuery & Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.js"></script>
 </body>

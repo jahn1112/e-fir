@@ -41,34 +41,8 @@ include_once "DBconfig.php";
     <section class="header">
 
 
-        <nav>
-            <div class="logo">
-                <a href="index.php"><img src="img/police.png" alt="Logo" style="height: 40px;"></a>
-            </div>
-  
-            <div class="nav-links" id="navLinks">
-                <ul>
-                    <li class="select active"><a href="index.php"><i class="fa fa-home"></i>Home</a></li>
-                    <li><a href="Form.php"><i class="fa fa-file"></i>Forms</a></li>
-                    <li><a href="Gallery.php"><i class="fa fa-image"></i>Gallery</a></li>
-                    <li><a href="Department.php"><i class="fa fa-star"></i>Department</a></li>
-                    <li><a href="Absconder.php"><i class="fa fa-list"></i>Absconders</a></li>
-                    <li><a href="Contact.php"><i class="fa fa-mobile"></i>Contact</a></li>
-                    <li><a href="Notice.php"><i class="fa fa-book"></i>Notice</a></li>
-                </ul>
-            </div>
+        <?php include "common/_navbar.php"; ?>
 
-            <div class="nav-right">
-                <?php
-                if ($_SESSION['login'] == false) {
-                    echo '<a href="login.php" class="login-link"><i class="fa fa-key"></i> Login</a>';
-                } else {
-                    echo '<span class="user-greeting">Hi, ' . $_SESSION['userfname'] . '</span>';
-                    echo '<a href="logout.php" class="login-link logout"><i class="fa fa-user"></i> Logout</a>';
-                }
-                ?>
-            </div>
-        </nav>
 
 
 
@@ -207,36 +181,8 @@ include_once "DBconfig.php";
 
 
 
-    <section class="footer">
+    <?php include "common/_footer.php"; ?>
 
-        <div class="footer-links">
-            <h4><a href="PDF/T_And_C.pdf" target="_blank" class="term">Terms & Conditions</a></h4>
-            <h4><a href="PDF/F_And_Q.pdf" target="_blank" class="faq">FAQ</a></h4>
-            <h4><a href="PDF/P_And_p.pdf" target="_blank" class="pp">Privacy Policy</a></h4>
-            <h4><a href="feedback.php" target="" class="feed">Feedback</a></h4>
-        </div>
-        <!-- <h4><a href="#.php">Visitors : 1674785</a></h4> -->
-
-
-        <div class="follow">
-            <h6>Follow Us</h6>
-        </div>
-
-        <div class="icons" id="ir">
-            <a href="https://www.facebook.com/dgpgujaratofficial/" target="_blank">
-                <h3 class="face"><i class="fab fa-facebook-f"></i> Facebook</h3>
-            </a>
-            <a href="https://www.instagram.com/gujaratpolice_/" target="_blank">
-                <h3 class="face2"><i class="fab fa-instagram"></i> Instagram </h3>
-            </a>
-            <a href="https://twitter.com/GujaratPolice" target="_blank">
-                <h3 class="face3"><i class="fab fa-twitter"></i> Twitter </h3>
-            </a>
-
-
-        </div>
-
-    </section>
 
 
     <script src="script.js"></script>
