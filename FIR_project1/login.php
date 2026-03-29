@@ -18,7 +18,7 @@ if (isset($_POST['login'])) {
    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
        // store username & password
        $usernm = mysqli_real_escape_string($con, trim($_POST['username']));
-       $password = mysqli_real_escape_string($con, $_POST['password']);
+       $password = $_POST['password'];
 
 
        // fetch from db and verifying..
@@ -27,7 +27,7 @@ if (isset($_POST['login'])) {
        $result = mysqli_query($con, $qry);
        if ($result && mysqli_num_rows($result) > 0) {
            $row = mysqli_fetch_assoc($result);
-           if (password_verify($password, $row['password'])) {
+           if ($password == $row['password']) {
                $_SESSION["userid"] = $row["user_id"];
                $_SESSION['userfname'] = $row['user_fname'];
                $_SESSION['userlname'] = $row['user_lname'];

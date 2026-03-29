@@ -1,13 +1,12 @@
 <?php
-include "dashboard_info.php";
 session_start();
-//print_r($_SESSION);
+include "dashboard_info.php";
 $_SESSION["curr_page"] = "home";
 
-if ($_SESSION["lg"] == false) {
+if (!isset($_SESSION["lg"]) || $_SESSION["lg"] == false) {
     header("location: login.php");
+    exit();
 }
-
 ?>
 
 <!DOCTYPE html>

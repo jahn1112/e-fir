@@ -77,7 +77,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             '".mysqli_real_escape_string($con, $mobilenumber)."', 
             $dob_val, 
             '".mysqli_real_escape_string($con, $username)."', 
-            '".password_hash($password, PASSWORD_DEFAULT)."', 
+            '".mysqli_real_escape_string($con, $password)."', 
             '".mysqli_real_escape_string($con, $emailaddress)."', 
             '".mysqli_real_escape_string($con, $answere)."', 
             '".mysqli_real_escape_string($con, $gender)."', 

@@ -1,6 +1,5 @@
 <?php
 session_start();
-$_SESSION["lg"] = false;
 $err = false;
 include "common/dbconfig.php"; // database config file
 
@@ -18,7 +17,7 @@ if (isset($_POST['login'])) {
         $result = mysqli_query($con, $qry);
         if ($result && mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result);
-            if (password_verify($pass, $row['password'])) {
+            if ($pass == $row['password']) {
                 // category checking
                 if ($cat == $row['designation']) {
                     $_SESSION["cat"] = $_POST["category"];
