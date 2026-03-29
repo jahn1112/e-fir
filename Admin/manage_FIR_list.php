@@ -1,7 +1,7 @@
 <?php
 session_start();
 //print_r($_SESSION);
-include '.\common\dbconfig.php';
+include 'common/dbconfig.php';
 if ($_SESSION["lg"] == false) {
     header("location:login.php");
 }
@@ -19,10 +19,11 @@ include "manage_FIR/search.php";
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FIR List | Admin</title>
-    
+
     <link rel="icon" href="img\weblogo1.ico" type="image/icon">
     <!-- Google Font: Outfit & Poppins -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Theme foundations -->
@@ -33,34 +34,76 @@ include "manage_FIR/search.php";
     <!-- Modern Admin Style Overrides -->
     <link rel="stylesheet" href="css/admin_glass.css">
 
-    <style>
-        .content-wrapper { background: transparent !important; padding: 20px; }
-        .card { border-radius: 15px; overflow: hidden; }
-        #searchpanel { display: none; }
-    </style>
+    <!-- css file import -->
+    <link rel="stylesheet" href="css/nav1.css">
+
+    <!-- jquery CDN Path -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script>
+        // show search panel when clicked
+        $(document).ready(function () {
+            $('#srchbtn').click(function () {
+                $('#searchpanel').toggle();
+            });
+
+
+        });
+    </script>
+
+
+
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed">
-    <div class="wrapper">
-        <?php include 'common/_navbar.php'; ?>
-        
-        <div class="content-wrapper">
-            <div class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1 class="m-0">FIR Management System</h1>
-                        </div>
+<body style="background-color:rgb(217, 216, 216);">
+    <!-- Image and text -->
+    <div class="container-fluid">
+
+        <!-- navbar -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light mt-2 d-print-none">
+                    <a class="navbar-brand" href="#">
+                        <img src="img/fir.png" width="30" height="30" class="d-inline-block align-top"
+                            alt="FIR_Service_LOGO">
+                        <b>FIR - Services</b>
+                    </a>
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="index.php">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="Contact.php">Contact</a>
+                            </li>
+
+                            <!-- <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" id="srchbtn" href="#"><i class="fa fa-search" aria-hidden="true "></i>
+                                    Search by Date</a>
+                            </li> -->
+
+                        </ul>
+                        <i class="fa fa-clock" aria-hidden="true">&nbsp;</i>
+                        <span class="mr-2" id="clock"></span>
+                        |
+                        <i class="fa fa-calendar ml-3" aria-hidden="true"> &nbsp;</i>
+                        <span class=" mr-2" id="Date"></span>
+
                     </div>
-                </div>
             </div>
-            
-            <section class="content">
-                <div class="container-fluid">
+        </div>
+
+        <section class="content">
+            <div class="container-fluid">
 
 
-        <!-- for search FIR  -->
-        <!-- <div class="row mt-2" id="searchpanel">
+                <!-- for search FIR  -->
+                <!-- <div class="row mt-2" id="searchpanel">
             <div class="col-md-12">
                 <div class=" d-print-none">
                     <div class="card">
@@ -114,36 +157,36 @@ include "manage_FIR/search.php";
         </div> -->
 
 
-        <!-- list of records -->
+                <!-- list of records -->
 
-        <div class="row mt-3">
-            <div class="col-md-12 ">
-                <div class="card">
-                    <div class="card-header">
-                        <b style="font-size: xx-large;">List of complaints</b>
-                    </div>
-                    <div class="card-body">
+                <div class="row mt-3">
+                    <div class="col-md-12 ">
+                        <div class="card">
+                            <div class="card-header">
+                                <b style="font-size: xx-large;">List of complaints</b>
+                            </div>
+                            <div class="card-body">
 
-                        <table class="table  table-bordered table-hover" id="myTable">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Sr.No.</th>
-                                    <th scope="col">Reference No.</th>
-                                    <th scope="col">Applicant Name</th>
-                                    <th scope="col">Type of FIR</th>
-                                    <th scope="col">Gender</th>
-                                    <th scope="col">Occupation</th>
-                                    <th scope="col">Requested Date</th>
-                                    <th scope="col">Date from</th>
-                                    <th scope="col">Date to</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Action_taken_By</th>
+                                <table class="table  table-bordered table-hover" id="myTable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Sr.No.</th>
+                                            <th scope="col">Reference No.</th>
+                                            <th scope="col">Applicant Name</th>
+                                            <th scope="col">Type of FIR</th>
+                                            <th scope="col">Gender</th>
+                                            <th scope="col">Occupation</th>
+                                            <th scope="col">Requested Date</th>
+                                            <th scope="col">Date from</th>
+                                            <th scope="col">Date to</th>
+                                            <th scope="col">Status</th>
+                                            <th scope="col">Action_taken_By</th>
 
-                                </tr>
-                            </thead>
-                            <tbody>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                                <?php
+                                        <?php
 // for ($i = 0; $i <= 1000; $i++) {
 //     echo '<tr>
 //         <th scope="row">' . $i + 1 . '</th>
@@ -201,18 +244,18 @@ while ($row = mysqli_fetch_assoc($res)) {
 
 
 ?>
-                            </tbody>
-                        </table>
+                                    </tbody>
+                                </table>
 
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-            </section>
-        </div><!-- /.content-wrapper -->
-        
-        <?php include 'common/_footer.php'; ?>
+        </section>
+    </div><!-- /.content-wrapper -->
+
+    <?php include 'common/_footer.php'; ?>
     </div><!-- ./wrapper -->
 
     <!-- jQuery & Bootstrap -->
@@ -222,10 +265,13 @@ while ($row = mysqli_fetch_assoc($res)) {
     <script src="dist/js/adminlte.js"></script>
     <script src="common/time.js"></script>
     <script src="common/date.js"></script>
-    <!-- Datatables -->
-    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+
+
+    <!-- datatable js/jquery file -->
+    <script src="common/myJS/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="common/myJS/jquery.datatables.js"></script>
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#myTable').DataTable();
         });
     </script>

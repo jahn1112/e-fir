@@ -22,33 +22,22 @@ if (isset($_POST['login'])) {
 
 
        // fetch from db and verifying..
-       $qry = "SELECT * FROM `user_master` WHERE `username` ='" . $usernm . "' and `password` ='" . $password . "'";
+       $qry = "SELECT * FROM `user_master` WHERE `username` ='" . $usernm . "'";
 
        $result = mysqli_query($con, $qry);
-       $rowcount = mysqli_num_rows($result); //return no of rows
-
-       if ($rowcount > 0) {
-
-           while ($row = mysqli_fetch_assoc($result)) {
-
-
-               // category checking
-
-
+       if ($result && mysqli_num_rows($result) > 0) {
+           $row = mysqli_fetch_assoc($result);
+           if (password_verify($password, $row['password'])) {
                $_SESSION["userid"] = $row["user_id"];
                $_SESSION['userfname'] = $row['user_fname'];
                $_SESSION['userlname'] = $row['user_lname'];
                $_SESSION['login'] = true;
                header("location:index.php"); exit();
-
-            //    echo "LOGGED in";
-               // echo "<script>alert('Please ensure..! Category Not Matched !');</script>";
-
+           } else {
+               $errmsg = true;
            }
        } else {
            $errmsg = true;
-           // and show alert message
-           
        }
    }
 }

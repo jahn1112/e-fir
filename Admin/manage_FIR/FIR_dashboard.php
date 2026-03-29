@@ -13,7 +13,7 @@ if ((!isset($rno) || $rno == null) || (!isset($_GET["type"]) || $_GET["type"] ==
 }
 
 // retrive data from database table
-include '..\common\dbconfig.php';
+include '../common/dbconfig.php';
 // $rno = $_GET['rno'];
 
 $qry = "SELECT efm.occurrance_area,efm.police_station_occurance_place,efm.file_name,efm.occurance_pincode,efm.distance_from_ps,efm.occurence_of_offence_date_from,efm.occurence_of_offence_date_to,efm.occurenece_of_offence_time_from,efm.occurenece_of_offence_time_to,efm.occupation,efm.first_info_contents,efm.delayed_reason,um.address,um.user_fname,um.user_mname,um.user_lname,um.contact_no,um.user_dob,rt.religion_name,um.pincode,smt.mobile_number,smt.model as m_model,smt.imei_number,smt.approx_price as m_price,smt.manufacturing_year as m_manufactureyear,smt.service_provider,smt.color,smt.description_of_mobile,vt.vehicle_type,vt.name_of_manufacture,vt.model,vt.engine_number,vt.chassis_number,upper(vt.vehicle_reg_number) as vehicle_reg_number,vt.color as v_color,vt.manufacturing_year,vt.approx_price,vt.description_of_vehicle,typ.fir_type,rt.religion_name

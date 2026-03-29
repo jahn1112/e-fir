@@ -1,0 +1,7 @@
+{
+  "name": "e-fir-system",
+  "description": "A college project for e-FIR management",
+  "require": {
+    "php": ">=7.4"
+  }
+}

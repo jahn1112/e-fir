@@ -14,30 +14,25 @@ if (isset($_POST['login'])) {
         $cat = $_POST['category'];
 
         // fetch from db and verifying..
-        $qry = "SELECT * FROM `police_master` WHERE `username` = '$username' AND `password` = '$pass'";
+        $qry = "SELECT * FROM `police_master` WHERE `username` = '$username'";
         $result = mysqli_query($con, $qry);
-        $rowcount = mysqli_num_rows($result); //return no of rows
-
-        if ($rowcount > 0) {
-
-            while ($row = mysqli_fetch_assoc($result)) {
-
-
+        if ($result && mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            if (password_verify($pass, $row['password'])) {
                 // category checking
                 if ($cat == $row['designation']) {
-
                     $_SESSION["cat"] = $_POST["category"];
                     $_SESSION['user'] = $row['p_name'];
                     $_SESSION['lg'] = true;
                     header("location:index.php");
-
                 } else {
                     echo "<script>alert('Please ensure..! Category Not Matched !');</script>";
                 }
+            } else {
+                $err = true;
             }
         } else {
             $err = true;
-            // and show alert message
         }
     }
 }

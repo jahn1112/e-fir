@@ -35,8 +35,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $uploadOk = true;
     $file_path = "";
 
-    // file upload check
-    if (isset($_FILES['reg_doc']) && $_FILES['reg_doc']['error'] == 0) {
+    // Check for duplicate username
+    $check_user_sql = "SELECT username FROM user_master WHERE username='".mysqli_real_escape_string($con, $username)."'";
+    $check_result = mysqli_query($con, $check_user_sql);
+    if (mysqli_num_rows($check_result) > 0) {
+        echo "<script>alert('Error: Username already exists. Please choose another one.')</script>";
+        $uploadOk = false;
+    }
+
+    if ($uploadOk && isset($_FILES['reg_doc']) && $_FILES['reg_doc']['error'] == 0) {
         $file_name = $_FILES["reg_doc"]["name"];
         $file_tmp = $_FILES["reg_doc"]["tmp_name"];
         $file_type = $_FILES["reg_doc"]["type"];
@@ -44,13 +51,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         if ($file_type == 'application/pdf' || $file_type == 'image/jpeg' || $file_type == 'image/png') {
             // Ensure directory exists
             if (!is_dir("registration_doc")) {
-                mkdir("registration_doc");
+                mkdir("registration_doc", 0777, true);
             }
-            if (move_uploaded_file($file_tmp, "registration_doc/" . $file_name)) {
-                $file_path = $file_name;
-            } else {
-                // If it fails but was required, set uploadOk to false. 
-                // Since user said it might be optional, we just note it.
+            // Secure file naming: timestamp + random + original extension
+            $ext = pathinfo($file_name, PATHINFO_EXTENSION);
+            $new_file_name = time() . "_" . rand(1000, 9999) . "." . $ext;
+            
+            if (move_uploaded_file($file_tmp, "registration_doc/" . $new_file_name)) {
+                $file_path = $new_file_name;
             }
         } else if (!empty($file_name)) {
             echo "<script>alert('The uploaded file is in incorrect format. Please upload PDF, JPG, or PNG.')</script>";
@@ -69,7 +77,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             '".mysqli_real_escape_string($con, $mobilenumber)."', 
             $dob_val, 
             '".mysqli_real_escape_string($con, $username)."', 
-            '".mysqli_real_escape_string($con, $password)."', 
+            '".password_hash($password, PASSWORD_DEFAULT)."', 
             '".mysqli_real_escape_string($con, $emailaddress)."', 
             '".mysqli_real_escape_string($con, $answere)."', 
             '".mysqli_real_escape_string($con, $gender)."', 

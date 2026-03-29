@@ -1,7 +1,7 @@
 <?php
 session_start();
 //print_r($_SESSION);
-include '.\common\dbconfig.php';
+include 'common/dbconfig.php';
 if ($_SESSION["lg"] == false) {
     header("location:login.php");
 }

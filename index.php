@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>E-FIR Portal | Dispatcher</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
             --bg-dark: #0f172a;
@@ -42,8 +44,15 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         h1 {
@@ -96,16 +105,22 @@
             font-size: 1.1rem;
         }
 
-        .admin-icon { color: var(--accent-purple); }
-        .portal-card.admin:hover { border-color: var(--accent-purple); box-shadow: 0 0 20px rgba(139, 92, 246, 0.2); }
+        .admin-icon {
+            color: var(--accent-purple);
+        }
 
+        .portal-card.admin:hover {
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Gujarat Police E-FIR</h1>
         <p>Select the portal you wish to access</p>
-        
+
         <div class="portal-links">
             <a href="FIR_project1/index.php" class="portal-card">
                 <div class="icon">👤</div>
@@ -118,4 +133,5 @@
         </div>
     </div>
 </body>
+
 </html>

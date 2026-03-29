@@ -1,6 +1,6 @@
 <?php
 // add db config file
-include '.\common\dbconfig.php';
+include 'common/dbconfig.php';
 
 
 function registration($con)
