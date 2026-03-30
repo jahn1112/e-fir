@@ -98,9 +98,10 @@ include "manage_FIR/search.php";
                                             $sr = 0;
                                             while ($row = mysqli_fetch_assoc($res)) {
                                                 $sr += 1;
+                                                $year = date('Y', strtotime($row['sbmt_date'] ?? 'now'));
                                                 echo '<tr>
                                                         <td>' . $sr . '</td>
-                                                        <td><a href="manage_FIR/FIR_dashboard.php?rno=' . $row['e_fir_id'] . '&type=' . $row['fir_type'] . '" style="color: var(--accent-blue); font-weight: 600;">GJFIR202300' . $row['e_fir_id'] . '</a></td>
+                                                        <td><a href="manage_FIR/FIR_dashboard.php?rno=' . $row['e_fir_id'] . '&type=' . $row['fir_type'] . '" style="color: var(--accent-blue); font-weight: 600;">GJFIR' . $year . sprintf('%04d', $row['e_fir_id']) . '</a></td>
                                                         <td>' . $row['user_fname'] . ' ' . $row['user_lname'] . '</td>
                                                         <td>' . $row['fir_type'] . '</td>
                                                         <td>' . $row['gender'] . '</td>

@@ -157,9 +157,10 @@ $res = mysqli_query($con, $qry);
 $sr = 0;
 while ($row = mysqli_fetch_assoc($res)) {
     $sr += 1;
+    $year = date('Y', strtotime($row['sbmt_date'] ?? 'now'));
     echo '<tr>
                                         <th scope="row">' . $sr . '</th>
-                                        <td><a href=".\e-app\e-app_info.php?rno=' . $row['e_application_id'] . '">GJEAPP202300' . $row['e_application_id'] . '</a></td>
+                                        <td><a href=".\e-app\e-app_info.php?rno=' . $row['e_application_id'] . '">GJEAPP' . $year . sprintf('%04d', $row['e_application_id']) . '</a></td>
 
                                          <td>' . $row['user_fname'] . ' ' . $row['user_lname'] . '</td>
                                          <td>' . $row['application_type'] . '</td>

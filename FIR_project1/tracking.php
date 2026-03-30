@@ -15,36 +15,49 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['search_btn'])) {
     $searchType = $_POST['search_type'];
     $rawInput = trim($_POST['ref_no']);
     
-    // Strip the visual prefixes first
-    $cleanedInput = str_ireplace(['GJFIR202300', 'GJEAPP202300'], '', $rawInput);
-    // Extract numeric ID only to match database primary keys robustly
-    $numericId = preg_replace('/[^0-9]/', '', $cleanedInput);
+    // Enhanced numeric ID extraction
+    $prefix = ($searchType == "FIR" ? "GJFIR" : "GJEAPP");
+    $numericId = $rawInput;
+    
+    // 1. Strip the alphabetic prefix (e.g., GJFIR or GJEAPP)
+    if (stripos($numericId, $prefix) === 0) {
+        $numericId = substr($numericId, strlen($prefix));
+    }
+    
+    // 2. Strip the year prefix if it looks like [YEAR][ID] (e.g., 20260001)
+    if (strlen($numericId) >= 5) {
+        $possibleYear = substr($numericId, 0, 4);
+        if (ctype_digit($possibleYear) && intval($possibleYear) >= 2020) {
+            $numericId = substr($numericId, 4);
+        }
+    }
+    
+    // 3. Clean up to just the numeric ID
+    $numericId = preg_replace('/[^0-9]/', '', $numericId);
+    $numericId = ltrim($numericId, '0');
 
     if (empty($numericId)) {
-        $alertMessage = "Invalid Reference Number format.";
+        $alertMessage = "The FIR/application number is wrong";
     } else {
         if ($searchType == "FIR") {
-            // Query FIR
-            $qry = "SELECT e_fir_id, user_id, action_taken, action_takenBY FROM e_fir_master WHERE e_fir_id = '$numericId'";
+            $qry = "SELECT e_fir_id, user_id, action_taken, action_takenBY, sbmt_date FROM e_fir_master WHERE e_fir_id = '$numericId'";
         } else {
-            // Query Application
-            $qry = "SELECT e_application_id, user_id, action_taken, action_takenBY FROM e_application_table WHERE e_application_id = '$numericId'";
+            $qry = "SELECT e_application_id, user_id, action_taken, action_takenBY, sbmt_date FROM e_application_table WHERE e_application_id = '$numericId'";
         }
 
         $res = mysqli_query($con, $qry);
         if (!$res || mysqli_num_rows($res) == 0) {
-            $alertMessage = "Please enter correct FIR or Application number";
+            $alertMessage = "The FIR/application number is wrong";
         } else {
             $row = mysqli_fetch_assoc($res);
-            // Row-Level Security Enforcement
             if ($row['user_id'] != $_SESSION['userid']) {
-                $alertMessage = "Access Denied. This FIR or Application was not filed by you.";
+                $alertMessage = "The FIR/application is not submitted by you so you cant check status";
                 $searchResult = null;
             } else {
-                // Success Rendering
+                $year = date('Y', strtotime($row['sbmt_date'] ?? 'now'));
                 $searchResult = [
                     'type' => $searchType,
-                    'ref' => ($searchType == "FIR" ? "GJFIR" : "GJEAPP") . "202300" . $numericId,
+                    'ref' => $prefix . $year . sprintf('%04d', $numericId),
                     'status' => empty($row['action_taken']) ? "Pending" : $row['action_taken'],
                     'by' => empty($row['action_takenBY']) ? "Investigation Officer" : $row['action_takenBY']
                 ];

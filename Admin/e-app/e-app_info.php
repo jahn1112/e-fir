@@ -35,6 +35,7 @@ if ($_SESSION["lg"] == false) {
             $occurance_time = $row['occurance_time'];
             $desc = $row['brief_desc'];
             $policestation = $row['ps_name'];
+            $sbmt_date = $row['sbmt_date'];
         }
     }
 
@@ -224,7 +225,8 @@ if ($_SESSION["lg"] == false) {
                     
                     <div class="hero-banner">
                         <div>
-                            <h1>Application #<?php echo $rno; ?></h1>
+                            <?php $year = date('Y', strtotime($sbmt_date ?? 'now')); ?>
+                            <h1>Application #GJEAPP<?php echo $year . sprintf('%04d', $rno); ?></h1>
                             <p><?php echo $apptype; ?> - Filed on <?php echo date('M d, Y', strtotime($occurance_date)); ?></p>
                         </div>
                         <div class="text-right">

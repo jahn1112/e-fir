@@ -16,7 +16,7 @@ if ((!isset($rno) || $rno == null) || (!isset($_GET["type"]) || $_GET["type"] ==
 include '../common/dbconfig.php';
 // $rno = $_GET['rno'];
 
-$qry = "SELECT efm.occurrance_area,efm.police_station_occurance_place,efm.file_name,efm.occurance_pincode,efm.distance_from_ps,efm.occurence_of_offence_date_from,efm.occurence_of_offence_date_to,efm.occurenece_of_offence_time_from,efm.occurenece_of_offence_time_to,efm.occupation,efm.first_info_contents,efm.delayed_reason,um.address,um.user_fname,um.user_mname,um.user_lname,um.contact_no,um.user_dob,rt.religion_name,um.pincode,smt.mobile_number,smt.model as m_model,smt.imei_number,smt.approx_price as m_price,smt.manufacturing_year as m_manufactureyear,smt.service_provider,smt.color,smt.description_of_mobile,vt.vehicle_type,vt.name_of_manufacture,vt.model,vt.engine_number,vt.chassis_number,upper(vt.vehicle_reg_number) as vehicle_reg_number,vt.color as v_color,vt.manufacturing_year,vt.approx_price,vt.description_of_vehicle,typ.fir_type,rt.religion_name
+$qry = "SELECT efm.e_fir_id, efm.sbmt_date, efm.occurrance_area,efm.police_station_occurance_place,efm.file_name,efm.occurance_pincode,efm.distance_from_ps,efm.occurence_of_offence_date_from,efm.occurence_of_offence_date_to,efm.occurenece_of_offence_time_from,efm.occurenece_of_offence_time_to,efm.occupation,efm.first_info_contents,efm.delayed_reason,um.address,um.user_fname,um.user_mname,um.user_lname,um.contact_no,um.user_dob,rt.religion_name,um.pincode,smt.mobile_number,smt.model as m_model,smt.imei_number,smt.approx_price as m_price,smt.manufacturing_year as m_manufactureyear,smt.service_provider,smt.color,smt.description_of_mobile,vt.vehicle_type,vt.name_of_manufacture,vt.model,vt.engine_number,vt.chassis_number,upper(vt.vehicle_reg_number) as vehicle_reg_number,vt.color as v_color,vt.manufacturing_year,vt.approx_price,vt.description_of_vehicle,typ.fir_type,rt.religion_name
 
 from e_fir_master efm 
 LEFT OUTER JOIN stolen_mobile_table smt ON efm.e_fir_id = smt.e_fir_id 
@@ -29,6 +29,7 @@ where efm.e_fir_id = $rno;";
 $result = mysqli_query($con, $qry);
 if ($result) {
     while ($row = mysqli_fetch_assoc($result)) {
+        $sbmt_date = $row['sbmt_date'];
         // user data
         $Firstname = $row['user_fname'];
         $FatherName = $row['user_mname'];
@@ -208,7 +209,8 @@ if ($result) {
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h1 class="m-0">FIR Investigation Dashboard</h1>
                         <span class="badge badge-info p-2" style="font-size: 1.1rem; background: var(--secondary) !important; border: 1px solid var(--accent);">
-                            <i class="fas fa-file-invoice mr-2"></i> GJFIR202300<?php echo $rno; ?>
+                            <?php $year = date('Y', strtotime($sbmt_date ?? 'now')); ?>
+                            <i class="fas fa-file-invoice mr-2"></i> GJFIR<?php echo $year . sprintf('%04d', $rno); ?>
                         </span>
                     </div>
                 </div>

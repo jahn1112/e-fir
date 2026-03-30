@@ -63,7 +63,7 @@ if (isset($_POST['sbmtt'])) {
 
             if ($result) {
                 $appId = mysqli_insert_id($con);
-                echo "<script>alert('e-Application Submitted Successfully! Reference: GJEAPP202300" . $appId . "'); window.location.href='index.php';</script>";
+                echo "<script>alert('e-Application Submitted Successfully! Reference: GJEAPP" . date('Y') . sprintf('%04d', $appId) . "'); window.location.href='index.php';</script>";
             } else {
                 echo "<script>alert('Error: " . mysqli_error($con) . "')</script>";
             }

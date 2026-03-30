@@ -226,9 +226,10 @@ $res = mysqli_query($con, $qry);
 $sr = 0;
 while ($row = mysqli_fetch_assoc($res)) {
     $sr += 1;
+    $year = date('Y', strtotime($row['sbmt_date'] ?? 'now'));
     echo '<tr>
                                         <th scope="row">' . $sr . '</th>
-                                        <td style="color: blue; font-weight: bold;">GJFIR202300' . $row['e_fir_id'] . '</td>
+                                        <td style="color: blue; font-weight: bold;">GJFIR' . $year . sprintf('%04d', $row['e_fir_id']) . '</td>
                                          <td>' . $row['user_fname'] . ' ' . $row['user_lname'] . '</td>
                                          <td>' . $row['fir_type'] . '</td>
                                           <td>' . $row['gender'] . '</td>
