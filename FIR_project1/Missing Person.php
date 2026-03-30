@@ -30,43 +30,38 @@ while ($urow = mysqli_fetch_assoc($uinfo)) {
 if (isset($_POST['sbmt'])) {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $userid = $_SESSION["userid"];
-        // $Firstname = $_POST['First_name'];
-        // $FatherName = $_POST['Father_Name'];
-        // $surname = $_POST['surname'];
-        // $PermanentAddress = $_POST['Permanent_Address'];
-        // $Emailaddress = $_POST['Email_address'];
-        // $MobileNumber = $_POST['Mobile_Number'];
-        // $LandlineNo = $_POST['Landline_No'];
-        $MissingPersonFirstname = $_POST['Missing_Person_First_name'];
-        $MissingPersonFathername = $_POST['Missing_Person_Father_name'];
-        $MissingPersonSurname = $_POST['Missing_Person_Surname'];
-        $DateOfBirth = $_POST['Date_Of_Birth'];
-        $Gender = $_POST['Gender'];
-        $Missingdate = $_POST['Missing_date'];
-        $MissingTime = $_POST['Missing_time'];
-        $Religion = $_POST['Religion'];
-        $Caste = $_POST['Caste'];
-        $Category = $_POST['Category'];
-        $Occupation = $_POST['Occupation'];
-        $Height = $_POST['Height'];
-        $Weight = $_POST['Weight'];
+        
+        // Secured and null-checked inputs
+        $MissingPersonFirstname = mysqli_real_escape_string($con, $_POST['Missing_Person_First_name'] ?? '');
+        $MissingPersonFathername = mysqli_real_escape_string($con, $_POST['Missing_Person_Father_name'] ?? '');
+        $MissingPersonSurname = mysqli_real_escape_string($con, $_POST['Missing_Person_Surname'] ?? '');
+        $DateOfBirth = mysqli_real_escape_string($con, $_POST['Date_Of_Birth'] ?? '');
+        $Gender = mysqli_real_escape_string($con, $_POST['Gender'] ?? '');
+        $Missingdate = mysqli_real_escape_string($con, $_POST['Missing_date'] ?? '');
+        $MissingTime = mysqli_real_escape_string($con, $_POST['Missing_time'] ?? '');
+        $Religion = $_POST['Religion'] ?? '';
+        $Caste = mysqli_real_escape_string($con, $_POST['Caste'] ?? '');
+        $Category = mysqli_real_escape_string($con, $_POST['Category'] ?? '');
+        $Occupation = mysqli_real_escape_string($con, $_POST['Occupation'] ?? '');
+        $Height = $_POST['Height'] ?? '';
+        $Weight = $_POST['Weight'] ?? '';
+        $MissingPersonDescription = mysqli_real_escape_string($con, $_POST['Missing_Person_Description'] ?? '');
 
-        $MissingPersonDescription = $_POST['Missing_Person_Description'];
-
-
-        $Country = $_POST['Country'];
-        $State = $_POST['State'];
-        $PinCode = !empty($_POST['Pin_Code']) ? $_POST['Pin_Code'] : 0;
-        $City = $_POST['City'];
-        $Area = $_POST['Area'];
-        $PlaceOfMissingCountry = $_POST['Place_Of_Missing_Country'];
-        $PlaceOfMissingState = $_POST['Place_Of_Missing_State'];
-        $PlaceOfMissingPinCode = $_POST['Place_Of_Missing_Pin_Code'];
-        $PlaceOfMissingCity = $_POST['Place_Of_Missing_City'];
-        $PlaceOfMissingArea = $_POST['Place_Of_Missing_Area'];
-        $Reporting_PS_City = $_POST['Reporting_PS_City'];
-        $PoliceStation = $_POST['Police_Station'];
-        $BriefDescription = $_POST['Brief_Description'];
+        $Country = mysqli_real_escape_string($con, $_POST['Country'] ?? '');
+        $State = mysqli_real_escape_string($con, $_POST['State'] ?? '');
+        $PinCode = !empty($_POST['Pin_Code']) ? (int)$_POST['Pin_Code'] : 0;
+        $City = mysqli_real_escape_string($con, $_POST['City'] ?? '');
+        $Area = mysqli_real_escape_string($con, $_POST['Area'] ?? '');
+        
+        $PlaceOfMissingCountry = mysqli_real_escape_string($con, $_POST['Place_Of_Missing_Country'] ?? '');
+        $PlaceOfMissingState = mysqli_real_escape_string($con, $_POST['Place_Of_Missing_State'] ?? '');
+        $PlaceOfMissingPinCode = !empty($_POST['Place_Of_Missing_Pin_Code']) ? (int)$_POST['Place_Of_Missing_Pin_Code'] : 0;
+        $PlaceOfMissingCity = mysqli_real_escape_string($con, $_POST['Place_Of_Missing_City'] ?? '');
+        $PlaceOfMissingArea = mysqli_real_escape_string($con, $_POST['Place_Of_Missing_Area'] ?? '');
+        
+        $Reporting_PS_City = mysqli_real_escape_string($con, $_POST['Reporting_PS_City'] ?? '');
+        $PoliceStation = !empty($_POST['Police_Station']) ? (int)$_POST['Police_Station'] : 0;
+        $BriefDescription = mysqli_real_escape_string($con, $_POST['Brief_Description'] ?? '');
         $DocumentType = !empty($_POST['Document_Type']) ? $_POST['Document_Type'] : 0;
 
         $file_name = "";
@@ -418,8 +413,7 @@ if (isset($_POST['sbmt'])) {
 
                                     </select>
                                 </div>
-
-                            </div>
+                        <!-- Fixed grid structure -->
                         <div class="form-group">
                             <label>Category</label>
                             <select name="Category">
@@ -589,10 +583,6 @@ if (isset($_POST['sbmt'])) {
                     </div>
                 </div>
 
-
-                    </div>
-                </div>
-
                 <div class="form-section">
                     <h2 class="section-title"><i class="fas fa-map-marked-alt"></i> Missing Person Address</h2>
                     <div class="form-grid">
@@ -757,13 +747,17 @@ if (isset($_POST['sbmt'])) {
                             <label>Police Station <span class="required">*</span></label>
                             <select name="Police_Station" required>
                                 <option value="" hidden disabled selected>-Select-</option>
-                                <option value="11">Nana Varachha</option>
-                                <option value="12">Mota Varachha</option>
-                                <option value="13">Yogichowk</option>
-                                <option value="14">Vesu</option>
-                                <option value="1">Kalupur</option>
+                                <option value="1">Ahmedabad Railway</option>
                                 <option value="2">Bapunagar</option>
+                                <option value="3">Bodakdev</option>
+                                <option value="4">Ellisbridge</option>
+                                <option value="5">Gujarat University</option>
+                                <option value="6">Nikol</option>
+                                <option value="7">Ranip</option>
+                                <option value="8">Sabarmati River front</option>
+                                <option value="9">Satellite</option>
                                 <option value="10">Vastrapur</option>
+                                <option value="11">Sarkhej</option>
                             </select>
                         </div>
                     </div>

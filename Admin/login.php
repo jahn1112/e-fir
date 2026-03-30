@@ -13,19 +13,22 @@ if (isset($_POST['login'])) {
         $cat = $_POST['category'];
 
         // fetch from db and verifying..
-        $qry = "SELECT * FROM `police_master` WHERE `username` = '$username'";
+        $qry = "SELECT * FROM `police_master` WHERE LOWER(`username`) = LOWER('$username')";
         $result = mysqli_query($con, $qry);
         if ($result && mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result);
-            if ($pass == $row['password']) {
-                // category checking
-                if ($cat == $row['designation']) {
+            // Verify password (hash-first, then plain-text fallback)
+            $db_pass = $row['password'];
+            if (password_verify($pass, $db_pass) || $pass == $db_pass) {
+                // designation checking (allow 'admin' universal access)
+                if (trim($cat) == trim($row['designation']) || strtolower($username) == 'admin') {
                     $_SESSION["cat"] = $_POST["category"];
                     $_SESSION['user'] = $row['p_name'];
                     $_SESSION['lg'] = true;
                     header("location:index.php");
+                    exit();
                 } else {
-                    echo "<script>alert('Please ensure..! Category Not Matched !');</script>";
+                    echo "<script>alert('Please ensure..! Designation/Category Not Matched !');</script>";
                 }
             } else {
                 $err = true;
@@ -40,17 +43,19 @@ if (isset($_POST['login'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin Portal | Gujarat Police</title>
-    
+
     <link rel="icon" href="img\weblogo1.ico" type="image/icon">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-    
+
     <style>
         :root {
             --primary: #0ea5e9;
@@ -103,7 +108,10 @@ if (isset($_POST['login'])) {
         .login-banner::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
             background: radial-gradient(circle at top left, var(--accent-glow), transparent 70%);
             z-index: 1;
             opacity: 0.3;
@@ -130,7 +138,7 @@ if (isset($_POST['login'])) {
             border: 1px solid var(--glass-border);
             border-radius: 50%;
             padding: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             filter: drop-shadow(0 0 10px var(--accent-glow));
         }
 
@@ -248,19 +256,32 @@ if (isset($_POST['login'])) {
         select.form-control {
             appearance: none;
             cursor: pointer;
-            padding-left: 1rem; /* no icon for select here */
+            padding-left: 1rem;
+            /* no icon for select here */
         }
-        
+
         .select-wrapper::after {
-            content: '\f107';
+            content: '\f078'; /* Smaller chevron */
             font-family: 'Font Awesome 5 Free';
             font-weight: 900;
             position: absolute;
             right: 1.2rem;
             top: 50%;
             transform: translateY(-50%);
-            color: var(--text-muted);
+            color: var(--primary);
             pointer-events: none;
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .select-wrapper:focus-within::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        /* Option styling for readability */
+        option {
+            background: #0f172a;
+            color: #fff;
         }
 
         .form-control:focus {
@@ -269,7 +290,8 @@ if (isset($_POST['login'])) {
             box-shadow: 0 0 20px rgba(14, 165, 233, 0.2);
         }
 
-        .form-control:focus + i, .form-control:focus ~ i {
+        .form-control:focus+i,
+        .form-control:focus~i {
             color: var(--primary-light);
             filter: drop-shadow(0 0 5px var(--accent-glow));
         }
@@ -355,16 +377,39 @@ if (isset($_POST['login'])) {
 
         /* Animations */
         @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
+
         @keyframes fadeInRight {
-            from { opacity: 0; transform: translateX(30px); }
-            to { opacity: 1; transform: translateX(0); }
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         /* Responsive */
@@ -372,11 +417,13 @@ if (isset($_POST['login'])) {
             .login-container {
                 flex-direction: column;
             }
+
             .login-banner {
                 flex: none;
                 padding: 3rem 2rem;
                 height: auto;
             }
+
             .login-form-wrapper {
                 flex: 1;
                 width: 100%;
@@ -385,6 +432,7 @@ if (isset($_POST['login'])) {
                 margin-top: -30px;
                 padding: 3rem 2rem;
             }
+
             .banner-text h2 {
                 font-size: 2.5rem;
             }
@@ -403,12 +451,13 @@ if (isset($_POST['login'])) {
                     <h1>Gujarat<br>Police</h1>
                 </div>
             </div>
-            
+
             <div class="banner-content banner-text">
                 <h2>Secure Admin<br>Portal Access.</h2>
-                <p>Manage First Information Reports (FIRs), applications, missing person reports, and more through our secure centralized system tailored for specialized officers.</p>
+                <p>Manage First Information Reports (FIRs), applications, missing person reports, and more through our
+                    secure centralized system tailored for specialized officers.</p>
             </div>
-            
+
             <div class="banner-content" style="opacity: 0.7; font-size: 0.9rem;">
                 <p>&copy; <?php echo date("Y"); ?> Gujarat Police. All rights reserved.</p>
             </div>
@@ -428,12 +477,13 @@ if (isset($_POST['login'])) {
                 </div>
 
                 <form action="#" method="post">
-                    
+
                     <div class="form-group">
                         <label for="username">Username</label>
                         <div class="input-wrapper">
                             <i class="fas fa-portrait"></i>
-                            <input type="text" id="username" class="form-control" name="username" placeholder="Enter your username" required>
+                            <input type="text" id="username" class="form-control" name="username"
+                                placeholder="Enter your username" required>
                         </div>
                     </div>
 
@@ -441,14 +491,16 @@ if (isset($_POST['login'])) {
                         <label for="pass">Password</label>
                         <div class="input-wrapper">
                             <i class="fas fa-lock"></i>
-                            <input type="password" id="pass" class="form-control" name="pass" placeholder="••••••••" required>
+                            <input type="password" id="pass" class="form-control" name="pass" placeholder="••••••••"
+                                required>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="category">Designation <span style="color: var(--error);">*</span></label>
+                        <label for="category">Designation <span style="color: var(--primary-light);">*</span></label>
                         <div class="input-wrapper select-wrapper">
-                            <select id="category" class="form-control" required name="category" style="padding-left: 1.2rem;">
+                             <i class="fas fa-user-tag"></i>
+                            <select id="category" class="form-control" required name="category">
                                 <option value="" disabled selected>Select your designation</option>
                                 <option value="Police Station Officer">Police Station Officer</option>
                                 <option value="Investigation Officer">Investigation Officer</option>
@@ -460,7 +512,7 @@ if (isset($_POST['login'])) {
                     <button type="submit" name="login" class="btn-login">
                         Sign In <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
                     </button>
-                    
+
                 </form>
 
                 <a href="forgot.php" class="forgot-link">Forgot password?</a>
@@ -483,4 +535,5 @@ if (isset($_POST['login'])) {
     }
     ?>
 </body>
+
 </html>

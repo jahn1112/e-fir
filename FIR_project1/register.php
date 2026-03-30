@@ -1,6 +1,6 @@
 <?php
 include "DBconfig.php";
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $firstname = trim($_POST['First_Name'] ?? '');
     $middlename = trim($_POST['middle_name'] ?? '');
     $lastname = trim($_POST['last_name'] ?? '');
@@ -22,12 +22,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $answere = trim($_POST['answere'] ?? '');
 
     // Initialize optional fields with defaults to avoid NOT NULL constraint failures
-    $religion_id = !empty($religion) ? (int)$religion : 9; // Default to 'Other' if empty
-    $nationality_id = !empty($nationality) ? (int)$nationality : 1; // Default to 'Indian'
-    $pincode_val = !empty($pincode) ? (int)$pincode : 0; 
-    $document_id = !empty($documenttype) ? (int)$documenttype : 1; // Default to 'Aadhar Card'
-    $que_id = !empty($selectquestion) ? (int)$selectquestion : 1; // Default to first question
-    $dob_val = !empty($dateofbirth) ? "'".mysqli_real_escape_string($con, $dateofbirth)."'" : "'1900-01-01'"; 
+    $religion_id = !empty($religion) ? (int) $religion : 9; // Default to 'Other' if empty
+    $nationality_id = !empty($nationality) ? (int) $nationality : 1; // Default to 'Indian'
+    $pincode_val = !empty($pincode) ? (int) $pincode : 0;
+    $document_id = !empty($documenttype) ? (int) $documenttype : 1; // Default to 'Aadhar Card'
+    $que_id = !empty($selectquestion) ? (int) $selectquestion : 1; // Default to first question
+    $dob_val = !empty($dateofbirth) ? "'" . mysqli_real_escape_string($con, $dateofbirth) . "'" : "'1900-01-01'";
     $occupation = !empty($occupation) ? $occupation : "N/A";
     $address = !empty($address) ? $address : "N/A";
     $answere = !empty($answere) ? $answere : "N/A";
@@ -36,7 +36,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $file_path = "";
 
     // Check for duplicate username
-    $check_user_sql = "SELECT username FROM user_master WHERE username='".mysqli_real_escape_string($con, $username)."'";
+    $check_user_sql = "SELECT username FROM user_master WHERE username='" . mysqli_real_escape_string($con, $username) . "'";
     $check_result = mysqli_query($con, $check_user_sql);
     if (mysqli_num_rows($check_result) > 0) {
         $msg = 'duplicate';
@@ -56,7 +56,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             // Secure file naming: timestamp + random + original extension
             $ext = pathinfo($file_name, PATHINFO_EXTENSION);
             $new_file_name = time() . "_" . rand(1000, 9999) . "." . $ext;
-            
+
             if (move_uploaded_file($file_tmp, "registration_doc/" . $new_file_name)) {
                 $file_path = $new_file_name;
             }
@@ -68,24 +68,24 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     if ($uploadOk) {
         $sql = "INSERT INTO `user_master` (`address`, `que_id`, `nationality_id`, `user_fname`, `user_mname`, `user_lname`, `contact_no`, `user_dob`, `username`, `password`, `user_email`, `q_ans`, `gender`, `religion_id`, `occupation`, `pincode`, `document_id`, `doc_no`, `reg_date`) VALUES ( 
-            '".mysqli_real_escape_string($con, $address)."', 
+            '" . mysqli_real_escape_string($con, $address) . "', 
             $que_id, 
             $nationality_id, 
-            '".mysqli_real_escape_string($con, $firstname)."', 
-            '".mysqli_real_escape_string($con, $middlename)."', 
-            '".mysqli_real_escape_string($con, $lastname)."', 
-            '".mysqli_real_escape_string($con, $mobilenumber)."', 
+            '" . mysqli_real_escape_string($con, $firstname) . "', 
+            '" . mysqli_real_escape_string($con, $middlename) . "', 
+            '" . mysqli_real_escape_string($con, $lastname) . "', 
+            '" . mysqli_real_escape_string($con, $mobilenumber) . "', 
             $dob_val, 
-            '".mysqli_real_escape_string($con, $username)."', 
-            '".mysqli_real_escape_string($con, $password)."', 
-            '".mysqli_real_escape_string($con, $emailaddress)."', 
-            '".mysqli_real_escape_string($con, $answere)."', 
-            '".mysqli_real_escape_string($con, $gender)."', 
+            '" . mysqli_real_escape_string($con, $username) . "', 
+            '" . mysqli_real_escape_string($con, $password) . "', 
+            '" . mysqli_real_escape_string($con, $emailaddress) . "', 
+            '" . mysqli_real_escape_string($con, $answere) . "', 
+            '" . mysqli_real_escape_string($con, $gender) . "', 
             $religion_id, 
-            '".mysqli_real_escape_string($con, $occupation)."', 
+            '" . mysqli_real_escape_string($con, $occupation) . "', 
             $pincode_val, 
             $document_id, 
-            '".mysqli_real_escape_string($con, $documentno)."', 
+            '" . mysqli_real_escape_string($con, $documentno) . "', 
             current_timestamp()
         );";
 
@@ -99,7 +99,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             }
         } catch (Exception $e) {
             $msg = 'error';
-            $error_msg = addslashes($e.getMessage());
+            $error_msg = addslashes($e . getMessage());
         }
     }
 }
@@ -107,6 +107,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -114,7 +115,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     <link rel="icon" href="img/weblogo1.ico" type="image/icon">
     <link rel="stylesheet" href="modern_efir.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -151,7 +153,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                         </div>
                         <div class="form-group">
                             <label>Mobile Number <span class="required">*</span></label>
-                            <input type="tel" name="mobile_number" maxlength="10" minlength="10" pattern="[0-9]{10}" required>
+                            <input type="tel" name="mobile_number" maxlength="10" minlength="10" pattern="[0-9]{10}"
+                                required>
                         </div>
                         <div class="form-group">
                             <label>Address</label>
@@ -259,7 +262,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 <div class="form-actions" style="margin-top: 3rem;">
                     <button type="submit" class="btn-submit">Create Account</button>
                     <button type="reset" class="btn-reset">Reset Form</button>
-                    <button type="button" onclick="window.location='./index.php'" class="btn-reset" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; border-color: rgba(239, 68, 68, 0.2);">Cancel</button>
+                    <button type="button" onclick="window.location='./index.php'" class="btn-reset"
+                        style="background: rgba(239, 68, 68, 0.1); color: #ef4444; border-color: rgba(239, 68, 68, 0.2);">Cancel</button>
                 </div>
             </form>
         </div>
@@ -267,7 +271,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     <?php include "common/_footer.php"; ?>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
 
     <script>
         // Password matching validation
@@ -275,7 +281,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         const password = document.getElementById('password');
         const confirmPassword = document.getElementById('confirm_password');
 
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', function (e) {
             if (password.value !== confirmPassword.value) {
                 e.preventDefault();
                 alert("Passwords do not match! Please try again.");

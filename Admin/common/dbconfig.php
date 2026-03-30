@@ -1,7 +1,7 @@
 <?php
 // database connection 
 try {
-    $server = getenv('DB_HOST') ?: "localhost";
+    $server = getenv('DB_HOST') ?: "127.0.0.1";
     $username = getenv('DB_USER') ?: "root";
     $pass = getenv('DB_PASS') ?: "";
     $database = getenv('DB_NAME') ?: "project_info";
